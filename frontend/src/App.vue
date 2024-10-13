@@ -3,6 +3,7 @@
   <Carousel></Carousel>
   <HowItWorks />
   <RentFooter></RentFooter>
+  <Globe></Globe>
 </template>
 
 <script>
@@ -10,6 +11,7 @@ import HowItWorks from "./components/HowItWorks.vue";
 import RentFooter from "./components/RentFooter.vue";
 import Carousel from "./components/Carousel.vue";
 import Navigation from "./components/Navigation.vue";
+import Globe from "./components/Globe.vue"
 
 
 export default {
@@ -20,6 +22,7 @@ export default {
     RentFooter,
     Carousel,
     Navigation,
+    Globe,
   },
 }
 </script>
