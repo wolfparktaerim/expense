@@ -17,6 +17,7 @@
 <script>
 import { ref, onMounted, onUnmounted } from 'vue';
 import Globe from 'globe.gl';
+import axios from 'axios';
 
 export default {
   name: 'InteractiveGlobe',
@@ -26,12 +27,29 @@ export default {
     const places = ref([]);
     const hoverInfo = ref(null);
 
-    const handleGlobeClick = (event) => {
+    const getCountry = (lat, lng) => {
+      console.log(lat, lng);
+      const API_KEY = "YOUR_API_KEY_HERE";
+      const url = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=${API_KEY}`;
+      return axios.get(url)
+        .then(response => {
+          console.log(response.data);
+          // Extract country information from response
+          const country = response.data.results.find(result => 
+            result.types.includes('country')
+          );
+          return country ? country.formatted_address : 'Unknown';
+        })
+        .catch(error => {
+          console.error(error);
+          return 'Error fetching country';
+        });
+    };
+
+    const handleGlobeClick = async (event) => {
       if (!globe.value) return;
 
       console.log('Click event:', event);
-
-      
 
       const { lat, lng } = event;
       console.log({ lat, lng });
@@ -46,12 +64,21 @@ export default {
         lng,
         label: `Location at ${lat.toFixed(2)}, ${lng.toFixed(2)}`,
         color: 'red',
-        cuisine: 'Loading...' // This would be replaced with actual API call
+        cuisine: 'Loading...'
       };
       places.value.push(newPlace);
       updateGlobe();
-      // Here you would make an API call to get cuisine information
-      // For example: fetchCuisineInfo(lat, lng).then(cuisine => updatePlaceCuisine(newPlace, cuisine))
+
+      // Make API call only when clicked
+      try {
+        const country = await getCountry(lat, lng);
+        newPlace.label = country;
+        newPlace.cuisine = `Cuisine of ${country}`;
+        updateGlobe();
+      } catch (error) {
+        console.error('Error fetching country:', error);
+        newPlace.cuisine = 'Error fetching cuisine';
+      }
     };
 
     const updateGlobe = () => {
