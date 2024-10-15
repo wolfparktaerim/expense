@@ -16,8 +16,6 @@
 
 <script>
 const API_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
-console.log(API_KEY);
-// console.log(import.meta.env);
 import { ref, onMounted, onUnmounted } from 'vue';
 import Globe from 'globe.gl';
 import axios from 'axios';
