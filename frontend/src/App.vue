@@ -3,7 +3,7 @@
   <Carousel></Carousel>
   <TagLine />
   <HowItWorks />
-  <Globe></Globe>
+  <!-- <Globe></Globe> -->
   <RentFooter></RentFooter>
 </template>
 

@@ -4,11 +4,11 @@
       <h3 class="text-3xl md:text-4xl font-bold mb-12 text-center text-gray-800">
         How it <span class="text-purple-600">Works</span>
       </h3>
-      <div class="grid grid-cols-1 sm:grid-cols-3 gap-8 justify-center">
+      <div class="flex flex-col sm:flex-row justify-between items-stretch gap-8">
         <div 
           v-for="(step, index) in steps" 
           :key="step.title" 
-          class="step-item flex flex-col items-center p-6 bg-white rounded-lg shadow-lg transition-all duration-300 hover:shadow-xl hover:-translate-y-1"
+          class="step-item flex flex-col items-center p-6 bg-white rounded-lg shadow-lg transition-all duration-300 hover:shadow-xl hover:-translate-y-1 flex-1"
           :class="{ 'is-visible': step.isVisible }"
           @mouseenter="activeStep = index"
           @mouseleave="activeStep = null"
@@ -20,10 +20,9 @@
               class="h-16 w-16 text-purple-600 relative z-10" 
             />
           </div>
-          <!-- Centered for all screen sizes -->
-          <h4 class="text-xl font-semibold mb-4 text-gray-800 text-center">{{ step.title }}</h4>
-          <p class="text-gray-600 text-center">{{ step.description }}</p>
-          <div class="step-number mt-6 flex items-center justify-center">
+          <h4 class="text-xl text-center font-semibold mb-4 text-gray-800">{{ step.title }}</h4>
+          <p class="text-gray-600 text-center flex-grow">{{ step.description }}</p>
+          <div class="mt-2 flex items-center justify-center">
             <span class="text-3xl font-bold text-purple-600 mr-2">{{ index + 1 }}</span>
           </div>
         </div>
@@ -48,19 +47,19 @@ export default {
       {
         icon: SearchIcon,
         title: 'Create Recipes',
-        description: 'Generate personalized recommendations based on your health goals, dietary requirements and culinary preferences',
+        description: 'Generate personalized recommendations based on your health goals, dietary requirements and culinary preferences.',
         isVisible: false
       },
       {
         icon: CookingPotIcon,
         title: 'View Recipe Details',
-        description: 'Get a complete breakdown of time taken, ingredients, cooking steps, and nutritional information for your chosen recipe',
+        description: 'Get a complete breakdown of time taken, ingredients, cooking steps, and nutritional information for your chosen recipe.',
         isVisible: false
       },
       {
         icon: BookmarkIcon,
         title: 'Save Your Favorites',
-        description: 'Once you\'re happy with a recipe, save it to your collection for easy access in the future  ',
+        description: 'Once you\'re happy with a recipe, save it to your collection for easy access in the future.',
         isVisible: false
       }
     ])
@@ -78,7 +77,6 @@ export default {
           }
         })
       }, { threshold: 0.1, rootMargin: '0px 0px -10% 0px' })
-
       document.querySelectorAll('.step-item').forEach((el) => {
         observer.observe(el)
       })
@@ -99,43 +97,18 @@ export default {
 </script>
 
 <style scoped>
+@media (max-width: 640px) {
   .step-item {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
     opacity: 0;
     transform: translateY(20px);
     transition: opacity 0.6s ease-out, transform 0.6s ease-out;
-    height: 100%;
   }
-
   .step-item.is-visible {
     opacity: 1;
     transform: translateY(0);
   }
-
-  .step-number {
-    margin-top: auto;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-
-  .step-item:hover .relative {
-    transform: scale(1.1);
-  }
-
-  @media (max-width: 640px) {
-    .step-item {
-      opacity: 0;
-      transform: translateY(20px);
-      transition: opacity 0.6s ease-out, transform 0.6s ease-out;
-    }
-
-    .step-item.is-visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
+}
+.step-item:hover .relative {
+  transform: scale(1.1);
+}
 </style>
