@@ -20,10 +20,9 @@
               class="h-16 w-16 text-purple-600 relative z-10" 
             />
           </div>
-          <!-- Center the title text on smaller screens -->
-          <h4 class="text-xl font-semibold mb-4 text-gray-800 sm:text-center">{{ step.title }}</h4>
-          <!-- Center the description text on smaller screens -->
-          <p class="text-gray-600 sm:text-center">{{ step.description }}</p>
+          <!-- Centered for all screen sizes -->
+          <h4 class="text-xl font-semibold mb-4 text-gray-800 text-center">{{ step.title }}</h4>
+          <p class="text-gray-600 text-center">{{ step.description }}</p>
           <div class="step-number mt-6 flex items-center justify-center">
             <span class="text-3xl font-bold text-purple-600 mr-2">{{ index + 1 }}</span>
           </div>
@@ -61,7 +60,7 @@ export default {
       {
         icon: BookmarkIcon,
         title: 'Save Your Favorites',
-        description: 'Once you\'re happy with a recipe, save it to your collection for easy access in the future',
+        description: 'Once you\'re happy with a recipe, save it to your collection for easy access in the future  ',
         isVisible: false
       }
     ])

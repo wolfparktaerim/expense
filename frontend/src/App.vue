@@ -1,6 +1,7 @@
 <template>
   <Navigation />
   <Carousel></Carousel>
+  <TagLine />
   <HowItWorks />
   <Globe></Globe>
   <RentFooter></RentFooter>
@@ -11,7 +12,8 @@ import HowItWorks from "./components/HowItWorks.vue";
 import RentFooter from "./components/RentFooter.vue";
 import Carousel from "./components/Carousel.vue";
 import Navigation from "./components/Navigation.vue";
-import Globe from "./components/Globe.vue"
+import Globe from "./components/Globe.vue";
+import TagLine from "./components/TagLine.vue";
 
 
 export default {
@@ -21,6 +23,7 @@ export default {
     HowItWorks,
     RentFooter,
     Carousel,
+    TagLine,
     Navigation,
     Globe,
   },
