@@ -2,8 +2,8 @@
   <Navigation />
   <Carousel></Carousel>
   <HowItWorks />
-  <RentFooter></RentFooter>
   <Globe></Globe>
+  <RentFooter></RentFooter>
 </template>
 
 <script>

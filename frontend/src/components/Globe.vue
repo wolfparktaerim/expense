@@ -29,12 +29,13 @@ export default {
 
     const getCountry = (lat, lng) => {
       console.log(lat, lng);
-      const API_KEY = "YOUR_API_KEY_HERE";
+      const API_KEY = "YOUR_API_KEY";
       const url = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=${API_KEY}`;
       return axios.get(url)
         .then(response => {
           console.log(response.data);
           // Extract country information from response
+          console.log(response.data.results)
           const country = response.data.results.find(result => 
             result.types.includes('country')
           );
