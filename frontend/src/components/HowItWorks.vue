@@ -4,7 +4,7 @@
       <h3 class="text-3xl md:text-4xl font-bold mb-12 text-center text-gray-800">
         How it <span class="text-purple-600">Works</span>
       </h3>
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-8 justify-center">
         <div 
           v-for="(step, index) in steps" 
           :key="step.title" 
@@ -20,9 +20,11 @@
               class="h-16 w-16 text-purple-600 relative z-10" 
             />
           </div>
-          <h4 class="text-xl font-semibold mb-4 text-gray-800">{{ step.title }}</h4>
-          <p class="text-gray-600 text-center">{{ step.description }}</p>
-          <div class="mt-6 flex items-center justify-center">
+          <!-- Center the title text on smaller screens -->
+          <h4 class="text-xl font-semibold mb-4 text-gray-800 sm:text-center">{{ step.title }}</h4>
+          <!-- Center the description text on smaller screens -->
+          <p class="text-gray-600 sm:text-center">{{ step.description }}</p>
+          <div class="step-number mt-6 flex items-center justify-center">
             <span class="text-3xl font-bold text-purple-600 mr-2">{{ index + 1 }}</span>
           </div>
         </div>
@@ -33,13 +35,12 @@
 
 <script>
 import { ref, onMounted, onUnmounted } from 'vue'
-import { SearchIcon, CookingPotIcon, ScaleIcon, BookmarkIcon } from 'lucide-vue-next'
+import { SearchIcon, CookingPotIcon, BookmarkIcon } from 'lucide-vue-next'
 
 export default {
   components: {
     SearchIcon,
     CookingPotIcon,
-    ScaleIcon,
     BookmarkIcon
   },
   setup() {
@@ -47,26 +48,20 @@ export default {
     const steps = ref([
       {
         icon: SearchIcon,
-        title: 'Find or Generate Recipes',
-        description: 'Search for specific recipes or generate recommendations based on your dietary goals. You can also input a website URL to get a summary of a recipe.',
+        title: 'Create Recipes',
+        description: 'Generate personalized recommendations based on your health goals, dietary requirements and culinary preferences',
         isVisible: false
       },
       {
         icon: CookingPotIcon,
         title: 'View Recipe Details',
-        description: 'Get a complete breakdown of ingredients, cooking steps, and nutritional information for your chosen recipe.',
-        isVisible: false
-      },
-      {
-        icon: ScaleIcon,
-        title: 'Customize and Modify',
-        description: 'Adjust ingredients, modify nutritional content, or get substitute recommendations to perfectly match your preferences.',
+        description: 'Get a complete breakdown of time taken, ingredients, cooking steps, and nutritional information for your chosen recipe',
         isVisible: false
       },
       {
         icon: BookmarkIcon,
         title: 'Save Your Favorites',
-        description: 'Once you\'re happy with a recipe, save it to your collection for easy access in the future.',
+        description: 'Once you\'re happy with a recipe, save it to your collection for easy access in the future',
         isVisible: false
       }
     ])
@@ -105,20 +100,43 @@ export default {
 </script>
 
 <style scoped>
-@media (max-width: 640px) {
   .step-item {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
     opacity: 0;
     transform: translateY(20px);
     transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+    height: 100%;
   }
 
   .step-item.is-visible {
     opacity: 1;
     transform: translateY(0);
   }
-}
 
-.step-item:hover .relative {
-  transform: scale(1.1);
-}
+  .step-number {
+    margin-top: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .step-item:hover .relative {
+    transform: scale(1.1);
+  }
+
+  @media (max-width: 640px) {
+    .step-item {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+    }
+
+    .step-item.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
 </style>

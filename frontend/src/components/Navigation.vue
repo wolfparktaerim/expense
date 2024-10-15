@@ -27,7 +27,7 @@
     <!-- Mobile Navigation Menu -->
     <div v-if="mobileMenuOpen" class="md:hidden bg-white px-4 py-2 shadow-md">
       <a href="#" class="block py-2 text-gray-600 hover:text-purple-600">Home</a>
-      <a href="#" class="block py-2 text-gray-600 hover:text-purple-600">Listings</a>
+      <a href="#" class="block py-2 text-gray-600 hover:text-purple-600">How It Works</a>
       <a href="#" class="block py-2 text-gray-600 hover:text-purple-600">About</a>
       <button @click="login" class="w-full mt-2 bg-purple-600 text-white px-4 py-2 rounded-full hover:bg-purple-700 transition duration-300">Login</button>
     </div>
