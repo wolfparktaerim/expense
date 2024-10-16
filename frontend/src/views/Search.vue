@@ -1,18 +1,18 @@
 <template>
     <SubNavigation />
-    <RentFooter></RentFooter>
+    <Search />
   </template>
   
   <script>
-  import RentFooter from "../components/RentFooter.vue";
+  import Search from "../components/SearchFxn.vue";
   import SubNavigation from "../components/SubNavigation.vue";
   
   export default {
     name: 'SearchPage', 
     //  Local Component Registration
     components: {
-      RentFooter,
       SubNavigation,
+      Search,
     },
   }
   </script>
