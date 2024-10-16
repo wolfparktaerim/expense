@@ -17,7 +17,7 @@
         <div v-on:click="test" class="card bg-white rounded-lg shadow-md overflow-hidden transition-all duration-300 ease-in-out hover:shadow-lg hover:-translate-y-1">
           <img :src="item.image" :alt="item.name" class="w-full h-40 object-cover" />
           <div class="p-4">
-            <h3 class="font-bold text-lg mb-1 text-purple-700">{{ item.name }}</h3>
+            <h3 class="font-bold text-lg mb-1 text-purple-600">{{ item.name }}</h3>
             <p class="text-sm text-gray-600">{{ item.cuisine }}</p>
           </div>
         </div>
