@@ -8,7 +8,7 @@
       
       <!-- Desktop Navigation -->
       <div class="hidden md:flex items-center space-x-6">
-        <RouterLink to="/" class="text-gray-600 hover:text-purple-600 transition-all duration-300 ease-in-out hover:font-bold">Home</RouterLink>
+        <a href="#" class="text-gray-600 hover:text-purple-600 transition-all duration-300 ease-in-out hover:font-bold">Home</a>
         <a href="#HowItWorks" class="text-gray-600 hover:text-purple-600 transition-all duration-300 ease-in-out hover:font-bold">How It Works</a>
         <a href="#About" class="text-gray-600 hover:text-purple-600 transition-all duration-300 ease-in-out hover:font-bold">About</a>
         <button @click="login" class="bg-purple-600 text-white px-4 py-2 rounded-full hover:bg-purple-700 transition duration-300">Login</button>
