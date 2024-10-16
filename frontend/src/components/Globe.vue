@@ -15,6 +15,7 @@
 </template>
 
 <script>
+const API_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
 import { ref, onMounted, onUnmounted } from 'vue';
 import Globe from 'globe.gl';
 import axios from 'axios';
@@ -29,7 +30,9 @@ export default {
 
     const getCountry = (lat, lng) => {
       console.log(lat, lng);
-      const API_KEY = "YOUR_API_KEY";
+      // const API_KEY = process.env.VUE_APP_GOOGLE_MAPS_API_KEY;
+      // const API_KEY = "YOUR_API_KEY";
+      console.log(API_KEY);
       const url = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=${API_KEY}`;
       return axios.get(url)
         .then(response => {

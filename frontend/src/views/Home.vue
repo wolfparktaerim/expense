@@ -2,19 +2,19 @@
     <Navigation />
     <RentFooter></RentFooter>
 </template>
-  
+
   <script>
   import RentFooter from "../components/RentFooter.vue";
   import Navigation from "../components/Navigation.vue";
   
   export default {
-    name: 'App', 
-    //  Local Component Registration
-    components: {
-      RentFooter,
-      Navigation,
-    },
-  }
+  name: 'App', 
+  //  Local Component Registration
+  components: {
+    RentFooter,
+    Navigation,
+  },
+}
   </script>
   
   <style scoped>
