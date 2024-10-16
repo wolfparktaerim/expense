@@ -1,5 +1,5 @@
 <template>
-  <router-view/>
+  <RouterView />
 </template>
 
 <script>
@@ -9,10 +9,8 @@
 // import Navigation from "./components/Navigation.vue";
 // import Globe from "./components/Globe.vue";
 // import TagLine from "./components/TagLine.vue";
-
-
 // import Navigation from './components/Navigation.vue';
-
+import { RouterView } from 'vue-router';
 
 export default {
   name: 'App', 

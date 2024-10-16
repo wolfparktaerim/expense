@@ -2,8 +2,8 @@
   <Navigation />
   <Carousel></Carousel>
   <TagLine />
-  <HowItWorks />
-  <Globe></Globe>
+  <HowItWorks id="HowItWorks"/>
+  <Globe id="About"/>
   <RentFooter></RentFooter>
 </template>
 
