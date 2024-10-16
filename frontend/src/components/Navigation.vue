@@ -3,12 +3,12 @@
   <header :class="['sticky top-0 w-full z-20 transition-all duration-300 border-b border-gray-200', { 'bg-white/70 backdrop-blur-sm': isScrolled }]">
     <nav class="container mx-auto px-4 py-4 flex items-center justify-between">
       <div class="flex items-center">
-        <a href="/" class="text-2xl font-bold text-purple-600">oBEATsity</a>
+        <RouterLink to="/" class="text-2xl font-bold text-purple-600">oBEATsity</RouterLink>
       </div>
       
       <!-- Desktop Navigation -->
       <div class="hidden md:flex items-center space-x-6">
-        <a href="#" class="text-gray-600 hover:text-purple-600 transition-all duration-300 ease-in-out hover:font-bold">Home</a>
+        <RouterLink to="/" class="text-gray-600 hover:text-purple-600 transition-all duration-300 ease-in-out hover:font-bold">Home</RouterLink>
         <a href="#" class="text-gray-600 hover:text-purple-600 transition-all duration-300 ease-in-out hover:font-bold">How It Works</a>
         <a href="#" class="text-gray-600 hover:text-purple-600 transition-all duration-300 ease-in-out hover:font-bold">About</a>
         <button @click="login" class="bg-purple-600 text-white px-4 py-2 rounded-full hover:bg-purple-700 transition duration-300">Login</button>
@@ -35,6 +35,7 @@
 </template>
 
 <script>
+import { RouterLink } from 'vue-router';
 export default {
 
   data() {

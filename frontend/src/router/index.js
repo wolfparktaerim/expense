@@ -1,13 +1,15 @@
-import { createMemoryHistory, createRouter } from 'vue-router'
-import Home from '../views/home.vue'
-
+import { createWebHistory, createRouter } from 'vue-router'
+import Home from '../views/Home.vue'
+import Search from '../views/Search.vue'
 
 const routes = [
-  { path: '/home', component: Home },
+  { path: '/', component: Home },
+  { path: '/search', component: Search },
+
 ]
 
 const router = createRouter({
-    history: createMemoryHistory(),
+    history: createWebHistory(import.meta.env.BASE_URL),
     routes,
   })
 

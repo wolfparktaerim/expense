@@ -8,4 +8,5 @@ const app = createApp(App)
 // Global Component Registration
 app.component('LoginModal', LoginModal)
 
-app.use(router).mount('#app')
+app.use(router)
+app.mount('#app')
