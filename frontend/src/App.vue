@@ -2,8 +2,9 @@
   <Navigation />
   <Carousel></Carousel>
   <HowItWorks />
-  <Globe></Globe>
+  <!-- <Globe></Globe> -->
   <RentFooter></RentFooter>
+  <RecipeSearch></RecipeSearch>
 </template>
 
 <script>
@@ -11,7 +12,8 @@ import HowItWorks from "./components/HowItWorks.vue";
 import RentFooter from "./components/RentFooter.vue";
 import Carousel from "./components/Carousel.vue";
 import Navigation from "./components/Navigation.vue";
-import Globe from "./components/Globe.vue"
+import Globe from "./components/Globe.vue";
+import RecipeSearch from "./components/RecipeSearch.vue";
 
 
 export default {
@@ -23,6 +25,7 @@ export default {
     Carousel,
     Navigation,
     Globe,
+    RecipeSearch,
   },
 }
 </script>
