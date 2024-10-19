@@ -1,18 +1,23 @@
 <template>
     <SubNavigation />
+    <RecipeSearch />
     <Search />
+    
   </template>
   
   <script>
   import Search from "../components/SearchFxn.vue";
   import SubNavigation from "../components/SubNavigation.vue";
+  import RecipeSearch from "../components/RecipeSearch.vue";
   
   export default {
     name: 'SearchPage', 
     //  Local Component Registration
     components: {
       SubNavigation,
+      RecipeSearch,
       Search,
+      
     },
   }
   </script>

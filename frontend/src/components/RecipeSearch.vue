@@ -1,7 +1,7 @@
 <template>
 
     <!-- Search Engine -->
-    <div class="container mx-auto py-8 px-4">
+    <div class="container mx-auto py-8 px-4 mt-10">
         <h1 class="text-3xl font-bold text-center text-purple-600 mb-8">What would you like to eat</h1>
 
         <!-- Cuisine Dropdown -->
@@ -166,7 +166,7 @@
                 if (ingredientQuery) {
                     axios.get('https://api.spoonacular.com/recipes/complexSearch', {
                         params: {
-                            apiKey: this.apiKey , // Replace with your API key
+                            apiKey: this.apiKey ,
                             query: "",
                             includeIngredients : ingredientQuery,
                             cuisine: cuisineQuery,
@@ -205,8 +205,8 @@
             },
 
             // Go to the recipe details page for the specific recipe
-            viewRecipeDetails(){
-
+            viewRecipeDetails(recipe){
+                this.$router.push({ path: `/recipe/${recipe.id}` });
             },
 
 
