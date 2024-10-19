@@ -110,6 +110,7 @@
 
     import SubNavigation from "../components/SubNavigation.vue";
     import axios from 'axios';
+    const apiKey = import.meta.env.VITE_SPOON_API_KEY;
   
     export default {
         components: {
@@ -145,7 +146,7 @@
             axios.get(`https://api.spoonacular.com/recipes/${recipeId}/information`, {
                 params: {
                     // my api key
-                    apiKey : process.env.VUE_APP_API_KEY,
+                    apiKey : import.meta.env.VITE_SPOON_API_KEY,
 
                 }
             })

@@ -86,6 +86,7 @@
 
 <script>
     import axios from 'axios';
+    const apiKey = import.meta.env.VITE_SPOON_API_KEY;
     export default{
         data() {
             return {
@@ -103,9 +104,6 @@
 
                 // Recipe results
                 recipes: [],
-
-                // my-api-key
-                apiKey : process.env.VUE_APP_API_KEY,
 
                 // tags for random recipe
                 includeTags : "",
@@ -156,7 +154,7 @@
                 if (ingredientQuery) {
                     axios.get('https://api.spoonacular.com/recipes/complexSearch', {
                         params: {
-                            apiKey : this.apiKey,
+                            apiKey : import.meta.env.VITE_SPOON_API_KEY,
                             query: "",
                             includeIngredients : ingredientQuery,
                             cuisine: cuisineQuery,
@@ -181,7 +179,7 @@
                 this.includeTags += this.selectedCuisine;
                 axios.get('https://api.spoonacular.com/recipes/random', {
                     params: {
-                        apiKey: this.apiKey,
+                        apiKey: import.meta.env.VITE_SPOON_API_KEY,
                         'include-tags' : this.includeTags,
                     }
                 })
