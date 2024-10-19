@@ -4,7 +4,7 @@
       <h3 class="text-3xl md:text-4xl font-bold mb-12 text-center text-gray-800">
         How it <span class="text-purple-600">Works</span>
       </h3>
-      <div class="flex flex-col sm:flex-row justify-between items-stretch gap-8">
+      <div class="flex flex-col sm:flex-row justify-between items-stretch gap-8 mb-16">
         <div 
           v-for="(step, index) in steps" 
           :key="step.title" 
@@ -25,6 +25,14 @@
           <div class="mt-2 flex items-center justify-center">
             <span class="text-3xl font-bold text-purple-600 mr-2">{{ index + 1 }}</span>
           </div>
+        </div>
+      </div>
+      
+      <!-- Full-width Image Placeholder Section -->
+      <div class="mt-16">
+        <h4 class="text-2xl font-semibold mb-8 text-center text-gray-800">Placeholder img title if needed</h4>
+        <div class="bg-gray-200 rounded-lg overflow-hidden w-full" style="height: 400px;">
+          <img src="https://westcoastdocs.com/wp-content/uploads/2018/06/image-placeholder-large.jpg" alt="How it works demonstration" class="w-full h-full object-cover" />
         </div>
       </div>
     </div>
