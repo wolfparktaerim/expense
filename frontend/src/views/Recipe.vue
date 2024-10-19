@@ -169,6 +169,9 @@
                 .catch( error => {
                     console.error(error);
                 });
+            
+                // Fetch the nutrition information based on the ingredients used
+                
 
         },
         methods:{
