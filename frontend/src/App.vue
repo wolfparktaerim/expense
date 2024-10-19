@@ -1,31 +1,27 @@
 <template>
-  <Navigation />
-  <Carousel></Carousel>
-  <HowItWorks />
-  <!-- <Globe></Globe> -->
-  <RentFooter></RentFooter>
-  <RecipeSearch></RecipeSearch>
+  <RouterView />
 </template>
 
 <script>
-import HowItWorks from "./components/HowItWorks.vue";
-import RentFooter from "./components/RentFooter.vue";
-import Carousel from "./components/Carousel.vue";
-import Navigation from "./components/Navigation.vue";
-import Globe from "./components/Globe.vue";
-import RecipeSearch from "./components/RecipeSearch.vue";
-
+// import HowItWorks from "./components/HowItWorks.vue";
+// import RentFooter from "./components/RentFooter.vue";
+// import Carousel from "./components/Carousel.vue";
+// import Navigation from "./components/Navigation.vue";
+// import Globe from "./components/Globe.vue";
+// import TagLine from "./components/TagLine.vue";
+// import Navigation from './components/Navigation.vue';
+import { RouterView } from 'vue-router';
 
 export default {
   name: 'App', 
   //  Local Component Registration
   components: {
-    HowItWorks,
-    RentFooter,
-    Carousel,
-    Navigation,
-    Globe,
-    RecipeSearch,
+    // HowItWorks,
+    // RentFooter,
+    // Carousel,
+    // TagLine,
+    // Navigation,
+    // Globe,
   },
 }
 </script>
