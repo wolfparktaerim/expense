@@ -145,7 +145,7 @@
             axios.get(`https://api.spoonacular.com/recipes/${recipeId}/information`, {
                 params: {
                     // my api key
-                    apiKey : 'f6c9948854f34a6ba4e0f875de6a671b',
+                    apiKey : process.env.VUE_APP_API_KEY,
 
                 }
             })

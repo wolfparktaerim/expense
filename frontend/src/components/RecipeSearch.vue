@@ -105,7 +105,7 @@
                 recipes: [],
 
                 // my-api-key
-                apiKey : 'f6c9948854f34a6ba4e0f875de6a671b',
+                apiKey : process.env.VUE_APP_API_KEY,
 
                 // tags for random recipe
                 includeTags : "",
@@ -156,7 +156,7 @@
                 if (ingredientQuery) {
                     axios.get('https://api.spoonacular.com/recipes/complexSearch', {
                         params: {
-                            apiKey: this.apiKey ,
+                            apiKey : this.apiKey,
                             query: "",
                             includeIngredients : ingredientQuery,
                             cuisine: cuisineQuery,
