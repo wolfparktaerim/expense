@@ -98,7 +98,7 @@
                 // Selected cuisine
                 selectedCuisine: '',
 
-                // Predefined list of cuisines (data from spoonacular API)
+                // Predefined list of cuisines (available cuisines from spoonacular API)
                 cuisines: ['African', 'Asian', 'American', 'British', 'Cajun', 'Caribbean', 'Chinese', 'Eastern European', 'European', 'French', 'German', 'Greek', 'Indian', 'Irish', 'Italian', 'Japanese', 'Jewish', 'Korean', 'Latin American', 'Mediterranean', 'Mexican', 'Middle Eastern', 'Nordic', 'Southern', 'Spanish', 'Thai', 'Vietnamese'],
 
                 // Recipe results
@@ -113,19 +113,9 @@
                 // has user search anything yet?
                 searchTriggered : false,
 
-                page: 1,
-                perPage: 10,
-
             };
         },
         computed : {
-            totalPages() {
-                return Math.ceil(this.recipes.length / this.perPage);
-            },
-            paginatedRecipes() {
-                const start = (this.page - 1) * this.perPage;
-                return this.recipes.slice(start, start + this.perPage);
-            }
         },
         methods: {
             // Add ingredient when pressing Enter or comma
@@ -208,7 +198,6 @@
             viewRecipeDetails(recipe){
                 this.$router.push({ path: `/recipe/${recipe.id}` });
             },
-
 
         }
     }
