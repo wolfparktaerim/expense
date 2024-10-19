@@ -8,12 +8,12 @@ To run this project locally, follow these steps:
 
 1. Clone the repository:
    ```
-   git clone https://github.com/Kelvinpcw/rent
+   git clone https://github.com/Kelvinpcw/food
    ```
 
 2. Navigate to the frontend directory:
    ```
-   cd rent/frontend
+   cd food/frontend
    ```
 
 3. Install dependencies:
