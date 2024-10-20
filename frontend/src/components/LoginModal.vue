@@ -6,7 +6,7 @@
         <div class="p-6">
           <div class="flex justify-between items-center mb-6">
             <h2 class="mx-auto text-4xl font-bold">{{ title }}</h2>
-            <button @click="closeModal" class="text-gray-500 hover:text-gray-700 text-2xl">&times;</button>
+            <button @click="closeModal" class="text-gray-500 hover:text-gray-700 text-3xl">&times;</button>
           </div>
           
           <p class="mb-4">{{ description }}</p>
@@ -31,7 +31,7 @@
               @input="resetValidation"
               placeholder='Bob@mail.com' 
               :class="['w-full px-4 py-2 text-gray-700 border rounded transition duration-200 outline-none', 
-                       emailError ? 'border-red-500' : 'border-purple-500']"
+                      emailError ? 'border-red-500' : 'border-purple-500']"
               type="email"
               required
             >
@@ -45,7 +45,8 @@
                   @keyup.enter="handleSubmit"
                   type="password" 
                   placeholder="Enter your password"
-                  class="w-full px-4 py-2 text-gray-700 border rounded transition duration-200 outline-none border-purple-500"
+                  :class="['w-full px-4 py-2 text-gray-700 border rounded transition duration-200 outline-none', 
+                        passwordErrors.length > 0 ? 'border-red-500' : 'border-purple-500']"
                   required
                 >
               </div>
@@ -57,7 +58,8 @@
                   @keyup.enter="handleSubmit"
                   type="password" 
                   placeholder="Confirm your password"
-                  class="w-full px-4 py-2 text-gray-700 border rounded transition duration-200 outline-none border-purple-500"
+                  :class="['w-full px-4 py-2 text-gray-700 border rounded transition duration-200 outline-none', 
+                          passwordErrors.length > 0 ? 'border-red-500' : 'border-purple-500']"
                   required
                 >
               </div>
@@ -69,8 +71,9 @@
               <a v-if="!isNewUser" href="#" @click.prevent="forgotPassword" class="text-indigo-600 hover:text-indigo-800 text-sm">Forgot your password?</a>
             </div>
 
-            <button @click="handleSubmit" class="w-full py-2 px-4 bg-indigo-500 text-white rounded hover:bg-indigo-600 transition duration-200">
-              {{ isNewUser ? 'Create Account' : 'Login' }}
+            <button @click="handleSubmit" class="w-full py-2 px-4 bg-indigo-500 text-white rounded hover:bg-indigo-600 transition duration-200 flex items-center justify-center">
+              <span v-if="!isLoading">{{ isNewUser ? 'Create Account' : 'Login' }}</span>
+              <div v-else class="spinner"></div>
             </button>
           </div>
 
@@ -100,6 +103,7 @@ export default {
       confirmPassword: '',
       showPasswordField: false,
       isNewUser: false,
+      isLoading: false,
     }
   },
   methods: {
@@ -111,18 +115,20 @@ export default {
       this.selectedMethod = null
       this.$emit('close')
     },
-    signInWithGoogle() {
+    async signInWithGoogle() {
+      this.isLoading = true;
       const auth = getAuth()
       const provider = new GoogleAuthProvider()
-      signInWithPopup(auth, provider)
-        .then((result) => {
-          console.log(result)
-          console.log(this.getCurrentUser());
-          router.push('/search')
-        })
-        .catch((error) => {
-          console.log(error)
-        })
+      try {
+        const result = await signInWithPopup(auth, provider)
+        console.log(result)
+        console.log(this.getCurrentUser());
+        router.push('/search')
+      } catch (error) {
+        console.log(error)
+      } finally {
+        this.isLoading = false;
+      }
     },
     getCurrentUser() {
       const auth = getAuth()
@@ -164,6 +170,7 @@ export default {
     async checkEmail() {
       this.validateEmail();
       if (!this.emailError) {
+        this.isLoading = true;
         const auth = getAuth();
         try {
           const signInMethods = await fetchSignInMethodsForEmail(auth, this.email);
@@ -182,6 +189,8 @@ export default {
         } catch (error) {
           console.error('Error checking email:', error);
           this.emailError = 'An error occurred while checking the email. Please try again.';
+        } finally {
+          this.isLoading = false;
         }
       }
     },
@@ -200,6 +209,7 @@ export default {
         return;
       }
 
+      this.isLoading = true;
       const auth = getAuth();
       if (this.isNewUser) {
         try {
@@ -210,6 +220,8 @@ export default {
         } catch (error) {
           console.error('Error creating user:', error);
           this.passwordErrors.push(error.message);
+        } finally {
+          this.isLoading = false;
         }
       } else {
         try {
@@ -218,22 +230,42 @@ export default {
           router.push('/search');
         } catch (error) {
           console.error('Error logging in:', error);
-          this.passwordErrors.push('Invalid email or password');
+          this.passwordErrors.push('Invalid password');
+        } finally {
+          this.isLoading = false;
         }
       }
     },
-    forgotPassword() {
+    async forgotPassword() {
+      this.isLoading = true;
       const auth = getAuth();
-      sendPasswordResetEmail(auth, this.email)
-        .then(() => {
-          console.log('Password reset email sent');
-          // TODO: Add a success message (use toastify or similar)
-        })
-        .catch((error) => {
-          console.error('Error sending password reset email:', error);
-          // TODO: Add an error message (use toastify or similar)
-        });
+      try {
+        await sendPasswordResetEmail(auth, this.email);
+        console.log('Password reset email sent');
+        // TODO: Add a success message (use toastify or similar)
+      } catch (error) {
+        console.error('Error sending password reset email:', error);
+        // TODO: Add an error message (use toastify or similar)
+      } finally {
+        this.isLoading = false;
+      }
     }
   }
 }
 </script>
+
+<style scoped>
+.spinner {
+  border: 3px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  border-top: 3px solid #ffffff;
+  width: 24px;
+  height: 24px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+</style>
