@@ -5,13 +5,13 @@
       <div class="relative bg-white rounded-lg shadow-xl w-full max-w-md mx-4 sm:mx-auto" @click.stop>
         <div class="p-6">
           <div class="flex justify-between items-center mb-6">
-            <h2 v-if="loginMethod" class="text-2xl font-bold">Choose login method</h2>
-            <h2 v-if="emailLogin" class="text-2xl font-bold">Log in or register</h2>
+            <h2 class="mx-auto text-4xl font-bold">{{ title }}</h2>
             <button @click="closeModal" class="text-gray-500 hover:text-gray-700 text-2xl">&times;</button>
           </div>
           
+          <p class="mb-4">{{ description }}</p>
+
           <div v-if="loginMethod" class="space-y-4">
-            <p>If you do not already have an account with us you will have to register.</p>
             <button @click="selectMethod('email')" class="w-full py-2 px-4 bg-indigo-500 text-white rounded hover:bg-indigo-600 transition duration-200">
               Email
             </button>
@@ -19,22 +19,60 @@
               <img src="../assets/google.svg" alt="Google logo" class="w-5 h-5 mr-2">
               Sign in with Google
             </button>
-            <!-- Uncomment and adjust as needed
-            <button @click="selectMethod('apple')" class="w-full py-2 px-4 bg-black text-white rounded hover:bg-gray-900 transition duration-200 flex items-center justify-center">
-              <img src="/path-to-apple-logo.png" alt="Apple logo" class="w-5 h-5 mr-2">
-              Continue with Apple
-            </button>
-            -->
           </div>
 
-            <div class='space-y-4' v-if="emailLogin">
-              <p>If you do not already have an account with us you will have to register.</p>
-              <p>Email</p>
-              <input placeholder='Bob@mail.com' class='w-full px-4 py-2 text-gray-700 border rounded border-purple-500' type="email">
-              <button @click="selectMethod('email')" class="w-full py-2 px-4 bg-indigo-500 text-white rounded hover:bg-indigo-600 transition duration-200">
-              Continue
-            </button>
+          <div class='space-y-4' v-if="emailLogin">
+            <p>Email</p>
+            <input 
+              ref="emailInput"
+              @keyup.enter="checkEmail"
+              v-model="email"
+              @blur="validateEmail"
+              @input="resetValidation"
+              placeholder='Bob@mail.com' 
+              :class="['w-full px-4 py-2 text-gray-700 border rounded transition duration-200 outline-none', 
+                       emailError ? 'border-red-500' : 'border-purple-500']"
+              type="email"
+              required
+            >
+            <p v-if="emailError" class="text-red-500 text-sm mt-1">{{ emailError }}</p>
+            
+            <div v-if="showPasswordField" class="space-y-4">
+              <div>
+                <p>Password</p>
+                <input 
+                  v-model="password"
+                  @keyup.enter="handleSubmit"
+                  type="password" 
+                  placeholder="Enter your password"
+                  class="w-full px-4 py-2 text-gray-700 border rounded transition duration-200 outline-none border-purple-500"
+                  required
+                >
+              </div>
+              
+              <div v-if="isNewUser" class="mt-4">
+                <p>Confirm Password</p>
+                <input 
+                  v-model="confirmPassword"
+                  @keyup.enter="handleSubmit"
+                  type="password" 
+                  placeholder="Confirm your password"
+                  class="w-full px-4 py-2 text-gray-700 border rounded transition duration-200 outline-none border-purple-500"
+                  required
+                >
+              </div>
+              
+              <div v-if="passwordErrors.length > 0" class="mt-2">
+                <p v-for="error in passwordErrors" :key="error" class="text-red-500 text-sm">{{ error }}</p>
+              </div>
+              
+              <a v-if="!isNewUser" href="#" @click.prevent="forgotPassword" class="text-indigo-600 hover:text-indigo-800 text-sm">Forgot your password?</a>
             </div>
+
+            <button @click="handleSubmit" class="w-full py-2 px-4 bg-indigo-500 text-white rounded hover:bg-indigo-600 transition duration-200">
+              {{ isNewUser ? 'Create Account' : 'Login' }}
+            </button>
+          </div>
 
         </div>
       </div>
@@ -43,15 +81,25 @@
 </template>
 
 <script>
-import {getAuth, signInWithPopup, GoogleAuthProvider} from 'firebase/auth';
+import { getAuth, signInWithPopup, GoogleAuthProvider, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendPasswordResetEmail, fetchSignInMethodsForEmail } from 'firebase/auth';
 import router from '../router';
+
 export default {
   data() {
     return {
       loginMethod: true,
+      title: 'Choose login method',
+      description: 'If you do not already have an account with us you will have to register.',
       emailLogin: false,
       isModalVisible: true,
       selectedMethod: null,
+      email: '',
+      emailError: '',
+      password: '',
+      passwordErrors: [],
+      confirmPassword: '',
+      showPasswordField: false,
+      isNewUser: false,
     }
   },
   methods: {
@@ -71,7 +119,6 @@ export default {
           console.log(result)
           console.log(this.getCurrentUser());
           router.push('/search')
-          // UID is in localStorage IndexedDB -> firebaseLocalStorage -> firebase:authUser:<API_KEY>:<UID>
         })
         .catch((error) => {
           console.log(error)
@@ -87,11 +134,105 @@ export default {
       if(this.selectedMethod == 'email'){
         this.emailLogin = true;
         this.loginMethod = false;
+        this.title = 'Log in or register';
+        this.$nextTick(() => {
+          this.$refs.emailInput.focus();
+        });
       }
       else{
         this.signInWithGoogle();
         console.log("signed in with google ");
       }
+    },
+    validateEmail() {
+      if (!this.email) {
+        this.emailError = 'Required';
+      } else if (!this.isValidEmail(this.email)) {
+        this.emailError = 'Invalid email address';
+      } else {
+        this.emailError = '';
+      }
+    },
+    resetValidation() {
+      this.emailError = '';
+      this.passwordErrors = [];
+    },
+    isValidEmail(email) {
+      const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      return re.test(email);
+    },
+    async checkEmail() {
+      this.validateEmail();
+      if (!this.emailError) {
+        const auth = getAuth();
+        try {
+          const signInMethods = await fetchSignInMethodsForEmail(auth, this.email);
+          console.log(signInMethods);
+
+          if (signInMethods.length === 0) {
+            // Email doesn't exist, show registration fields
+            this.isNewUser = true;
+            this.title = 'Create an account';
+          } else {
+            // Email exists, show login fields
+            this.isNewUser = false;
+            this.title = 'Log in';
+          }
+          this.showPasswordField = true;
+        } catch (error) {
+          console.error('Error checking email:', error);
+          this.emailError = 'An error occurred while checking the email. Please try again.';
+        }
+      }
+    },
+    validatePassword() {
+      this.passwordErrors = [];
+      if (this.password.length < 6) {
+        this.passwordErrors.push('Password needs to be at least 6 characters long');
+      }
+      if (this.isNewUser && this.password !== this.confirmPassword) {
+        this.passwordErrors.push('Passwords do not match');
+      }
+      return this.passwordErrors.length === 0;
+    },
+    async handleSubmit() {
+      if (!this.validatePassword()) {
+        return;
+      }
+
+      const auth = getAuth();
+      if (this.isNewUser) {
+        try {
+          await createUserWithEmailAndPassword(auth, this.email, this.password);
+          console.log('User created successfully');
+          // TODO: Add Toastify for success and failure notifications 
+          router.push('/search');
+        } catch (error) {
+          console.error('Error creating user:', error);
+          this.passwordErrors.push(error.message);
+        }
+      } else {
+        try {
+          await signInWithEmailAndPassword(auth, this.email, this.password);
+          console.log('User logged in successfully');
+          router.push('/search');
+        } catch (error) {
+          console.error('Error logging in:', error);
+          this.passwordErrors.push('Invalid email or password');
+        }
+      }
+    },
+    forgotPassword() {
+      const auth = getAuth();
+      sendPasswordResetEmail(auth, this.email)
+        .then(() => {
+          console.log('Password reset email sent');
+          // TODO: Add a success message (use toastify or similar)
+        })
+        .catch((error) => {
+          console.error('Error sending password reset email:', error);
+          // TODO: Add an error message (use toastify or similar)
+        });
     }
   }
 }
