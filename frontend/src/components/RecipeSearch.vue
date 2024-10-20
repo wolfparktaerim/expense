@@ -1,8 +1,8 @@
 <template>
 
     <!-- Search Engine -->
-    <div class="container mx-auto py-8 px-4 mt-10">
-        <h1 class="text-3xl font-bold text-center text-purple-600 mb-8">What would you like to eat</h1>
+    <div class="container mx-auto py-8 px-4 mt-12">
+        <h1 class="text-4xl font-bold text-center text-purple-600 mb-8">What would you like to eat</h1>
 
         <!-- Cuisine Dropdown -->
         <div class="mb-4 text-right">
@@ -15,9 +15,11 @@
 
         <!-- Ingredients Search Input -->
         <div class="mb-6">
-            <label for="search" class="block text-gray-700 text-sm mb-2">Enter Ingredients (press "," or press 'Enter' or press space to separate different ingredients):</label>
-            <input type="text" id="search" class="w-full border border-gray-300 rounded-md py-2 px-4 text-gray-700 focus:ring-2 focus:ring-purple-500" 
-                   v-model="searchInput" @keydown.enter.prevent="addIngredient" @keydown.space.prevent="addIngredient" @input="addOnComma" placeholder="e.g., Carrot, Broccoli, Chicken">
+            <label for="search" class="block text-gray-700 text-sm mb-2" style="text-align: center;">Enter Ingredients (press "," or press 'Enter' or press space to separate different ingredients):</label>
+            <div class="flex justify-center mt-4">
+                <input type="text" id="search" class="w-1/2 border border-gray-300 rounded-md py-2 px-4 text-gray-700 focus:ring-2 focus:ring-purple-500" 
+                    v-model="searchInput" @keydown.enter.prevent="addIngredient" @keydown.space.prevent="addIngredient" @input="addOnComma" placeholder="e.g., Carrot, Broccoli, Chicken">
+            </div>
 
             <!-- Display ingredients as tags -->
             <div class="flex flex-wrap mt-4">
