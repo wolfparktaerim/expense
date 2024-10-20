@@ -5,33 +5,100 @@
     <SubNavigation />
 
     <!-- Recipe Full Information -->
-    <div class="container mx-auto mt-8">
+    <div class="container mx-auto mt-8 p-6 bg-gray-50 shadow-lg rounded-lg">
 
         <!-- Recipe title -->
-        <h1 class="text-4xl font-bold text-purple-700 mb-10">{{ recipe.title }}</h1>
+        <h1 class="text-4xl font-bold text-purple-700 text-center mb-8">{{ recipe.title }}</h1>
 
-        <!-- Main Grid Layout -->
-        <div class="flex flex-col md:flex-row">
+        <!-- Row 1: Image & Description -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
 
-            <!-- Column 1: Image and Instructions -->
+            <!-- Column 1: Recipe Image -->
+            <div class="flex justify-center">
+                <img :src="recipe.image" alt="Recipe Image" class="w-full h-auto max-w-sm rounded-lg shadow-lg" />
+            </div>
 
-                <!-- Recipe Image -->
-            <div class="md:w-2/3 p-4">
-                <img :src="recipe.image" alt="Recipe Image" class="w-full h-auto max-w-sm mx-auto rounded-lg shadow-md" />
-                
-                <!-- Instructions Section -->
-                <div class="bg-white p-6 rounded-lg shadow-md mb-6">
-                    <h2 class="text-2xl font-bold mb-4">Instructions</h2>
-                    <ul class="space-y-4">
-                        <li v-for="step in recipe.instructions" :key="step.number" class="p-4 bg-white rounded-lg shadow">
-                        <p class="text-lg"><strong>Step {{ step.number }}:</strong> {{ step.step }}</p>
-                        <div v-if="step.ingredients.length > 0" class="mt-2">
+            <!-- Column 2: Short Description and Icons -->
+            <div class="bg-white p-6 rounded-lg shadow-md flex flex-col justify-center space-y-6">
+                <!-- Serving Size -->
+                <p class="text-lg text-gray-700">Serving Size: {{ recipe.servings }}</p>
+                <!-- Preparation Time -->
+                <p v-if="recipe.preparationMinutes!=null" class="text-lg text-gray-700">Preparation Time (minutes): {{ recipe.preparationMinutes }}</p>
+                <!-- Meal types -->
+                <span>
+                    <p class="text-lg text-gray-700">Dish Type: </p>
+                    <span v-for="dishType in recipe.dishTypes">
+                        {{ dishType }} &nbsp;&nbsp;
+                    </span>
+                </span>
+
+                <!-- Icons for vegan, popularity, etc. -->
+                <div class="flex space-x-4">
+
+                    <!-- Vegan icon for vegan recipes -->
+                    <div v-if="recipe.vegan" class="flex items-center space-x-2 relative group">
+                        <img src="../../public/icon/vegan.png" alt="Vegan Icon" class="w-8 h-8">
+                        <!-- Hidden text, shown on hover -->
+                        <div class="absolute left-1/2 transform -translate-x-1/2 top-10 bg-green-600 text-white text-xs font-bold py-1 px-2 rounded opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
+                            100% Vegan!
+                        </div>
+                    </div>
+
+                    <!-- Popular icon for very popular recipes -->
+                    <div v-if="recipe.veryPopular" class="flex items-center space-x-2 relative group">
+                        <img src="../../public/icon/popular.png" alt="Popular Icon" class="w-8 h-8">
+                        <!-- Hidden text, shown on hover -->
+                        <div class="absolute left-1/2 transform -translate-x-1/2 top-10 bg-red-600 text-white text-xs font-bold py-1 px-2 rounded opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
+                            Very popular!
+                        </div>
+                    </div>
+
+                    <!-- Cheap icon for cheap recipes -->
+                    <div v-if="recipe.isCheap" class="flex items-center space-x-2 relative group">
+                        <img src="../../public/icon/cheap.png" alt="Cheap Icon" class="w-8 h-8">
+                        <!-- Hidden text, shown on hover -->
+                        <div class="absolute left-1/2 transform -translate-x-1/2 top-10 bg-yellow-600 text-white text-xs font-bold py-1 px-2 rounded opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
+                            Very cheap!
+                        </div>
+                    </div>
+
+                    <!-- Healthy icon for healthy recipes -->
+                    <div v-if="recipe.veryHealthy" class="flex items-center space-x-2 relative group">
+                        <img src="../../public/icon/healthy.png" alt="Healthy Icon" class="w-8 h-8">
+                        <!-- Hidden text, shown on hover -->
+                        <div class="absolute left-1/2 transform -translate-x-1/2 top-10 bg-green-600 text-white text-xs font-bold py-1 px-2 rounded opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
+                            Healthy Choice!
+                        </div>
+                    </div>
+                </div>
+                <!-- Icons end -->
+
+                <!-- Reserved spot for 'add to favorites' -->
+                 <!-- Reserved spot end -->
+            </div>
+        </div>
+
+        <!-- Row 2: Instructions, Ingredients, and Nutrition -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mt-10">
+
+            <!-- Column 1: Instructions Section -->
+            <div class="bg-white p-6 rounded-lg shadow-md">
+                <h2 class="text-2xl font-bold mb-4 text-purple-600">Instructions</h2>
+                <ul class="space-y-4">
+                    <li v-for="step in recipe.instructions" :key="step.number" class="p-4 bg-gray-100 rounded-lg shadow">
+                        <p class="text-lg font-semibold">Step {{ step.number }}:</p>
+                        <p>{{ step.step }}</p>
+
+                        <!-- Ingredients used in each step -->
+                        <div v-if="step.ingredients.length > 0" class="mt-4">
                             <h4 class="font-semibold">Ingredients:</h4>
-                            <ul class="list-disc pl-6">
-                            <li v-for="ingredient in step.ingredients" :key="ingredient.id">{{ ingredient.name }}</li>
+                            <ul class="list-disc pl-6 text-gray-600">
+                                <li v-for="ingredient in step.ingredients" :key="ingredient.id">{{ ingredient.name }}</li>
                             </ul>
                         </div>
-                        <div v-if="step.equipment.length > 0" class="mt-2">
+
+                        <!-- Equipment used in each step -->
+                        <div v-if="step.equipment.length > 0" class="mt-4">
                             <h4 class="font-semibold">Equipment:</h4>
                             <div class="flex space-x-4">
                                 <div v-for="equipment in step.equipment" :key="equipment.id" class="flex items-center">
@@ -40,69 +107,65 @@
                                 </div>
                             </div>
                         </div>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Column 2: Ingredients & Nutrition Information -->
+            <div class="space-y-8">
+                <!-- Ingredients Used -->
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <h2 class="text-2xl font-bold mb-4 text-purple-600">Ingredients Used</h2>
+                    <ul class="list-disc pl-6 space-y-2 text-gray-700">
+                        <li v-for="ingredient in recipe.extendedIngredients" :key="ingredient.id">
+                            {{ ingredient.name }} - {{ ingredient.amount }} {{ ingredient.unit }}
                         </li>
                     </ul>
                 </div>
-                <!-- instruction section ends -->
-            </div>
-            <!-- column 1 ends -->
 
+                <!-- Nutrition Information -->
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <h2 class="text-2xl font-bold mb-4 text-purple-600">Nutrition Analysis</h2>
+                    <table class="w-full text-left table-auto">
+                        <thead>
+                            <tr>
+                                <th class="border px-4 py-2">Nutrient</th>
+                                <th class="border px-4 py-2">Amount</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="border px-4 py-2">Carbs</td>
+                                <td class="border px-4 py-2">{{ nutrition.carbs }}g</td>
+                            </tr>
+                            <tr>
+                                <td class="border px-4 py-2">Protein</td>
+                                <td class="border px-4 py-2">{{ nutrition.protein }}g</td>
+                            </tr>
+                            <tr>
+                                <td class="border px-4 py-2">Fat</td>
+                                <td class="border px-4 py-2">{{ nutrition.fat }}g</td>
+                            </tr>
+                        </tbody>
+                    </table>
 
-            <!-- Column 2: Ingredients used -->
-            <div class="md:w-1/3 p-4">
-                <!-- ingredients used -->
-                <div class="bg-white p-6 rounded-lg shadow-md mb-6">
-                    <h2 class="text-2xl font-bold mb-4">Ingredients Used</h2>
-                    <ul class="list-disc pl-6 space-y-2">
-                        <li v-for="ingredient in recipe.extendedIngredients" :key="ingredient.id" class="flex items-center">
-                            <span class="text-lg">{{ ingredient.name }} - {{ ingredient.amount }} {{ ingredient.unit }}</span>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            <!-- column 2 ends -->
-     
-            <!-- Row 2: Nutrition Information -->
-            <div class="bg-white p-6 rounded-lg shadow-md mt-4">
-                <h2 class="text-2xl font-bold mb-4">Nutrition Information</h2>
-                <table class="w-full text-left table-auto">
-                    <thead>
-                        <tr>
-                            <th class="border px-4 py-2">Nutrient</th>
-                            <th class="border px-4 py-2">Amount</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td class="border px-4 py-2">Carbs</td>
-                            <td class="border px-4 py-2">{{ nutrition.carbs }}g</td>
-                        </tr>
-                        <tr>
-                            <td class="border px-4 py-2">Protein</td>
-                            <td class="border px-4 py-2">{{ nutrition.protein }}g</td>
-                        </tr>
-                        <tr>
-                            <td class="border px-4 py-2">Fat</td>
-                            <td class="border px-4 py-2">{{ nutrition.fat }}g</td>
-                        </tr>
-                    </tbody>
-                </table>
-
-                <!-- Visual Representation of Nutrition -->
-                <div class="mt-4">
-                    <p class="font-semibold">Visual Representation:</p>
-                    <div class="flex space-x-4">
-                        <div class="w-24 h-24 bg-blue-300 flex items-center justify-center">Carbs: {{ nutrition.carbs }}g</div>
-                        <div class="w-24 h-24 bg-green-300 flex items-center justify-center">Protein: {{ nutrition.protein }}g</div>
-                        <div class="w-24 h-24 bg-yellow-300 flex items-center justify-center">Fat: {{ nutrition.fat }}g</div>
+                    <!-- Visual Representation -->
+                    <div class="mt-4 flex space-x-4 justify-center">
+                        <div class="w-24 h-24 bg-blue-300 flex items-center justify-center rounded-lg shadow-md">Carbs: {{ nutrition.carbs }}g</div>
+                        <div class="w-24 h-24 bg-green-300 flex items-center justify-center rounded-lg shadow-md">Protein: {{ nutrition.protein }}g</div>
+                        <div class="w-24 h-24 bg-yellow-300 flex items-center justify-center rounded-lg shadow-md">Fat: {{ nutrition.fat }}g</div>
                     </div>
                 </div>
             </div>
-
-
         </div>
     </div>
-    <!-- Recipe Full information end -->
+
+    <!-- temp console log button for debugging-->
+    <hr>
+    <!-- console log button -->
+    <button @click="consoleButton">Console Log</button>
+
+
 
 </template>
   
@@ -110,34 +173,38 @@
 
     import SubNavigation from "../components/SubNavigation.vue";
     import axios from 'axios';
-    const apiKey = import.meta.env.VITE_SPOON_API_KEY;
   
     export default {
         components: {
             SubNavigation,
         },
         data() {
-        return {
-            recipe: {
-                id: 0,
-                title: "",
-                image: "",
-                instructions : [],
-                healthScore : "",
-                extendedIngredients : [],
-                vegan: false,
-                vegetarian: false,
-                veryPopular: true,
-                veryHealthy: true,
-                servings: 0,
-                preparationMinutes: 0,
-            },
-            nutrition : {
-                carbs: '',
-                protein: '',
-                fat: '',
-            }
-        };
+            return {
+                recipe: {
+                    id: 0,
+                    title: "",
+                    image: "",
+                    instructions : [],
+                    healthScore : "",
+                    extendedIngredients : [],
+                    vegan: false,
+                    vegetarian: false,
+                    veryPopular: true,
+                    veryHealthy: true,
+                    isCheap: false,
+
+                    servings: 1,
+                    preparationMinutes: null,
+                    dishTypes: [],
+
+                    received : false,
+                },
+                nutrition : {
+                    carbs: '',
+                    protein: '',
+                    fat: '',
+                }
+            };
         },
         created(){
             // Fetch the recipe details based on the route ID
@@ -147,7 +214,6 @@
                 params: {
                     // my api key
                     apiKey : import.meta.env.VITE_SPOON_API_KEY,
-
                 }
             })
                 .then(response => {
@@ -165,31 +231,74 @@
                     this.recipe.veryPopular = recipeInfo.veryPopular;
                     this.recipe.veryHealthy = recipeInfo.veryHealthy;
                     this.recipe.servings = recipeInfo.servings;
-                    this.recipe.preparationMinutes = recipeInfo.preparationMinutes
-                })
-                .catch( error => {
-                    console.error(error);
-                });
-            
-            // Fetch the nutrition information based on the ingredients used
-            axios.get('https://api.edamam.com/api/nutrition-details', {
-                params: {
-                    app_id : import.meta.env.VITE_EDAMAM_API_ID,
-                    app_key : import.meta.env.VITE_EDAMAM_API_KEY,
-                    ingr : this.recipe.extendedIngredients,
-                }
-            })
-                .then(response => {
-                    console.log(response.data);
-                })
-                .catch( error => {
-                    console.error(error);
-                });
-                
+                    this.recipe.preparationMinutes = recipeInfo.preparationMinutes;
+                    this.recipe.dishTypes = recipeInfo.dishTypes;
+                    this.recipe.isCheap = recipeInfo.cheap;
+                    this.recipe.received = true;
 
+                    // Fetch the nutrition information based on the ingredients used (after recipe is fully loaded)
+                    if(this.recipe.received){
+                        this.fetchNutritionAnalysis();
+                    }
+                })
+                .catch( error => {
+                    console.error(error);
+                });
         },
+        computed:{
+            // Produce a ingredient array that can pass to the nutrition analysis API (the API requires ingredients in array)
+            ingredientsInArr(){
+                var output = [];
+
+                // test case:
+                output.push('8 slices of bacon');
+                output.push("3 lbs of russet potatoes");
+                output.push("1 of onion");
+                output.push("2 t of thyme");
+                
+                for(let ingredient of this.recipe.extendedIngredients){
+                    let amt = ingredient.amount.toString();
+                    let unit = ingredient.unit ? ingredient.unit + " " : "";
+                    let ingrName = ingredient.name;
+                    let ingrText = `${amt} ${unit}of ${ingrName}`.trim();
+                    ingrText.toString();
+                    output.push(ingrText);
+                }
+                return output;
+            },
+        },
+
         methods:{
-            
+            fetchNutritionAnalysis() {
+                // Ensure ingredients are available
+                if (this.ingredientsInArr.length > 0) {
+                    axios.post('https://api.edamam.com/api/nutrition-details', {
+                        title: this.recipe.title,
+                        ingr: this.ingredientsInArr,
+                    }, {
+                        params: {
+                            // ensure to disable before git commit and push, must save api usage
+                            // app_id: import.meta.env.VITE_EDAMAM_API_ID,
+                            // app_key: import.meta.env.VITE_EDAMAM_API_KEY,
+                            
+                        },
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                    })
+                    .then(response => {
+                        console.log(response.data);
+                    })
+                    .catch(error => {
+                        console.error(error);
+                    });
+                } else {
+                    console.error("Ingredients array is empty or not properly formatted.");
+                }
+            },
+            consoleButton() {
+                console.log('Result: ', this.ingredientsInArr);
+            }
         }
     };
 </script>
