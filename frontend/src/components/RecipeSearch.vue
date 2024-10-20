@@ -22,7 +22,7 @@
             </div>
 
             <!-- Display ingredients as tags -->
-            <div class="flex flex-wrap mt-4">
+            <div class="flex flex-wrap mt-4 justify-center">
                 <div v-for="(ingredient, index) in ingredients" class="bg-purple-100 text-purple-700 px-3 py-1 rounded-full m-1 inline-flex items-center">
                     {{ ingredient }}
                     <button @click="removeIngredient(index)" class="ml-2 text-purple-700 hover:text-purple-900">
@@ -37,11 +37,11 @@
         <!-- Search & Feeling Lucky Buttons -->
         <div class="flex justify-center space-x-4 mt-4">
             <button class="bg-purple-600 text-white font-bold py-2 px-4 rounded hover:bg-purple-700 focus:ring-2 focus:ring-purple-500 disabled:bg-gray-400 disabled:cursor-not-allowed" 
-                @click="searchRecipes" :disabled="ingredients.length === 0" style="max-width: 25%;">
+                @click="searchRecipes" :disabled="ingredients.length === 0" style="max-width: 25%;max-height:10%;">
                 Search Recipes
             </button>
-            <button class="bg-purple-400 text-white font-bold py-2 px-4 rounded hover:bg-purple-500 focus:ring-2 focus:ring-purple-400" 
-                @click="feelingLucky" style="max-width: 25%;">
+            <button class="bg-purple-400 text-white font-bold py-2 px-4 rounded hover:bg-purple-500 focus:ring-2 focus:ring-purple-400 max-w-xs" 
+                @click="feelingLucky" style="max-width: 25%;max-height:10%;">
                 I'm Feeling Lucky
             </button>
         </div>
@@ -57,9 +57,9 @@
 
 
         <!-- Display Recipt Results using cards -->
-        <div v-if="recipes.length > 0" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 p-4 mt-8 mr-6">
+        <div v-if="recipes.length > 0" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 p-4 mt-8  justify-center">
 
-            <div v-for="recipe in recipes" :key="recipe.id" class="bg-white shadow-lg rounded-lg overflow-hidden hover:shadow-2xl transition-shadow duration-300 flex flex-col justify-between" style="width: 250px; height: 350px;">
+            <div v-for="recipe in recipes" :key="recipe.id" class="bg-white shadow-lg rounded-lg overflow-hidden hover:shadow-2xl transition-shadow duration-300 flex flex-col justify-between mx-auto"style="width: 250px; height: 350px;">
                 <div class="relative" style="padding-top: 75%;">
                     <img :src="recipe.image" alt="Recipe Image" class="absolute top-0 left-0 w-full h-full object-cover"> 
                 </div>
@@ -74,7 +74,6 @@
                     </button>
                 </div>
             </div>
-
         </div>
 
         <!-- Show "No Results Found" if no data retrieved from the API -->
