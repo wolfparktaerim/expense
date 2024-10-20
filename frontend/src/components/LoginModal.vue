@@ -43,6 +43,8 @@
 </template>
 
 <script>
+import {getAuth, signInWithPopup, GoogleAuthProvider} from 'firebase/auth';
+import router from '../router';
 export default {
   data() {
     return {
@@ -61,12 +63,34 @@ export default {
       this.selectedMethod = null
       this.$emit('close')
     },
+    signInWithGoogle() {
+      const auth = getAuth()
+      const provider = new GoogleAuthProvider()
+      signInWithPopup(auth, provider)
+        .then((result) => {
+          console.log(result)
+          console.log(this.getCurrentUser());
+          router.push('/search')
+          // UID is in localStorage IndexedDB -> firebaseLocalStorage -> firebase:authUser:<API_KEY>:<UID>
+        })
+        .catch((error) => {
+          console.log(error)
+        })
+    },
+    getCurrentUser() {
+      const auth = getAuth()
+      return auth.currentUser
+    },
     selectMethod(method) {
       this.selectedMethod = method
       console.log(`Login with ${method}`)
       if(this.selectedMethod == 'email'){
         this.emailLogin = true;
         this.loginMethod = false;
+      }
+      else{
+        this.signInWithGoogle();
+        console.log("signed in with google ");
       }
     }
   }
