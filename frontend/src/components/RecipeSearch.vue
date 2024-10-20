@@ -177,7 +177,6 @@
 
             // I'm feeling lucky (random recipe)
             feelingLucky() {
-                this.includeTags += this.selectedCuisine;
                 axios.get('https://api.spoonacular.com/recipes/random', {
                     params: {
                         apiKey: import.meta.env.VITE_SPOON_API_KEY,
