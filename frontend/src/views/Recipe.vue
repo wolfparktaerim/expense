@@ -171,7 +171,20 @@
                     console.error(error);
                 });
             
-                // Fetch the nutrition information based on the ingredients used
+            // Fetch the nutrition information based on the ingredients used
+            axios.get('https://api.edamam.com/api/nutrition-details', {
+                params: {
+                    app_id : import.meta.env.VITE_EDAMAM_API_ID,
+                    app_key : import.meta.env.VITE_EDAMAM_API_KEY,
+                    ingr : this.recipe.extendedIngredients,
+                }
+            })
+                .then(response => {
+                    console.log(response.data);
+                })
+                .catch( error => {
+                    console.error(error);
+                });
                 
 
         },

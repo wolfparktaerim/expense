@@ -163,7 +163,7 @@
                         }
                     })
                     .then(response => {
-                        console.log(response.data);
+                        // console.log(response.data);
                         this.recipes = response.data.results;
                     })
                     .catch(error => {
