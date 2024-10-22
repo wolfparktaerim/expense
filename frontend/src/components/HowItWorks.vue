@@ -1,5 +1,5 @@
 <template>
-  <section class="py-24 bg-gradient-to-b from-gray-50 to-white">
+  <section class="py-12 bg-gradient-to-b from-gray-50 to-white">
     <div class="container mx-auto px-4">
       <h3 class="text-3xl md:text-4xl font-bold mb-12 text-center text-gray-800">
         How it <span class="text-purple-600">Works</span>
@@ -19,7 +19,15 @@
           </div>
         </div>
       </div>
+      <!-- Full-width Image Placeholder Section -->
+      <div class="mt-16">
+        <h4 class="text-2xl font-semibold mb-8 text-center text-gray-800">Placeholder img title if needed</h4>
+        <div class="bg-gray-200 rounded-lg overflow-hidden w-full" style="height: 400px;">
+          <img src="https://westcoastdocs.com/wp-content/uploads/2018/06/image-placeholder-large.jpg" alt="How it works demonstration" class="w-full h-full object-cover" />
+        </div>
+      </div>
     </div>
+
 
     <!-- The Rising Issue of Obesity in Singapore -->
     <div class="bg-gray-100 p-8 rounded-lg max-w-full mx-auto px-10">
@@ -30,7 +38,7 @@
       <!-- Title and Subtitle -->
       <h1 class="text-4xl font-bold text-gray-800 mb-2">
         <span class="text-purple-600">Obesity</span> in Singapore</h1>
-      <h2 class="text-2xl text-gray-800 mb-6">"A growing global concern"</h2>
+      <h2 class="text-2xl font-bold text-gray-800 mb-6">"A growing global concern"</h2>
 
       <!-- Divider -->
       <div class="w-16 border-b-2 border-gray-800 mb-4"></div>
@@ -70,41 +78,42 @@
 
     <div class="my-10"></div>
 
-    <div
-      class="bg-gray-100 p-6 rounded-lg max-w-full mx-auto flex flex-col md:flex-row items-center md:items-start">
-      <!-- Image taking up a little less than half the width -->
-      <div class="md:w-3/12 mb-4 ml-6 md:mb-0 md:mr-6">
-        <img src="https://ch-api.healthhub.sg/api/public/content/4635b79d3a70405d9957c9e8e479c623?v=89e95a67"
-          alt="Healthy Plate Image" class="rounded-lg shadow-md w-full h-auto object-cover" />
-      </div>
-      <!-- Text content taking up the rest of the container -->
-      <div class="md:w-9/12 mx-6">
-        <!-- Title -->
-        <h2 class="text-2xl font-bold text-gray-800 mb-2">My Healthy Plate Initiative</h2>
-
-        <!-- Horizontal Line -->
-        <div class="w-16 border-b-2 border-gray-800 mb-4"></div>
-
-        <!-- Paragraph -->
-        <p class="text-gray-700 mb-6">
-          The "My Healthy Plate" initiative, created by Singapore's Health Promotion Board, provides a simple visual
-          guide to encourage balanced, healthy eating. It emphasizes the importance of eating a wide variety of foods in
-          the right amounts to meet daily nutritional needs. 
-          <br>
-          <br>
-          The concept of "Quarter, Quarter, Half" is a key takeaway:
-          a quarter of your plate should be whole grains, a quarter should be good sources of protein, and half should
-          be filled with fruits and vegetables. This approach helps individuals maintain a well-balanced diet, manage
-          their weight, and reduce the risk of chronic diseases.
-        </p>
-
-        <!-- Button -->
-        <a href="https://www.healthhub.sg/programmes/nutrition-hub/eat-more"
-          class="inline-block bg-red-600 text-white font-bold py-2 px-4 rounded hover:bg-red-700 transition duration-300 items-center">
-          Find Out More
-        </a>
-      </div>
+      <div
+    class="bg-gray-100 p-6 rounded-lg max-w-full mx-auto flex flex-col md:flex-row items-center md:items-start">
+    <!-- Image taking up a little less than half the width -->
+    <div class="w-8/12 sm:w-6/12 md:w-3/12 mb-4 ml-6 md:mb-0 md:mr-6">
+      <img src="https://ch-api.healthhub.sg/api/public/content/4635b79d3a70405d9957c9e8e479c623?v=89e95a67"
+        alt="Healthy Plate Image" class="rounded-lg shadow-md w-full h-auto object-cover" />
     </div>
+    <!-- Text content taking up the rest of the container -->
+    <div class="w-full sm:w-6/12 md:w-9/12 mx-6">
+      <!-- Title -->
+      <h2 class="text-2xl font-bold text-gray-800 mb-2">My Healthy Plate Initiative</h2>
+
+      <!-- Horizontal Line -->
+      <div class="w-16 border-b-2 border-gray-800 mb-4"></div>
+
+      <!-- Paragraph -->
+      <p class="text-gray-700 mb-6">
+        The "My Healthy Plate" initiative, created by Singapore's Health Promotion Board, provides a simple visual
+        guide to encourage balanced, healthy eating. It emphasizes the importance of eating a wide variety of foods in
+        the right amounts to meet daily nutritional needs. 
+        <br>
+        <br>
+        The concept of "Quarter, Quarter, Half" is a key takeaway:
+        a quarter of your plate should be whole grains, a quarter should be good sources of protein, and half should
+        be filled with fruits and vegetables. This approach helps individuals maintain a well-balanced diet, manage
+        their weight, and reduce the risk of chronic diseases.
+      </p>
+
+      <!-- Button -->
+      <a href="https://www.healthhub.sg/programmes/nutrition-hub/eat-more#my-healthy-plate"
+        class="inline-block bg-red-600 text-white font-bold py-2 px-4 rounded hover:bg-red-700 transition duration-300 items-center" target="_blank" rel="noopener noreferrer">
+        Find Out More
+      </a>
+    </div>
+  </div>
+
 
 
 
