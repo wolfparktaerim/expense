@@ -127,35 +127,106 @@
 
                 <!-- Nutrition Information -->
                 <div class="bg-white p-6 rounded-lg shadow-md">
-                    <h2 class="text-2xl font-bold mb-4 text-purple-600">Nutrition Analysis</h2>
-                    <table class="w-full text-left table-auto">
-                        <thead>
-                            <tr>
-                                <th class="border px-4 py-2">Nutrient</th>
-                                <th class="border px-4 py-2">Amount</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td class="border px-4 py-2">Carbs</td>
-                                <td class="border px-4 py-2">{{ nutrition.carbs }}g</td>
-                            </tr>
-                            <tr>
-                                <td class="border px-4 py-2">Protein</td>
-                                <td class="border px-4 py-2">{{ nutrition.protein }}g</td>
-                            </tr>
-                            <tr>
-                                <td class="border px-4 py-2">Fat</td>
-                                <td class="border px-4 py-2">{{ nutrition.fat }}g</td>
-                            </tr>
-                        </tbody>
-                    </table>
+
+                    <!-- Title -->
+                    <h2 class="text-2xl font-bold mb-4 text-purple-600">Nutrition Label</h2>
+
+                    <!-- Amount Per Serving -->
+                    <p class="text-lg font-bold mb-2">Amount Per Serving</p>
+
+                    <!-- Calories per Serving -->
+                    <p class="flex justify-between text-lg font-semibold border-b pb-2 mb-2">
+                        <span>Calories</span>
+                        <span>{{ (recipeNutrition.calories / recipe.servings).toFixed(0) }}</span>
+                    </p>
+
+                     <!-- % Daily Value* Header -->
+                    <p class="text-sm text-gray-700 mb-2 font-semibold">% Daily Value*</p>
+
+                    <!-- Total Fat -->
+                    <div class="flex justify-between text-sm py-1 border-t">
+                        <span>Total Fat {{ recipeNutrition.totalNutrients.FAT.quantity.toFixed(1) / recipe.servings }} g</span>
+                        <span>{{ recipeNutrition.totalDaily.FAT.quantity.toFixed(0) / recipe.servings }} %</span>
+                    </div>
+
+                    <!-- Saturated Fat -->
+                    <div class="flex justify-between text-sm py-1">
+                        <span>Saturated Fat {{ recipeNutrition.totalNutrients.FASAT.quantity.toFixed(1) / recipe.servings}} g</span>
+                        <span>{{ recipeNutrition.totalDaily.FASAT.quantity.toFixed(0) / recipe.servings}} %</span>
+                    </div>
+
+                    <!-- Trans Fat (No Daily Value) -->
+                    <div class="flex justify-between text-sm py-1">
+                        <span>Trans Fat {{ recipeNutrition.totalNutrients.FATRN.quantity.toFixed(1) / recipe.servings }} g</span>
+                        <span></span>
+                    </div>
+
+                    <!-- Cholesterol -->
+                    <div class="flex justify-between text-sm py-1">
+                        <span>Cholesterol {{ recipeNutrition.totalNutrients.CHOLE.quantity.toFixed(0) / recipe.servings }} mg</span>
+                        <span>{{ recipeNutrition.totalDaily.CHOLE.quantity.toFixed(0) / recipe.servings }} %</span>
+                    </div>
+
+                    <!-- Sodium -->
+                    <div class="flex justify-between text-sm py-1">
+                        <span>Sodium {{ recipeNutrition.totalNutrients.NA.quantity.toFixed(0) / recipe.servings }} mg</span>
+                        <span>{{ recipeNutrition.totalDaily.NA.quantity.toFixed(0) / recipe.servings }} %</span>
+                    </div>
+
+                    <!-- Total Carbohydrate -->
+                    <div class="flex justify-between text-sm py-1 border-t">
+                        <span>Total Carbohydrate {{ recipeNutrition.totalNutrients.CHOCDF.quantity.toFixed(1) / recipe.servings }} g</span>
+                        <span>{{ recipeNutrition.totalDaily.CHOCDF.quantity.toFixed(0) / recipe.servings }} %</span>
+                    </div>
+
+                    <!-- Dietary Fiber -->
+                    <div class="flex justify-between text-sm py-1">
+                        <span>Dietary Fiber {{ recipeNutrition.totalNutrients.FIBTG.quantity.toFixed(1) / recipe.servings }} g</span>
+                        <span>{{ recipeNutrition.totalDaily.FIBTG.quantity.toFixed(0) / recipe.servings }} %</span>
+                    </div>
+
+                    <!-- Total Sugars -->
+                    <div class="flex justify-between text-sm py-1">
+                        <span>Total Sugars {{ recipeNutrition.totalNutrients.SUGAR.quantity.toFixed(1) / recipe.servings }} g</span>
+                        <span></span>
+                    </div>
+
+                    <!-- Protein -->
+                    <div class="flex justify-between text-sm py-1 border-t">
+                        <span>Protein {{ recipeNutrition.totalNutrients.PROCNT.quantity.toFixed(1) / recipe.servings }} g</span>
+                        <span>{{ recipeNutrition.totalDaily.PROCNT.quantity.toFixed(0) / recipe.servings }} %</span>
+                    </div>
+
+                    <!-- Vitamin D -->
+                    <div class="flex justify-between text-sm py-1 border-t">
+                        <span>Vitamin D {{ recipeNutrition.totalNutrients.VITD.quantity.toFixed(1) / recipe.servings }} µg</span>
+                        <span>{{ recipeNutrition.totalDaily.VITD.quantity.toFixed(0) / recipe.servings }} %</span>
+                    </div>
+
+                    <!-- Calcium -->
+                    <div class="flex justify-between text-sm py-1">
+                        <span>Calcium {{ recipeNutrition.totalNutrients.CA.quantity.toFixed(1) / recipe.servings }} mg</span>
+                        <span>{{ recipeNutrition.totalDaily.CA.quantity.toFixed(0) / recipe.servings }} %</span>
+                    </div>
+
+                    <!-- Iron -->
+                    <div class="flex justify-between text-sm py-1">
+                        <span>Iron {{ recipeNutrition.totalNutrients.FE.quantity.toFixed(1) / recipe.servings }} mg</span>
+                        <span>{{ recipeNutrition.totalDaily.FE.quantity.toFixed(0) / recipe.servings }} %</span>
+                    </div>
+
+                    <!-- Potassium -->
+                    <div class="flex justify-between text-sm py-1">
+                        <span>Potassium {{ recipeNutrition.totalNutrients.K.quantity.toFixed(1) / recipe.servings }} mg</span>
+                        <span>{{ recipeNutrition.totalDaily.K.quantity.toFixed(0) / recipe.servings }} %</span>
+                    </div>
+                
 
                     <!-- Visual Representation -->
                     <div class="mt-4 flex space-x-4 justify-center">
-                        <div class="w-24 h-24 bg-blue-300 flex items-center justify-center rounded-lg shadow-md">Carbs: {{ nutrition.carbs }}g</div>
-                        <div class="w-24 h-24 bg-green-300 flex items-center justify-center rounded-lg shadow-md">Protein: {{ nutrition.protein }}g</div>
-                        <div class="w-24 h-24 bg-yellow-300 flex items-center justify-center rounded-lg shadow-md">Fat: {{ nutrition.fat }}g</div>
+                        <div class="w-24 h-24 bg-blue-300 flex items-center justify-center rounded-lg shadow-md">Carbs: g</div>
+                        <div class="w-24 h-24 bg-green-300 flex items-center justify-center rounded-lg shadow-md">Protein: g</div>
+                        <div class="w-24 h-24 bg-yellow-300 flex items-center justify-center rounded-lg shadow-md">Fat: g</div>
                     </div>
                 </div>
             </div>
@@ -174,7 +245,8 @@
   
 <script>
 
-    import SubNavigation from "../components/SubNavigation.vue";
+    import RecipeSearch from "../components/RecipeSearch.vue";
+import SubNavigation from "../components/SubNavigation.vue";
     import axios from 'axios';
   
     export default {
@@ -202,11 +274,7 @@
 
                     received : false,
                 },
-                nutrition : {
-                    carbs: '',
-                    protein: '',
-                    fat: '',
-                }
+                recipeNutrition : null,
             };
         },
         created(){
@@ -291,6 +359,7 @@
                     })
                     .then(response => {
                         console.log(response.data);
+                        this.recipeNutrition = response.data;
                     })
                     .catch(error => {
                         console.error(error);

@@ -10,8 +10,6 @@
       <div class="hidden md:flex items-center space-x-6">
         <a href="#" class="text-gray-600 hover:text-purple-600 transition-all duration-300 ease-in-out hover:font-bold">Home</a>
         <a href="#HowItWorks" class="text-gray-600 hover:text-purple-600 transition-all duration-300 ease-in-out hover:font-bold">How It Works</a>
-        <a href="#About" class="text-gray-600 hover:text-purple-600 transition-all duration-300 ease-in-out hover:font-bold">About</a>
-
         <!-- THIS IS A TEMP FUNCTION, WILL BE REMOVED IN LATER UPDATES -->
         <router-link to="/search" class="text-gray-600 hover:text-purple-600 transition-all duration-300 ease-in-out hover:font-bold">
           Search
