@@ -2,7 +2,7 @@
 
     <!-- Search Engine -->
     <div class="container mx-auto py-8 px-4 mt-12">
-        <h1 class="text-4xl font-bold text-center text-purple-600 mb-8">What would you like to eat?</h1>
+        <Typewriter />
 
         <!-- Cuisine Dropdown -->
         <div class="mb-4 text-right">
@@ -63,9 +63,11 @@
 <script>
     import RecipeCard from './RecipeCard.vue';
     import axios from 'axios';
+    import Typewriter from './Typewriter.vue';
+    const apiKey = import.meta.env.VITE_SPOON_API_KEY;
     export default{
         components: {
-            RecipeCard,
+            Typewriter,
         },
         data() {
             return {
