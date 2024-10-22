@@ -46,49 +46,11 @@
             </button>
         </div>
 
-        <!-- Display Recipe Results -->
-        <!-- <div v-if="recipes.length > 0" class="mt-8">
-            <h5 class="text-lg font-bold text-purple-600 mb-4">Recipes Found:</h5>
-            <div v-for="recipe in recipes" class="bg-white shadow-md rounded-lg p-4 mb-4 flex items-center">
-                <img :src="recipe.image" alt="Recipe image" class="w-16 h-16 rounded-md mr-4">
-                <h6 class="text-gray-800 font-semibold">{{ recipe.title }}</h6>
-            </div>
-        </div> -->
-
-
         <!-- Display Recipe Results using cards -->
-        <div v-if="recipes.length > 0" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 p-4 mt-8 justify-center">
-
-        <div v-for="recipe in recipes" :key="recipe.id" class="bg-white shadow-lg rounded-lg overflow-hidden hover:shadow-2xl transition-shadow duration-300 flex flex-col justify-between mx-auto relative" style="width: 250px; height: 350px;">
-
-            <!-- Recipe Image -->
-            <div class="relative" style="padding-top: 75%; position: relative;">
-                <img :src="recipe.image" alt="Recipe Image" class="absolute top-0 left-0 w-full h-full object-cover">
-            </div>
-
-            <!-- Title Section -->
-            <div class="p-4 flex-1">
-                <h3 class="text-sm font-bold text-purple-600 line-clamp-2">{{ recipe.title }}</h3>
-            </div>
-
-            <!-- Healthy Icon with background -->
-            <div v-if="recipe.veryHealthy" class="absolute top-3 right-3 bg-green-300 rounded-full p-2 group" style="background-size: cover;">
-                <img src="../../public/icon/healthy.png" width="24px" height="24px" alt="Healthy Icon">
-                <!-- Hidden text, shown on hover -->
-                <div class="absolute left-1/2 transform -translate-x-1/2 top-10 bg-green-600 text-white text-xs font-bold py-1 px-2 rounded opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
-                   Healthy choice!
-                </div>
-            </div>
-
-            <!-- View Details Button -->
-            <div class="p-4">
-                <button @click="viewRecipeDetails(recipe)" class="bg-purple-600 text-white py-2 px-3 rounded w-full hover:bg-purple-700 transition-colors duration-200 text-sm">
-                    View Recipe Details
-                </button>
-            </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 mt-8">
+            <RecipeCard :recipes="recipes"/>
         </div>
-        </div>
-
+        
         <!-- Show "No Results Found" if no data retrieved from the API -->
         <div v-if="searchTriggered && recipes.length === 0" class="flex justify-center items-center h-64 mt-3">
             <p class="text-lg font-bold text-purple-600 ">No Results Found</p>
@@ -99,9 +61,12 @@
 </template>
 
 <script>
+    import RecipeCard from './RecipeCard.vue';
     import axios from 'axios';
-    const apiKey = import.meta.env.VITE_SPOON_API_KEY;
     export default{
+        components: {
+            RecipeCard,
+        },
         data() {
             return {
                 // Input for ingredients
@@ -211,11 +176,6 @@
                 .catch(error => {
                     console.error(error);
                 });
-            },
-
-            // Go to the recipe details page for the specific recipe
-            viewRecipeDetails(recipe){
-                this.$router.push({ path: `/recipe/${recipe.id}` });
             },
 
         }

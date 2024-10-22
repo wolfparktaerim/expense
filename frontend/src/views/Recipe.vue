@@ -164,6 +164,7 @@
 
     <!-- temp console log button for debugging-->
     <hr>
+    <br><br>
     <!-- console log button -->
     <button @click="consoleButton">Console Log</button>
 
