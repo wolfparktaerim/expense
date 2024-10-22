@@ -251,10 +251,10 @@
                 var output = [];
 
                 // test case:
-                output.push('8 slices of bacon');
-                output.push("3 lbs of russet potatoes");
-                output.push("1 of onion");
-                output.push("2 t of thyme");
+                // output.push('8 slices of bacon');
+                // output.push("3 lbs of russet potatoes");
+                // output.push("1 of onion");
+                // output.push("2 t of thyme");
                 
                 for(let ingredient of this.recipe.extendedIngredients){
                     let amt = ingredient.amount.toString();
