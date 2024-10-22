@@ -127,7 +127,7 @@
 
             // Search recipes using ingredients and cuisine
             searchRecipes() {
-                this.searchTriggered = true;
+
                 const ingredientQuery = this.ingredients.join(',');
                 const cuisineQuery = this.selectedCuisine;
                 const intoleranceQuery = "";
@@ -154,7 +154,7 @@
                         this.recipes = response.data.results;
                         this.recipes.sort(function(a, b){return b.healthScore - a.healthScore;}) ;
                         console.log(this.recipes);
-
+                        this.searchTriggered = true;
                     })
                     .catch(error => {
                         console.error(error);
