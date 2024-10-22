@@ -3,6 +3,7 @@
     <!-- Search Engine -->
     <div class="container mx-auto py-8 px-4 mt-12">
         <Typewriter />
+        <RecipeCard />
 
         <!-- Cuisine Dropdown -->
         <div class="mb-4 text-right">
@@ -64,10 +65,10 @@
     import RecipeCard from './RecipeCard.vue';
     import axios from 'axios';
     import Typewriter from './Typewriter.vue';
-    const apiKey = import.meta.env.VITE_SPOON_API_KEY;
     export default{
         components: {
             Typewriter,
+            RecipeCard,
         },
         data() {
             return {
