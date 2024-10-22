@@ -6,7 +6,7 @@
 
         <!-- Cuisine Dropdown -->
         <div class="mb-4 text-right">
-            <label class="text-sm text-gray-600 mr-2">Filter by cuisine</label>
+            <label class="text-sm text-gray-600 mr-2">Select Cuisine</label>
             <select v-model="selectedCuisine" class="border border-gray-300 rounded-md py-2 px-4 bg-white text-gray-700 focus:ring-2 focus:ring-purple-500">
                 <option value="">Any Cuisine</option>
                 <option v-for="cuisine in cuisines" :value="cuisine">{{ cuisine }}</option>
@@ -36,11 +36,11 @@
 
         <!-- Search & Feeling Lucky Buttons -->
         <div class="flex justify-center space-x-4 mt-4">
-            <button class="bg-purple-600 text-white font-bold py-2 px-4 rounded hover:bg-purple-700 focus:ring-2 focus:ring-purple-500 disabled:bg-gray-400 disabled:cursor-not-allowed" 
+            <button class="bg-purple-600 text-white font-bold py-2 px-4 rounded hover:bg-purple-700 focus:ring-2 focus:ring-purple-600 disabled:bg-gray-400 disabled:cursor-not-allowed" 
                 @click="searchRecipes" :disabled="ingredients.length === 0" style="max-width: 25%;max-height:10%;">
                 Search Recipes
             </button>
-            <button class="bg-purple-400 text-white font-bold py-2 px-4 rounded hover:bg-purple-500 focus:ring-2 focus:ring-purple-400 max-w-xs" 
+            <button class="bg-purple-600 text-white font-bold py-2 px-4 rounded hover:bg-purple-700 focus:ring-2 focus:ring-purple-600 max-w-xs" 
                 @click="feelingLucky" style="max-width: 25%;max-height:10%;">
                 I'm Feeling Lucky
             </button>
