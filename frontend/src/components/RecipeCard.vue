@@ -30,7 +30,7 @@
             <!-- add/remove favorite -->
             <img
                 @click="toggleFavorite(recipe)"
-                :src="isFavorite ? '../../public/icon/remove_favorite.png' : '../../public/icon/add_favorite.png'"
+                :src="isFavorite ? '/icon/remove_favorite.png' : '/icon/add_favorite.png'"
                 width="35"
                 height="auto"
                 alt="Favorite Icon"
