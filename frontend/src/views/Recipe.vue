@@ -24,6 +24,8 @@
                 <p class="text-lg text-gray-700">Serving Size: {{ recipe.servings }}</p>
                 <!-- Preparation Time -->
                 <p v-if="recipe.preparationMinutes!=null" class="text-lg text-gray-700">Preparation Time (minutes): {{ recipe.preparationMinutes }}</p>
+                <!-- Preparation Time -->
+                <p class="text-lg text-gray-700">Health score: {{ recipe.healthScore }}</p>
                 <!-- Meal types -->
                 <span>
                     <p class="text-lg text-gray-700">Dish Type: </p>
@@ -278,8 +280,8 @@
                     }, {
                         params: {
                             // ensure to disable before git commit and push, must save api usage
-                            // app_id: import.meta.env.VITE_EDAMAM_API_ID,
-                            // app_key: import.meta.env.VITE_EDAMAM_API_KEY,
+                            app_id: import.meta.env.VITE_EDAMAM_API_ID,
+                            app_key: import.meta.env.VITE_EDAMAM_API_KEY,
                             
                         },
                         headers: {
