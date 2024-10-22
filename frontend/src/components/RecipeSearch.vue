@@ -51,6 +51,10 @@
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 mt-8">
             <RecipeCard :recipes="recipes"/>
         </div>
+
+        <div v-if="isLoading" class="text-center flex justify-center items-center h-32 mt-3">
+            <PulseLoader :color="loadingColor"></PulseLoader>
+        </div>
         
         <!-- Show "No Results Found" if no data retrieved from the API -->
         <div v-if="searchTriggered && recipes.length === 0" class="flex justify-center items-center h-64 mt-3">
@@ -65,8 +69,10 @@
     import RecipeCard from './RecipeCard.vue';
     import axios from 'axios';
     import Typewriter from './Typewriter.vue';
+    import PulseLoader from 'vue-spinner/src/PulseLoader.vue';
     export default{
         components: {
+            PulseLoader,
             Typewriter,
             RecipeCard,
         },
@@ -93,6 +99,8 @@
                 // has user search anything yet?
                 searchTriggered : false,
 
+                isLoading: false,
+                loadingColor: '#805ad5'
             };
         },
         computed : {
@@ -128,6 +136,7 @@
             // Search recipes using ingredients and cuisine
             searchRecipes() {
 
+                this.isLoading = true
                 const ingredientQuery = this.ingredients.join(',');
                 const cuisineQuery = this.selectedCuisine;
                 const intoleranceQuery = "";
@@ -154,6 +163,7 @@
                         this.recipes = response.data.results;
                         this.recipes.sort(function(a, b){return b.healthScore - a.healthScore;}) ;
                         console.log(this.recipes);
+                        this.isLoading = false;
                         this.searchTriggered = true;
                     })
                     .catch(error => {
