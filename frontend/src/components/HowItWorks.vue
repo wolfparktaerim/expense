@@ -38,7 +38,7 @@
       <!-- Title and Subtitle -->
       <h1 class="text-4xl font-bold text-gray-800 mb-2">
         <span class="text-purple-600">Obesity</span> in Singapore</h1>
-      <h2 class="text-2xl font-bold text-gray-800 mb-6">"A growing global concern"</h2>
+      <h2 class="text-2xl font-bold text-gray-800 mb-6">"A Growing Global Concern"</h2>
 
       <!-- Divider -->
       <div class="w-16 border-b-2 border-gray-800 mb-4"></div>

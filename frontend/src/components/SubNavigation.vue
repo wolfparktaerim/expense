@@ -8,7 +8,7 @@
         
         <!-- Desktop Navigation -->
         <div class="hidden md:flex items-center space-x-6">
-          <a href="#" class="text-gray-600 hover:text-purple-600 transition-all duration-300 ease-in-out hover:font-bold">Discover</a>
+          <router-link to="/discover" class="text-gray-600 hover:text-purple-600 transition-all duration-300 ease-in-out hover:font-bold">Discover</router-link>
           <a href="#" class="text-gray-600 hover:text-purple-600 transition-all duration-300 ease-in-out hover:font-bold">Saved</a>
           <button @click="login" class="bg-purple-600 text-white px-4 py-2 rounded-full hover:bg-purple-700 transition duration-300">Login</button>
         </div>
