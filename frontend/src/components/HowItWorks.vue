@@ -79,11 +79,11 @@
     <div class="my-10"></div>
 
       <div
-    class="bg-gray-100 p-6 rounded-lg max-w-full mx-auto flex flex-col md:flex-row items-center md:items-start">
+    class="bg-gray-100 p-6 rounded-lg max-w-full mx-auto flex flex-col md:flex-row items-center md:items-center">
     <!-- Image taking up a little less than half the width -->
     <div class="w-8/12 sm:w-6/12 md:w-3/12 mb-4 ml-6 md:mb-0 md:mr-6">
       <img src="https://ch-api.healthhub.sg/api/public/content/4635b79d3a70405d9957c9e8e479c623?v=89e95a67"
-        alt="Healthy Plate Image" class="rounded-lg shadow-md w-full h-auto object-cover" />
+        alt="Healthy Plate Image" class="rounded-lg shadow-md w-full h-auto object-cover mxy-auto min-w-52" />
     </div>
     <!-- Text content taking up the rest of the container -->
     <div class="w-full sm:w-6/12 md:w-9/12 mx-6">
