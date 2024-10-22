@@ -2,7 +2,7 @@
 
     <!-- Search Engine -->
     <div class="container mx-auto py-8 px-4 mt-12">
-        <h1 class="text-4xl font-bold text-center text-purple-600 mb-8">What would you like to eat</h1>
+        <h1 class="text-4xl font-bold text-center text-purple-600 mb-8">What would you like to eat?</h1>
 
         <!-- Cuisine Dropdown -->
         <div class="mb-4 text-right">
@@ -56,24 +56,37 @@
         </div> -->
 
 
-        <!-- Display Recipt Results using cards -->
-        <div v-if="recipes.length > 0" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 p-4 mt-8  justify-center">
+        <!-- Display Recipe Results using cards -->
+        <div v-if="recipes.length > 0" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 p-4 mt-8 justify-center">
 
-            <div v-for="recipe in recipes" :key="recipe.id" class="bg-white shadow-lg rounded-lg overflow-hidden hover:shadow-2xl transition-shadow duration-300 flex flex-col justify-between mx-auto"style="width: 250px; height: 350px;">
-                <div class="relative" style="padding-top: 75%;">
-                    <img :src="recipe.image" alt="Recipe Image" class="absolute top-0 left-0 w-full h-full object-cover"> 
-                </div>
+        <div v-for="recipe in recipes" :key="recipe.id" class="bg-white shadow-lg rounded-lg overflow-hidden hover:shadow-2xl transition-shadow duration-300 flex flex-col justify-between mx-auto relative" style="width: 250px; height: 350px;">
 
-                <div class="p-4 flex-1">
-                    <h3 class="text-sm font-bold text-purple-600">{{ recipe.title }}</h3>
-                </div>
+            <!-- Recipe Image -->
+            <div class="relative" style="padding-top: 75%; position: relative;">
+                <img :src="recipe.image" alt="Recipe Image" class="absolute top-0 left-0 w-full h-full object-cover">
+            </div>
 
-                <div class="p-4">
-                    <button @click="viewRecipeDetails(recipe)" class="bg-purple-600 text-white py-2 px-3 rounded w-full hover:bg-purple-700 transition-colors duration-200 text-sm">
-                        View Recipe Details
-                    </button>
+            <!-- Title Section -->
+            <div class="p-4 flex-1">
+                <h3 class="text-sm font-bold text-purple-600 line-clamp-2">{{ recipe.title }}</h3>
+            </div>
+
+            <!-- Healthy Icon with background -->
+            <div v-if="recipe.veryHealthy" class="absolute top-3 right-3 bg-green-300 rounded-full p-2 group" style="background-size: cover;">
+                <img src="../../public/icon/healthy.png" width="24px" height="24px" alt="Healthy Icon">
+                <!-- Hidden text, shown on hover -->
+                <div class="absolute left-1/2 transform -translate-x-1/2 top-10 bg-green-600 text-white text-xs font-bold py-1 px-2 rounded opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
+                   Healthy choice!
                 </div>
             </div>
+
+            <!-- View Details Button -->
+            <div class="p-4">
+                <button @click="viewRecipeDetails(recipe)" class="bg-purple-600 text-white py-2 px-3 rounded w-full hover:bg-purple-700 transition-colors duration-200 text-sm">
+                    View Recipe Details
+                </button>
+            </div>
+        </div>
         </div>
 
         <!-- Show "No Results Found" if no data retrieved from the API -->
@@ -161,14 +174,19 @@
                             cuisine: cuisineQuery,
                             intolerances : intoleranceQuery,
                             diet : dietQuery,
+                            addRecipeInformation : true,
+                            instructionsRequired: true,
 
                             // change the number of expected results shown
-                            number : 50,
+                            number : 40,
                         }
                     })
                     .then(response => {
                         console.log(response.data);
                         this.recipes = response.data.results;
+                        this.recipes.sort(function(a, b){return b.healthScore - a.healthScore;}) ;
+                        console.log(this.recipes);
+
                     })
                     .catch(error => {
                         console.error(error);
