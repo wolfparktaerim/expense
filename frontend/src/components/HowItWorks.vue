@@ -1,5 +1,5 @@
 <template>
-  <section class="py-24 bg-gradient-to-b from-gray-50 to-white">
+  <section class="py-12 bg-gradient-to-b from-gray-50 to-white">
     <div class="container mx-auto px-4">
       <h3 class="text-3xl md:text-4xl font-bold mb-12 text-center text-gray-800">
         How it <span class="text-purple-600">Works</span>
