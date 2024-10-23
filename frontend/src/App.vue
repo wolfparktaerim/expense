@@ -1,12 +1,23 @@
-// src/App.vue
+// App.vue
 <template>
-  <div :class="{ 'pointer-events-none': shouldDisableInteraction }">
-    <RouterView />
+  <div class="app-container relative">
+    <!-- Wrap RouterView in a div that can be disabled -->
+    <div :class="{ 'pointer-events-none': shouldDisableInteraction }">
+      <RouterView />
+    </div>
+
+    <!-- Login modal outside the disabled wrapper -->
     <LoginModal 
       v-if="authStore.showLoginModal" 
       :dismissible="false"
       @close="handleModalClose"
     />
+
+    <!-- Optional overlay to prevent clicking through when modal is shown -->
+    <div 
+      v-if="shouldDisableInteraction && !authStore.showLoginModal" 
+      class="fixed inset-0 bg-black bg-opacity-50 z-40"
+    ></div>
   </div>
 </template>
 
@@ -25,9 +36,14 @@ const shouldDisableInteraction = computed(() => {
 
 const handleModalClose = () => {
   if (!authStore.isAuthenticated) {
-    // Prevent modal from closing if user is not authenticated
     return;
   }
   authStore.showLoginModal = false;
 };
 </script>
+
+<style scoped>
+.app-container {
+  min-height: 100vh;
+}
+</style>
