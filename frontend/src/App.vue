@@ -1,42 +1,33 @@
+// src/App.vue
 <template>
-  <RouterView />
+  <div :class="{ 'pointer-events-none': shouldDisableInteraction }">
+    <RouterView />
+    <LoginModal 
+      v-if="authStore.showLoginModal" 
+      :dismissible="false"
+      @close="handleModalClose"
+    />
+  </div>
 </template>
 
-<script>
-// import HowItWorks from "./components/HowItWorks.vue";
-// import RentFooter from "./components/RentFooter.vue";
-// import Carousel from "./components/Carousel.vue";
-// import Navigation from "./components/Navigation.vue";
-// import Globe from "./components/Globe.vue";
-// import TagLine from "./components/TagLine.vue";
-// import Navigation from './components/Navigation.vue';
+<script setup>
 import { RouterView } from 'vue-router';
+import { useAuthStore } from './stores/auth';
+import { computed } from 'vue';
+import { useRoute } from 'vue-router';
 
-export default {
-  name: 'App', 
-  //  Local Component Registration
-  components: {
-    // HowItWorks,
-    // RentFooter,
-    // Carousel,
-    // TagLine,
-    // Navigation,
-    // Globe,
-  },
-}
+const authStore = useAuthStore();
+const route = useRoute();
+
+const shouldDisableInteraction = computed(() => {
+  return route.meta.requiresAuth && !authStore.isAuthenticated;
+});
+
+const handleModalClose = () => {
+  if (!authStore.isAuthenticated) {
+    // Prevent modal from closing if user is not authenticated
+    return;
+  }
+  authStore.showLoginModal = false;
+};
 </script>
-
-<style scoped>
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.vue:hover {
-  filter: drop-shadow(0 0 2em #42b883aa);
-}
-</style>
