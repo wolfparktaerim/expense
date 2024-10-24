@@ -1,12 +1,12 @@
 import { createApp } from 'vue'
+import { createPinia } from 'pinia'
 import './style.css'
 import App from './App.vue'
 import LoginModal from './components/LoginModal.vue'
 import router from './router'
-
-// Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
+
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -26,9 +26,9 @@ const analytics = getAnalytics(firebaseApp);
 
 // Create Vue app
 const app = createApp(App);
+const pinia = createPinia();
 
-// Global Component Registration
-app.component('LoginModal', LoginModal)
-
-app.use(router)
-app.mount('#app')
+app.use(pinia);
+app.component('LoginModal', LoginModal);
+app.use(router);
+app.mount('#app');
