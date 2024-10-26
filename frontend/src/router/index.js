@@ -8,6 +8,7 @@ import Recipe from '../views/Recipe.vue'
 import Globe from '../views/Globe.vue'
 import FoodJoke from '../views/FoodJoke.vue'
 import FoodTrivia from '../views/FoodTrivia.vue'
+import { watch } from 'vue'
 
 const routes = [
   { 
@@ -50,16 +51,27 @@ const router = createRouter({
   }
 })
 
-router.beforeEach((to, from, next) => {
-  const auth = getAuth()
+router.beforeEach(async (to, from, next) => {
   const authStore = useAuthStore()
   
-  if (to.meta.requiresAuth && !auth.currentUser) {
+  // Wait for auth to initialize before proceeding with navigation
+  if (!authStore.isInitialized) {
+    // You could implement a timeout here if needed
+    await new Promise(resolve => {
+      const unwatch = watch(() => authStore.isInitialized, (initialized) => {
+        if (initialized) {
+          unwatch()
+          resolve()
+        }
+      })
+    })
+  }
+
+  if (to.meta.requiresAuth && !authStore.isAuthenticated) {
     authStore.showLoginModal = true
     authStore.pendingRoute = to
-    next()
+    next(false)
   } else {
-    authStore.showLoginModal = false
     next()
   }
 })

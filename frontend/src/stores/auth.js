@@ -8,6 +8,7 @@ export const useAuthStore = defineStore('auth', () => {
   const isAuthenticated = ref(false)
   const showLoginModal = ref(false)
   const pendingRoute = ref(null)
+  const isInitialized = ref(false) // Add this line
 
   // Initialize Firebase Auth listener
   const auth = getAuth()
@@ -18,12 +19,14 @@ export const useAuthStore = defineStore('auth', () => {
       showLoginModal.value = false
       pendingRoute.value = null
     }
+    isInitialized.value = true // Set to true once we have the initial auth state
   })
 
   return {
     user,
     isAuthenticated,
     showLoginModal,
-    pendingRoute
+    pendingRoute,
+    isInitialized // Export the new ref
   }
 })
