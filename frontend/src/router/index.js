@@ -8,6 +8,7 @@ import Recipe from '../views/Recipe.vue'
 import Globe from '../views/Globe.vue'
 import FoodJoke from '../views/FoodJoke.vue'
 import FoodTrivia from '../views/FoodTrivia.vue'
+import Saved from '../views/Saved.vue'
 import { watch } from 'vue'
 
 const routes = [
@@ -40,6 +41,11 @@ const routes = [
     path: '/foodtrivia',
     component: FoodTrivia,
     meta : { requiresAuth: true }
+  },
+  {
+    path: '/saved',
+    component: Saved,
+    meta: { requiresAuth: true }
   }
 ]
 
