@@ -50,18 +50,18 @@
         <div v-if="isLoading" class="text-center flex justify-center items-center h-32 mt-3">
             <PulseLoader :color="loadingColor"></PulseLoader>
         </div>
-
-        <!-- Display Recipe Results using cards -->
-        <div v-else class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 mt-8">
-            <RecipeCard :recipes="recipes"/>
-        </div>
-
         
-        <!-- Show "No Results Found" if no data retrieved from the API -->
-        <div v-if="searchTriggered && recipes.length === 0" class="flex justify-center items-center h-64 mt-3">
-            <p class="text-lg font-bold text-purple-600 ">No Results Found</p>
-        </div>
+        <div v-else>
+            <!-- Show "No Results Found" if no data retrieved from the API -->
+            <div v-if="searchTriggered && searchNum == 5151" class="flex justify-center items-center h-64 mt-3">
+                <p class="text-lg font-bold text-purple-600 ">No Results Found</p>
+            </div>
 
+            <!-- Display Recipe Results using cards -->
+            <div v-else class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 mt-8">
+                <RecipeCard :recipes="recipes"/>
+            </div>
+        </div>
     </div>
 
 </template>
@@ -101,7 +101,8 @@
                 searchTriggered : false,
 
                 isLoading: false,
-                loadingColor: '#805ad5'
+                loadingColor: '#805ad5',
+                searchNum: 0
             };
         },
         computed : {
@@ -166,6 +167,7 @@
                         console.log(this.recipes);
                         this.isLoading = false;
                         this.searchTriggered = true;
+                        this.searchNum = response.data.totalResults;
                     })
                     .catch(error => {
                         console.error(error);
