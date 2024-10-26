@@ -21,20 +21,24 @@
             <!-- Column 2: Short Description and Icons -->
             <div class="bg-white p-6 rounded-lg shadow-md flex flex-col justify-center space-y-6">
                 <!-- Serving Size -->
-                <span class="text-lg text-black">Serving Size:</span> <span class="text-lg text-gray-700">{{ recipe.servings }}</span>
+                <div class="text-lg">
+                    <span class="text-black">Serving Size:</span> <span class="text-gray-700">{{ recipe.servings }}</span>
+                </div>
                 <!-- Preparation Time -->
-                <p v-if="recipe.preparationMinutes!=null">
+                <div v-if="recipe.preparationMinutes!=null">
                     <span class="text-lg text-black">Preparation Time (minutes):</span> <span class="text-lg text-gray-700">{{ recipe.preparationMinutes }}</span>
-                </p>
-                <!-- Preparation Time -->
-                <span class="text-lg text-black">Health score:</span> <span class="text-lg text-gray-700">{{ recipe.healthScore }}</span>
+                </div>
+                <!-- Health Score -->
+                <div class="text-lg">
+                    <span class="text-black">Health score:</span> <span class="text-gray-700">{{ recipe.healthScore }}</span>
+                </div>
                 <!-- Meal types -->
-                <p>
+                <div>
                     <span class="text-lg text-black">Dish Type: </span>
                     <span v-for="dishType in recipe.dishTypes" class="text-lg text-gray-700">
                         {{ dishType }} &nbsp;&nbsp;
                     </span>
-                </p>
+                </div>
 
                 <!-- Icons for vegan, popularity, etc. -->
                 <div class="flex space-x-4">
