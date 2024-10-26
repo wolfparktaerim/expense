@@ -1,3 +1,4 @@
+<!-- RecipeCard.vue -->
 <!-- Recipe Card Display under Search Results and Favorites -->
 
 <template>
@@ -30,13 +31,22 @@
             <!-- add/remove favorite -->
             <img
                 @click="toggleFavorite(recipe)"
-                :src="isFavorite ? '/icon/remove_favorite.png' : '/icon/add_favorite.png'"
+                :src="checkIsFavorite(recipe.id) ? '/icon/remove_favorite.png' : '/icon/add_favorite.png'"
                 width="35"
                 height="auto"
                 alt="Favorite Icon"
                 class="cursor-pointer transition-transform duration-200 hover:scale-110"
-                :title="isFavorite ? 'Remove from Favorites' : 'Add to Favorites'"
+                :title="checkIsFavorite(recipe.id) ? 'Remove from Favorites' : 'Add to Favorites'"
             />
+              <!-- loading indicator -->
+              <div v-if="isLoading" class="text-center flex justify-center items-center h-32 mt-3">
+                <PulseLoader :color="loadingColor"></PulseLoader>
+            </div>
+            
+            <!-- Error message display -->
+            <div v-if="error" class="text-red-500 text-sm mt-2">
+                {{ error }}
+            </div>
 
             <!-- view recipe details button -->
             <button @click="viewRecipeDetails(recipe)" class="bg-purple-600 text-white py-2 px-3 ml-5 rounded w-full hover:bg-purple-700 transition-colors duration-200 text-sm">
@@ -48,30 +58,104 @@
 
 
 <script>
-    export default {
-        data(){
-            return{
-            isFavorite : false,
-        }},
-        props: {
-            recipes: {
-                type: Array,
-                required: true,
-            },
-        },
-        methods: {
-            viewRecipeDetails(recipe){
-                this.$router.push({ path: `/recipe/${recipe.id}` });
-            },
-            toggleFavorite() {
+import { useFavoritesStore } from '../stores/favorites';
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
+import PulseLoader from 'vue-spinner/src/PulseLoader.vue';
 
-                // temp add to favorite toggle
-                this.isFavorite = !this.isFavorite;
-                console.log('Favorite button clicked!');
-            },
-        },
+export default {
+  props: {
+    recipes: {
+      type: Array,
+      required: true,
+    },
+  },
+
+  data() {
+    return {
+      error: null,
+      favorites: [],
+      loading: false,
+      favoritesStore: null
     };
+  },
 
+  created() {
+    // Initialize the store
+    this.favoritesStore = useFavoritesStore();
+    
+    // Sync the store's state with component data
+    this.favorites = this.favoritesStore.favorites;
+    this.loading = this.favoritesStore.loading;
+  },
+
+  mounted() {
+    // Load favorites when component mounts and user is authenticated
+    const auth = getAuth();
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        this.loadFavorites();
+      }
+    });
+
+    // Watch store changes
+    this.watchStoreChanges();
+  },
+
+  methods: {
+    watchStoreChanges() {
+      // Manual store watching since we're not using storeToRefs
+      this.favoritesStore.$subscribe((mutation, state) => {
+        this.favorites = state.favorites;
+        this.loading = state.loading;
+      });
+    },
+
+    loadFavorites() {
+      this.favoritesStore.loadFavorites();
+    },
+
+    viewRecipeDetails(recipe) {
+      this.$router.push({ path: `/recipe/${recipe.id}` });
+    },
+
+    async toggleFavorite(recipe) {
+      try {
+        const auth = getAuth();
+        if (!auth.currentUser) {
+          // Handle unauthenticated user - redirect to login
+          this.$router.push('/login');
+          return;
+        }
+
+        if (this.checkIsFavorite(recipe.id)) {
+          await this.favoritesStore.removeFromFavorites(recipe.id);
+        } else {
+          await this.favoritesStore.addToFavorites(recipe);
+        }
+      } catch (error) {
+        this.error = error.message;
+        console.error('Error toggling favorite:', error);
+      }
+    },
+
+    checkIsFavorite(recipeId) {
+      return this.favoritesStore.isFavorite(recipeId);
+    }
+  },
+
+  computed: {
+    isLoading() {
+      return this.loading;
+    }
+  },
+
+  // Clean up subscriptions when component is destroyed
+  beforeDestroy() {
+    if (this.favoritesStore.$subscribe) {
+      this.favoritesStore.$subscribe()();
+    }
+  }
+};
 </script>
 
 <style scoped>

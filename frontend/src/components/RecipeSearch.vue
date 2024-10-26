@@ -170,7 +170,7 @@
                                 instructionsRequired: true,
 
                                 // change the number of expected results shown
-                                number : 40,
+                                number : 5,
                             }
                         })
                         .then(response => {

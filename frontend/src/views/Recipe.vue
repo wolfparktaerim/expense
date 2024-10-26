@@ -419,6 +419,8 @@
                         this.recipeNutrition = response.data;
                     })
                     .catch(error => {
+                        console.log(this.recipe.title);
+                        console.log(this.ingredientsInArr);
                         console.error(error);
                     });
                 } else {
