@@ -27,14 +27,14 @@
                     <span class="text-lg text-black">Preparation Time (minutes):</span> <span class="text-lg text-gray-700">{{ recipe.preparationMinutes }}</span>
                 </p>
                 <!-- Preparation Time -->
-                <span class="text-lg text-black">Health score:</span> <span class="text-lg text-gray-700">{{ recie.healthScore }}</span>
+                <span class="text-lg text-black">Health score:</span> <span class="text-lg text-gray-700">{{ recipe.healthScore }}</span>
                 <!-- Meal types -->
-                <span>
-                    <p class="text-lg text-black">Dish Type: </p>
+                <p>
+                    <span class="text-lg text-black">Dish Type: </span>
                     <span v-for="dishType in recipe.dishTypes" class="text-lg text-gray-700">
                         {{ dishType }} &nbsp;&nbsp;
                     </span>
-                </span>
+                </p>
 
                 <!-- Icons for vegan, popularity, etc. -->
                 <div class="flex space-x-4">
