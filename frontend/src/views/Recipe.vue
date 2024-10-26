@@ -273,7 +273,7 @@
 <script>
 
     import RecipeSearch from "../components/RecipeSearch.vue";
-import SubNavigation from "../components/SubNavigation.vue";
+    import SubNavigation from "../components/SubNavigation.vue";
     import axios from 'axios';
   
     export default {
@@ -365,7 +365,7 @@ import SubNavigation from "../components/SubNavigation.vue";
                 return output;
             },
 
-            // calculate the main nutrition: carb, protein, fat
+            // calculate the main nutrition: carb, protein, fat in calories and %
             carbCalories() {
                 return this.recipeNutrition.totalNutrients.CHOCDF.quantity * 4;
             },
