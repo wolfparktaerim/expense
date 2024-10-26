@@ -106,12 +106,17 @@
                 };
             },
             created(){
+                // Check if there's existing search results in sessionStorage
                 const storedRecipes = sessionStorage.getItem('lastSearchResults');
                 const searchTriggered = sessionStorage.getItem('searchTriggered');
+
                 if (storedRecipes) {
                     this.recipes = JSON.parse(storedRecipes);
                     this.searchTriggered = JSON.parse(searchTriggered);
                 }
+                
+                // Clear sessionStorage on page refresh
+                window.addEventListener('beforeunload', this.clearSessionStorage);
             },
             computed : {
             },
@@ -215,8 +220,22 @@
                         this.isLoading = false;
                     });
                 },
-
-            }
+                clearSessionStorage() {
+                    sessionStorage.removeItem('lastSearchResults');
+                    sessionStorage.removeItem('searchTriggered');
+                }
+            },
+            beforeRouteLeave(to, from, next) {
+                // Clear sessionStorage only if navigating away from the search page
+                if (to.name !== 'Search') {
+                    this.clearSessionStorage();
+                }
+                next();
+            },
+            beforeDestroy() {
+                // Remove the event listener when the component is destroyed
+                window.removeEventListener('beforeunload', this.clearSessionStorage);
+            },
         }
 
 

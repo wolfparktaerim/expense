@@ -141,58 +141,58 @@
                     </p>
 
                      <!-- % Daily Value* Header -->
-                    <p class="text-sm text-gray-700 mb-2 font-semibold">% Daily Value*</p>
+                    <p class="text-sm text-gray-700 mb-2 font-bold">% Daily Value*</p>
 
                     <!-- Total Fat -->
-                    <div class="flex justify-between text-sm py-1 border-t">
+                    <div class="flex justify-between text-sm py-1 border-t font-bold">
                         <span>Total Fat {{ (recipeNutrition.totalNutrients.FAT.quantity / recipe.servings).toFixed(1) }} g</span>
                         <span>{{ (recipeNutrition.totalDaily.FAT.quantity / recipe.servings).toFixed(0) }} %</span>
                     </div>
 
                     <!-- Saturated Fat -->
-                    <div class="flex justify-between text-sm py-1">
+                    <div class="flex justify-between text-sm py-1 ml-5">
                         <span>Saturated Fat {{ (recipeNutrition.totalNutrients.FASAT.quantity / recipe.servings).toFixed(1) }} g</span>
                         <span>{{ (recipeNutrition.totalDaily.FASAT.quantity / recipe.servings).toFixed(1)}} %</span>
                     </div>
 
                     <!-- Trans Fat (No Daily Value) -->
-                    <div class="flex justify-between text-sm py-1">
+                    <div class="flex justify-between text-sm py-1 ml-5">
                         <span>Trans Fat {{ (recipeNutrition.totalNutrients.FATRN.quantity / recipe.servings).toFixed(1) }} g</span>
                         <span></span>
                     </div>
 
                     <!-- Cholesterol -->
-                    <div class="flex justify-between text-sm py-1">
+                    <div class="flex justify-between text-sm py-1 font-bold border-t">
                         <span>Cholesterol {{ (recipeNutrition.totalNutrients.CHOLE.quantity / recipe.servings).toFixed(1) }} mg</span>
                         <span>{{ (recipeNutrition.totalDaily.CHOLE.quantity / recipe.servings).toFixed(1) }} %</span>
                     </div>
 
                     <!-- Sodium -->
-                    <div class="flex justify-between text-sm py-1">
+                    <div class="flex justify-between text-sm py-1 font-bold border-t">
                         <span>Sodium {{ (recipeNutrition.totalNutrients.NA.quantity / recipe.servings).toFixed(1) }} mg</span>
                         <span>{{ (recipeNutrition.totalDaily.NA.quantity / recipe.servings).toFixed(1) }} %</span>
                     </div>
 
                     <!-- Total Carbohydrate -->
-                    <div class="flex justify-between text-sm py-1 border-t">
+                    <div class="flex justify-between text-sm py-1 border-t font-bold">
                         <span>Total Carbohydrate {{ (recipeNutrition.totalNutrients.CHOCDF.quantity / recipe.servings).toFixed(1) }} g</span>
                         <span>{{ (recipeNutrition.totalDaily.CHOCDF.quantity / recipe.servings).toFixed(1) }} %</span>
                     </div>
 
                     <!-- Dietary Fiber -->
-                    <div class="flex justify-between text-sm py-1">
+                    <div class="flex justify-between text-sm py-1 ml-5">
                         <span>Dietary Fiber {{ (recipeNutrition.totalNutrients.FIBTG.quantity / recipe.servings).toFixed(1) }} g</span>
                         <span>{{ (recipeNutrition.totalDaily.FIBTG.quantity / recipe.servings).toFixed(1) }} %</span>
                     </div>
 
                     <!-- Total Sugars -->
-                    <div class="flex justify-between text-sm py-1">
+                    <div class="flex justify-between text-sm py-1 ml-5">
                         <span>Total Sugars {{ (recipeNutrition.totalNutrients.SUGAR.quantity / recipe.servings).toFixed(1) }} g</span>
                         <span></span>
                     </div>
 
                     <!-- Protein -->
-                    <div class="flex justify-between text-sm py-1 border-t">
+                    <div class="flex justify-between text-sm py-1 border-t font-bold">
                         <span>Protein {{ (recipeNutrition.totalNutrients.PROCNT.quantity / recipe.servings).toFixed(1) }} g</span>
                         <span>{{ (recipeNutrition.totalDaily.PROCNT.quantity / recipe.servings).toFixed(1) }} %</span>
                     </div>
@@ -204,19 +204,19 @@
                     </div>
 
                     <!-- Calcium -->
-                    <div class="flex justify-between text-sm py-1">
+                    <div class="flex justify-between text-sm py-1 border-t">
                         <span>Calcium {{ (recipeNutrition.totalNutrients.CA.quantity / recipe.servings).toFixed(1) }} mg</span>
                         <span>{{ (recipeNutrition.totalDaily.CA.quantity / recipe.servings).toFixed(1) }} %</span>
                     </div>
 
                     <!-- Iron -->
-                    <div class="flex justify-between text-sm py-1">
+                    <div class="flex justify-between text-sm py-1 border-t">
                         <span>Iron {{ (recipeNutrition.totalNutrients.FE.quantity / recipe.servings).toFixed(1) }} mg</span>
                         <span>{{ (recipeNutrition.totalDaily.FE.quantity / recipe.servings).toFixed(1) }} %</span>
                     </div>
 
                     <!-- Potassium -->
-                    <div class="flex justify-between text-sm py-1 border-b">
+                    <div class="flex justify-between text-sm py-1 border-b border-t">
                         <span>Potassium {{ (recipeNutrition.totalNutrients.K.quantity / recipe.servings).toFixed(1) }} mg</span>
                         <span>{{ (recipeNutrition.totalDaily.K.quantity / recipe.servings).toFixed(1) }} %</span>
                     </div>
