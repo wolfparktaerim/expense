@@ -3,7 +3,7 @@
       <h1 class="text-3xl font-bold text-center my-8">Random Food Trivia Generator</h1>
       <div class="trivia-box">
         <p v-if="trivia" class="trivia-text text-lg text-center">{{ trivia }}</p>
-        <p v-else class="text-center text-gray-500">Press the button to get a joke!</p>
+        <p v-else class="text-center text-gray-500">Press the button to get a food trivia!</p>
       </div>
       <button @click="generateTrivia" class="generate-button">
         Generate trivia
