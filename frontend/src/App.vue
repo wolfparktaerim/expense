@@ -1,17 +1,17 @@
 // App.vue
 <template>
   <div class="app-container relative">
-    <!-- Show loading state while auth is initializing -->
+    <!-- Show loading state while auth initializes -->
     <div
-      v-if="!authStore.isInitialized"
-      class="fixed inset-0 flex items-center justify-center bg-white"
+      v-if="!authStore.authInitialized"
+      class="fixed inset-0 flex items-center justify-center"
     >
       <div
-        class="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-900"
+        class="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-gray-900"
       ></div>
     </div>
 
-    <!-- Only show main content once auth is initialized -->
+    <!-- Main content -->
     <template v-else>
       <div :class="{ 'pointer-events-none': shouldDisableInteraction }">
         <RouterView />
@@ -51,3 +51,9 @@ const handleModalClose = () => {
   authStore.showLoginModal = false;
 };
 </script>
+
+<style scoped>
+.app-container {
+  min-height: 100vh;
+}
+</style>

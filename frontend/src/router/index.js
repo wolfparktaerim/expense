@@ -44,7 +44,7 @@ const routes = [
 ]
 
 const router = createRouter({
-  history: createWebHistory(import.meta.env.BASE_URL),
+  history: createWebHistory(),
   routes,
   scrollBehavior() {
     document.getElementById('app').scrollIntoView({behavior:'smooth'});
@@ -54,23 +54,14 @@ const router = createRouter({
 router.beforeEach(async (to, from, next) => {
   const authStore = useAuthStore()
   
-  // Wait for auth to initialize before proceeding with navigation
-  if (!authStore.isInitialized) {
-    // You could implement a timeout here if needed
-    await new Promise(resolve => {
-      const unwatch = watch(() => authStore.isInitialized, (initialized) => {
-        if (initialized) {
-          unwatch()
-          resolve()
-        }
-      })
-    })
-  }
-
-  if (to.meta.requiresAuth && !authStore.isAuthenticated) {
-    authStore.showLoginModal = true
-    authStore.pendingRoute = to
-    next(false)
+  if (to.meta.requiresAuth) {
+    if (!authStore.isAuthenticated) {
+      authStore.pendingRoute = to
+      authStore.showLoginModal = true
+      next()
+    } else {
+      next()
+    }
   } else {
     next()
   }
