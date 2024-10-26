@@ -37,74 +37,75 @@
           </div>
 
           <div class='space-y-4' v-if="emailLogin">
-            <p>Email</p>
-            <input 
-              ref="emailInput"
-              @keyup.enter="checkEmail"
-              v-model="email"
-              @blur="validateEmail"
-              @input="resetValidation"
-              placeholder='Bob@mail.com' 
-              :class="['w-full px-4 py-2 text-gray-700 border rounded transition duration-200 outline-none', 
-                      emailError ? 'border-red-500' : 'border-purple-500']"
-              type="email"
-              :disabled="isLoading"
-              required
-            >
-            <p v-if="emailError" class="text-red-500 text-sm mt-1">{{ emailError }}</p>
-            
-            <div v-if="showPasswordField" class="space-y-4">
-              <div>
-                <p>Password</p>
-                <input 
-                  v-model="password"
-                  @keyup.enter="handleSubmit"
-                  type="password" 
-                  placeholder="Enter your password"
-                  :class="['w-full px-4 py-2 text-gray-700 border rounded transition duration-200 outline-none', 
-                        passwordErrors.length > 0 ? 'border-red-500' : 'border-purple-500']"
-                  :disabled="isLoading"
-                  required
-                >
-              </div>
-              
-              <div v-if="isNewUser" class="mt-4">
-                <p>Confirm Password</p>
-                <input 
-                  v-model="confirmPassword"
-                  @keyup.enter="handleSubmit"
-                  type="password" 
-                  placeholder="Confirm your password"
-                  :class="['w-full px-4 py-2 text-gray-700 border rounded transition duration-200 outline-none', 
-                          passwordErrors.length > 0 ? 'border-red-500' : 'border-purple-500']"
-                  :disabled="isLoading"
-                  required
-                >
-              </div>
-              
-              <div v-if="passwordErrors.length > 0" class="mt-2">
-                <p v-for="error in passwordErrors" :key="error" class="text-red-500 text-sm">{{ error }}</p>
-              </div>
-              
-              <a 
-                v-if="!isNewUser" 
-                href="#" 
-                @click.prevent="forgotPassword" 
-                class="text-indigo-600 hover:text-indigo-800 text-sm"
-                :class="{ 'pointer-events-none opacity-50': isLoading }"
+            <form @submit.prevent="!showPasswordField ? checkEmail() : handleSubmit()">
+              <p>Email</p>
+              <input 
+                ref="emailInput"
+                v-model="email"
+                @blur="validateEmail"
+                @input="resetValidation"
+                placeholder='Bob@mail.com' 
+                :class="['w-full px-4 py-2 text-gray-700 border rounded transition duration-200 outline-none', 
+                        emailError ? 'border-red-500' : 'border-purple-500']"
+                type="email"
+                :disabled="isLoading || showPasswordField"
+                required
               >
-                Forgot your password?
-              </a>
-            </div>
+              <p v-if="emailError" class="text-red-500 text-sm mt-1">{{ emailError }}</p>
+              
+              <div v-if="showPasswordField" class="space-y-4 mt-4">
+                <div>
+                  <p>Password</p>
+                  <input 
+                    v-model="password"
+                    type="password" 
+                    placeholder="Enter your password"
+                    :class="['w-full px-4 py-2 text-gray-700 border rounded transition duration-200 outline-none', 
+                          passwordErrors.length > 0 ? 'border-red-500' : 'border-purple-500']"
+                    :disabled="isLoading"
+                    required
+                  >
+                </div>
+                
+                <div v-if="isNewUser" class="mt-4">
+                  <p>Confirm Password</p>
+                  <input 
+                    v-model="confirmPassword"
+                    type="password" 
+                    placeholder="Confirm your password"
+                    :class="['w-full px-4 py-2 text-gray-700 border rounded transition duration-200 outline-none', 
+                            passwordErrors.length > 0 ? 'border-red-500' : 'border-purple-500']"
+                    :disabled="isLoading"
+                    required
+                  >
+                </div>
+                
+                <div v-if="passwordErrors.length > 0" class="mt-2">
+                  <p v-for="error in passwordErrors" :key="error" class="text-red-500 text-sm">{{ error }}</p>
+                </div>
+                
+                <a 
+                  v-if="!isNewUser" 
+                  href="#" 
+                  @click.prevent="forgotPassword" 
+                  class="text-indigo-600 hover:text-indigo-800 text-sm block"
+                  :class="{ 'pointer-events-none opacity-50': isLoading }"
+                >
+                  Forgot your password?
+                </a>
+              </div>
 
-            <button 
-              @click="handleSubmit" 
-              class="w-full py-2 px-4 bg-indigo-500 text-white rounded hover:bg-indigo-600 transition duration-200 flex items-center justify-center"
-              :disabled="isLoading"
-            >
-              <span v-if="!isLoading">{{ isNewUser ? 'Create Account' : 'Login' }}</span>
-              <div v-else class="spinner"></div>
-            </button>
+              <button 
+                type="submit"
+                class="w-full py-2 px-4 bg-indigo-500 text-white rounded hover:bg-indigo-600 transition duration-200 flex items-center justify-center mt-4"
+                :disabled="isLoading"
+              >
+                <span v-if="!isLoading">
+                  {{ !showPasswordField ? 'Continue' : (isNewUser ? 'Create Account' : 'Login') }}
+                </span>
+                <div v-else class="spinner"></div>
+              </button>
+            </form>
           </div>
 
         </div>
@@ -185,11 +186,9 @@ export default {
         await signInWithPopup(auth, provider);
         console.log("success google login");
         this.closeModal();
-        router.push('/search');
-        // TODO: Add a success message (use toastify or similar)
+        this.router.push('/search');
       } catch (error) {
         console.error('Google sign-in error:', error);
-        // Handle specific error cases if needed
       } finally {
         this.isLoading = false;
       }
@@ -273,12 +272,11 @@ export default {
         if (this.isNewUser) {
           await createUserWithEmailAndPassword(auth, this.email, this.password);
           console.log('User created successfully');
-          // TODO: Add Toastify for success and failure notifications
-          router.push('/search')
+          this.router.push('/search');
         } else {
           await signInWithEmailAndPassword(auth, this.email, this.password);
           console.log('User logged in successfully');
-          router.push('/search');
+          this.router.push('/search');
         }
         this.closeModal();
       } catch (error) {
@@ -302,11 +300,9 @@ export default {
       try {
         await sendPasswordResetEmail(auth, this.email);
         console.log('Password reset email sent');
-        // TODO: Add a success message (use toastify or similar)
         this.description = 'Password reset email sent. Please check your inbox.';
       } catch (error) {
         console.error('Error sending password reset email:', error);
-        // TODO: Add an error message (use toastify or similar)
         this.emailError = 'Failed to send password reset email. Please try again.';
       } finally {
         this.isLoading = false;
