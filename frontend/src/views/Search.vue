@@ -17,7 +17,6 @@
       SubNavigation,
       RecipeSearch,
       Search,
-      
     },
   }
   </script>

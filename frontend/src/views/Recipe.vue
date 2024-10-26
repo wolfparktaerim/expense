@@ -216,18 +216,45 @@
                     </div>
 
                     <!-- Potassium -->
-                    <div class="flex justify-between text-sm py-1">
+                    <div class="flex justify-between text-sm py-1 border-b">
                         <span>Potassium {{ (recipeNutrition.totalNutrients.K.quantity / recipe.servings).toFixed(1) }} mg</span>
                         <span>{{ (recipeNutrition.totalDaily.K.quantity / recipe.servings).toFixed(1) }} %</span>
                     </div>
+
+                    <!-- note -->
+                    <div class="flex justify-between text-sm font-semibold py-1">
+                        *The % Daily Value tells you how much a nutrient in a serving of food contributes to a daily diet. 2,000 calories a day is used for general nutrition advice.
+                    </div>
                 
 
-                    <!-- Visual Representation -->
-                    <div class="mt-4 flex space-x-4 justify-center">
-                        <div class="w-24 h-24 bg-blue-300 flex items-center justify-center rounded-lg shadow-md">Carbs: g</div>
-                        <div class="w-24 h-24 bg-green-300 flex items-center justify-center rounded-lg shadow-md">Protein: g</div>
-                        <div class="w-24 h-24 bg-yellow-300 flex items-center justify-center rounded-lg shadow-md">Fat: g</div>
+                    <!-- Visual Representation of 3 main nutritions-->
+                    <p class="text-lg font-bold mb-4 mt-4">Macronutrient Breakdown</p>
+                    <div class="relative h-8 w-full bg-gray-200 rounded-full overflow-hidden">
+                        <!-- Carbohydrates -->
+                        <div
+                            class="absolute top-0 left-0 h-full bg-blue-500 text-white text-sm flex items-center justify-center"
+                            :style="{ width: carbPercentage + '%' }"
+                        >
+                            Carbohydrate: {{ carbPercentage.toFixed(0) }}%
+                        </div>
+
+                        <!-- Protein -->
+                        <div
+                            class="absolute top-0 h-full bg-green-500 text-white text-sm flex items-center justify-center"
+                            :style="{ width: proteinPercentage + '%', left: carbPercentage + '%' }"
+                        >
+                            Protein: {{ proteinPercentage.toFixed(0) }}%
+                        </div>
+
+                        <!-- Fat -->
+                        <div
+                            class="absolute top-0 h-full bg-yellow-500 text-white text-sm flex items-center justify-center"
+                            :style="{ width: fatPercentage + '%', left: (carbPercentage + proteinPercentage) + '%' }"
+                        >
+                            Fat: {{ fatPercentage.toFixed(0) }}%
+                        </div>
                     </div>
+
                 </div>
             </div>
         </div>
@@ -321,7 +348,7 @@ import SubNavigation from "../components/SubNavigation.vue";
             ingredientsInArr(){
                 var output = [];
 
-                // test case:
+                // test cases:
                 // output.push('8 slices of bacon');
                 // output.push("3 lbs of russet potatoes");
                 // output.push("1 of onion");
@@ -337,6 +364,30 @@ import SubNavigation from "../components/SubNavigation.vue";
                 }
                 return output;
             },
+
+            // calculate the main nutrition: carb, protein, fat
+            carbCalories() {
+                return this.recipeNutrition.totalNutrients.CHOCDF.quantity * 4;
+            },
+            proteinCalories() {
+                return this.recipeNutrition.totalNutrients.PROCNT.quantity * 4;
+            },
+            fatCalories() {
+                return this.recipeNutrition.totalNutrients.FAT.quantity * 9;
+            },
+            totalMacroCalories() {
+                return this.carbCalories + this.proteinCalories + this.fatCalories;
+            },
+                // Calculate percentages for each macronutrient
+            carbPercentage() {
+                return (this.carbCalories / this.totalMacroCalories) * 100;
+            },
+            proteinPercentage() {
+                return (this.proteinCalories / this.totalMacroCalories) * 100;
+            },
+            fatPercentage() {
+                return (this.fatCalories / this.totalMacroCalories) * 100;
+            }
         },
 
         methods:{
