@@ -21,14 +21,13 @@
             <!-- Column 2: Short Description and Icons -->
             <div class="bg-white p-6 rounded-lg shadow-md flex flex-col justify-center space-y-6">
                 <!-- Serving Size -->
-                <p class="text-lg text-black">Serving Size:</p> <p class="text-lg text-gray-700">{{ recipe.servings }}</p>
+                <span class="text-lg text-black">Serving Size:</span> <span class="text-lg text-gray-700">{{ recipe.servings }}</span>
                 <!-- Preparation Time -->
                 <p v-if="recipe.preparationMinutes!=null">
-                    <span class="text-lg text-black">Preparation Time (minutes):</span> 
-                    <span class="text-lg text-gray-700">{{ recipe.preparationMinutes }}</span>
+                    <span class="text-lg text-black">Preparation Time (minutes):</span> <span class="text-lg text-gray-700">{{ recipe.preparationMinutes }}</span>
                 </p>
                 <!-- Preparation Time -->
-                <p class="text-lg text-black">Health score:</p> <p class="text-lg text-gray-700">{{ recipe.healthScore }}</p>
+                <span class="text-lg text-black">Health score:</span> <span class="text-lg text-gray-700">{{ recie.healthScore }}</span>
                 <!-- Meal types -->
                 <span>
                     <p class="text-lg text-black">Dish Type: </p>
