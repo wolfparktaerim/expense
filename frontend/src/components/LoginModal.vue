@@ -150,7 +150,7 @@ export default {
     return {
       loginMethod: true,
       title: 'Choose login method',
-      description: 'If you do not already have an account with us you will have to register.',
+      description: `Don't have an account? Sign up below`,
       emailLogin: false,
       isModalVisible: true,
       selectedMethod: null,
