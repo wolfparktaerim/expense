@@ -47,7 +47,8 @@ export default {
     const globe = ref(null);
     const places = ref([]);
     const hoverInfo = ref(null);
-    const lastHoveredInfo = ref(null); // New ref for last hovered country
+    const lastHoveredInfo = ref(null);
+    let resizeObserver = null;
 
     function parseCuisineResponse(content) {
       const lines = content.split("\n").map((line) => line.trim());
@@ -128,6 +129,7 @@ export default {
         newPlace.popularDish = { loading: false, error: true };
       }
     };
+
     const getPopularDishes = async (country) => {
       console.log(`Getting popular dishes for ${country}`);
       const place = places.value.find((p) => p.label === country);
@@ -214,26 +216,50 @@ export default {
 
         globe.value(globeContainer.value);
 
-        const resizeObserver = new ResizeObserver(() => {
+        resizeObserver = new ResizeObserver(() => {
           globe.value.width(globeContainer.value.clientWidth);
           globe.value.height(globeContainer.value.clientHeight);
         });
         resizeObserver.observe(globeContainer.value);
 
-        window.addEventListener("resize", () => {
+        const handleResize = () => {
           if (globe.value) {
             globe.value.width(globeContainer.value.clientWidth);
             globe.value.height(globeContainer.value.clientHeight);
           }
+        };
+
+        window.addEventListener("resize", handleResize);
+        
+        // Store cleanup function
+        onUnmounted(() => {
+          // Remove resize observer
+          if (resizeObserver) {
+            resizeObserver.disconnect();
+          }
+          
+          // Remove event listener
+          window.removeEventListener("resize", handleResize);
+          
+          // Clean up Three.js scene
+          if (globe.value) {
+            // Access the underlying Three.js renderer and scene
+            const renderer = globe.value.renderer();
+            const scene = globe.value.scene();
+            
+            // Dispose of Three.js resources
+            if (renderer) {
+              renderer.dispose();
+              renderer.forceContextLoss();
+              renderer.domElement.remove();
+            }
+            
+            // Clear any references
+            globe.value = null;
+          }
         });
       } else {
         console.error("Globe container not found");
-      }
-    });
-
-    onUnmounted(() => {
-      if (globe.value) {
-        globe.value.destroy();
       }
     });
 
