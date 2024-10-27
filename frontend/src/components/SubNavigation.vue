@@ -10,7 +10,7 @@
         <div class="hidden md:flex items-center space-x-6">
           <router-link to="/search" class="text-gray-600 hover:text-purple-600 transition-all duration-300 ease-in-out hover:font-bold">Search</router-link>
           <router-link to="/discover" class="text-gray-600 hover:text-purple-600 transition-all duration-300 ease-in-out hover:font-bold">Discover</router-link>
-          <a href="#" class="text-gray-600 hover:text-purple-600 transition-all duration-300 ease-in-out hover:font-bold">Saved</a>
+          <router-link to="/saved" class="text-gray-600 hover:text-purple-600 transition-all duration-300 ease-in-out hover:font-bold">Saved</router-link>
           <button @click="login" class="bg-purple-600 text-white px-4 py-2 rounded-full hover:bg-purple-700 transition duration-300">Login</button>
         </div>
         
