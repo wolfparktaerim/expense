@@ -207,6 +207,7 @@
                         }
                     })
                     .then(response => {
+                        this.searchNum = 0;
                         console.log(response.data);
                         this.recipes = [response.data.recipes[0]];  // Pick the first random recipe
                         this.isLoading = false;
