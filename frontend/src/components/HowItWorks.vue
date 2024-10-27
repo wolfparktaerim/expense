@@ -57,24 +57,24 @@
       <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
         <!-- Stat 1 -->
         <div class="bg-white p-6 rounded-lg shadow border-l-4 border-yellow-400 hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
-          <h3 class="text-3xl font-bold text-gray-800 mb-2">
-            <NumberCounter end-value="11.6" suffix="%" :decimals="1" />
+          <h3 class="text-4xl font-bold text-gray-800 mb-2">
+            <NumberCounter end-value="11.6" suffix="%" :decimals="1" :delay="0" />
           </h3>
           <p class="text-gray-600">Crude obesity prevalence in Singapore (2022)</p>
         </div>
 
         <!-- Stat 2 -->
         <div class="bg-white p-6 rounded-lg shadow border-l-4 border-yellow-400 hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
-          <h3 class="text-3xl font-bold text-gray-800 mb-2">
-            <NumberCounter end-value="40" :decimals="0" />-<NumberCounter end-value="49" :decimals="0" /> years
+          <h3 class="text-4xl font-bold text-gray-800 mb-2">
+            <NumberCounter end-value="40" :decimals="0" :delay="200" />-<NumberCounter end-value="49" :decimals="0" :delay="400" /> years
           </h3>
           <p class="text-gray-600">Age group with highest obesity rates (15%)</p>
         </div>
 
         <!-- Stat 3 -->
         <div class="bg-white p-6 rounded-lg shadow border-l-4 border-yellow-400 hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
-          <h3 class="text-3xl font-bold text-gray-800 mb-2">
-            <NumberCounter end-value="2" :decimals="0" />x
+          <h3 class="text-4xl font-bold text-gray-800 mb-2">
+            <NumberCounter end-value="2" :decimals="0" :delay="600" />x
           </h3>
           <p class="text-gray-600">Global obesity rates since 1980</p>
         </div>

@@ -1,5 +1,5 @@
 <template>
-    <span ref="counterRef">{{ displayValue }}</span>
+    <span ref="counterRef" :class="{ 'number-highlight': isAnimating }">{{ displayValue }}</span>
   </template>
   
   <script>
@@ -22,6 +22,10 @@
       suffix: {
         type: String,
         default: ''
+      },
+      delay: {
+        type: Number,
+        default: 0
       }
     },
   
@@ -30,7 +34,8 @@
         displayValue: 0,
         animationFrame: null,
         startTime: null,
-        observer: null
+        observer: null,
+        isAnimating: false
       }
     },
   
@@ -42,9 +47,11 @@
         if (progress < this.duration) {
           const value = this.easeOutQuad(progress, 0, parseFloat(this.endValue), this.duration)
           this.displayValue = Number(value).toFixed(this.decimals) + this.suffix
+          this.isAnimating = true
           this.animationFrame = requestAnimationFrame(this.animate)
         } else {
           this.displayValue = this.endValue + this.suffix
+          this.isAnimating = false
         }
       },
   
@@ -57,8 +64,10 @@
         if (this.animationFrame) {
           cancelAnimationFrame(this.animationFrame)
         }
-        this.startTime = null
-        this.animationFrame = requestAnimationFrame(this.animate)
+        setTimeout(() => {
+          this.startTime = null
+          this.animationFrame = requestAnimationFrame(this.animate)
+        }, this.delay)
       },
   
       initObserver() {
@@ -69,7 +78,10 @@
               this.observer.disconnect()
             }
           },
-          { threshold: 0.1 }
+          { 
+            threshold: 0.5,  // Increased threshold to start earlier
+            rootMargin: '50px' // Start animation slightly before element comes into view
+          }
         )
   
         if (this.$refs.counterRef) {
@@ -98,3 +110,16 @@
     }
   }
   </script>
+  
+  <style scoped>
+  .number-highlight {
+    transition: color 0.3s ease;
+    color: #7c3aed; /* Purple color when animating */
+  }
+  
+  @keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+  }
+  </style>
