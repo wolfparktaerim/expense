@@ -147,7 +147,7 @@
                     </p>
 
                      <!-- % Daily Value* Header -->
-                    <p class="text-sm text-gray-700 mb-2 font-bold">% Daily Value*</p>
+                    <p class="text-sm text-black mb-2 font-bold text-right">% Daily Value*</p>
 
                     <!-- Total Fat -->
                     <div class="flex justify-between text-sm py-1 border-t font-bold">
