@@ -200,6 +200,7 @@
                 // I'm feeling lucky (random recipe)
                 feelingLucky() {
                     this.isLoading = true
+                    this.searchNum = 0;
                     axios.get('https://api.spoonacular.com/recipes/random', {
                         params: {
                             apiKey: import.meta.env.VITE_SPOON_API_KEY,
@@ -207,7 +208,6 @@
                         }
                     })
                     .then(response => {
-                        this.searchNum = 0;
                         console.log(response.data);
                         this.recipes = [response.data.recipes[0]];  // Pick the first random recipe
                         this.isLoading = false;
