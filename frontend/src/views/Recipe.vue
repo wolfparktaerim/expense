@@ -95,7 +95,7 @@
                 <ul class="space-y-4">
                     <li v-for="step in recipe.instructions" :key="step.number" class="p-4 bg-gray-100 rounded-lg shadow">
                         <p class="text-lg font-semibold">Step {{ step.number }}:</p>
-                        <p>{{ step.step }}</p>
+                            
 
                         <!-- Ingredients used in each step -->
                         <div v-if="step.ingredients.length > 0" class="mt-4">
@@ -111,7 +111,7 @@
                             <div class="flex space-x-4">
                                 <div v-for="equipment in step.equipment" :key="equipment.id" class="flex items-center">
                                     <img :src="equipment.image" :alt="equipment.name" class="w-12 h-12 rounded-full mr-2">
-                                    <p class="text-sm">{{ equipment.name }}</p>
+                                    <p class="text-gray-600">{{ equipment.name }}</p>
                                 </div>
                             </div>
                         </div>
