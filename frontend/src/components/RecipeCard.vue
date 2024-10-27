@@ -49,13 +49,12 @@
             </div>
 
              <!-- View recipe details button and spinner -->
-             <div class="relative w-full">
                 <button @click="viewRecipeDetails(recipe)" class="bg-purple-600 text-white py-2 px-3 ml-5 rounded w-full hover:bg-purple-700 transition-colors duration-200 text-sm">
                     View Recipe Details
                 </button>
                 <PulseLoader v-if="isLoading" :color="loadingColor" class="absolute inset-0 m-auto" />
             </div>
-        </div>
+
     </div>
 </template>
 
