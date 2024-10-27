@@ -22,7 +22,7 @@
         <h2 class="text-xl font-semibold text-gray-700 mb-2">No Saved Recipes Yet</h2>
         <p class="text-gray-600 mb-4">Start exploring and save your favorite recipes!</p>
         <router-link 
-          to="/" 
+          to="/search" 
           class="inline-block bg-purple-600 text-white py-2 px-6 rounded-lg hover:bg-purple-700 transition-colors duration-200"
         >
           Discover Recipes

@@ -9,6 +9,7 @@ import Globe from '../views/Globe.vue'
 import FoodJoke from '../views/FoodJoke.vue'
 import FoodTrivia from '../views/FoodTrivia.vue'
 import Saved from '../views/Saved.vue'
+import Profile from '../views/Profile.vue'
 import { watch } from 'vue'
 
 const routes = [
@@ -45,6 +46,11 @@ const routes = [
   {
     path: '/saved',
     component: Saved,
+    meta: { requiresAuth: true }
+  },
+  {
+    path: '/profile',
+    component: Profile,
     meta: { requiresAuth: true }
   }
 ]
