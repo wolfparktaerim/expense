@@ -6,7 +6,8 @@
 
     <!-- Loading + Did you know section -->
     <div v-if="isLoading">
-        <PulseLoader v-if="isLoading" :color="loadingColor" class="text-center flex justify-center items-center h-32 mt-3" />
+        <div class="text-center flex justify-center items-center h-32 mt-3" >Did You Know? Food Trivia Section</div>
+        <SquareLoader :color="loadingColor" class="text-center flex justify-center items-center h-32 mt-3" />
     </div>
 
     <!-- Recipe Full Information -->
@@ -286,11 +287,11 @@
     import RecipeSearch from "../components/RecipeSearch.vue";
     import SubNavigation from "../components/SubNavigation.vue";
     import axios from 'axios';
-    import PulseLoader from 'vue-spinner/src/PulseLoader.vue';
+    import SquareLoader from 'vue-spinner/src/SquareLoader.vue';
   
     export default {
         components: {
-            PulseLoader,
+            SquareLoader,
             SubNavigation,
         },
         data() {
