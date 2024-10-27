@@ -48,10 +48,13 @@
                 {{ error }}
             </div>
 
-            <!-- view recipe details button -->
-            <button @click="viewRecipeDetails(recipe)" class="bg-purple-600 text-white py-2 px-3 ml-5 rounded w-full hover:bg-purple-700 transition-colors duration-200 text-sm">
-                View Recipe Details
-            </button>
+             <!-- View recipe details button and spinner -->
+             <div class="relative w-full">
+                <button @click="viewRecipeDetails(recipe)" class="bg-purple-600 text-white py-2 px-3 ml-5 rounded w-full hover:bg-purple-700 transition-colors duration-200 text-sm">
+                    View Recipe Details
+                </button>
+                <PulseLoader v-if="isLoading" :color="loadingColor" class="absolute inset-0 m-auto" />
+            </div>
         </div>
     </div>
 </template>
@@ -75,7 +78,9 @@ export default {
       error: null,
       favorites: [],
       loading: false,
-      favoritesStore: null
+      favoritesStore: null,
+      isLoading: false, // Spinner control for viewing recipe details
+      loadingColor: '#805ad5'
     };
   },
 
@@ -114,8 +119,15 @@ export default {
       this.favoritesStore.loadFavorites();
     },
 
-    viewRecipeDetails(recipe) {
-      this.$router.push({ path: `/recipe/${recipe.id}` });
+async viewRecipeDetails(recipe) {
+      this.isLoading = true; // Start spinner
+      try {
+        await this.$router.push({ path: `/recipe/${recipe.id}` });
+      } catch (error) {
+        console.error('Error navigating to recipe details:', error);
+      } finally {
+        this.isLoading = false; // Stop spinner
+      }
     },
 
     async toggleFavorite(recipe) {

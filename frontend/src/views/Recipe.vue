@@ -4,8 +4,13 @@
 
     <SubNavigation />
 
+    <!-- Loading + Did you know section -->
+    <div v-if="isLoading">
+        <PulseLoader v-if="isLoading" :color="loadingColor" class="text-center flex justify-center items-center h-32 mt-3" />
+    </div>
+
     <!-- Recipe Full Information -->
-    <div class="container mx-auto mt-8 p-6 bg-gray-50 shadow-lg rounded-lg">
+    <div v-else class="container mx-auto mt-8 p-6 bg-gray-50 shadow-lg rounded-lg">
 
         <!-- Recipe title -->
         <h1 class="text-4xl font-bold text-purple-700 text-center mb-8">{{ recipe.title }}</h1>
@@ -281,9 +286,11 @@
     import RecipeSearch from "../components/RecipeSearch.vue";
     import SubNavigation from "../components/SubNavigation.vue";
     import axios from 'axios';
+    import PulseLoader from 'vue-spinner/src/PulseLoader.vue';
   
     export default {
         components: {
+            PulseLoader,
             SubNavigation,
         },
         data() {
@@ -308,12 +315,15 @@
                     received : false,
                 },
                 recipeNutrition : null,
+                isLoading: false, // Spinner control for viewing recipe details
+                loadingColor: '#805ad5'
             };
         },
         created(){
             // Fetch the recipe details based on the route ID
             const recipeId = this.$route.params.id;
             this.id = recipeId;
+            this.isLoading = true;
             axios.get(`https://api.spoonacular.com/recipes/${recipeId}/information`, {
                 params: {
                     // my api key
@@ -339,6 +349,8 @@
                     this.recipe.dishTypes = recipeInfo.dishTypes;
                     this.recipe.isCheap = recipeInfo.cheap;
                     this.recipe.received = true;
+
+                    this.isLoading = false;
 
                     // Fetch the nutrition information based on the ingredients used (after recipe is fully loaded)
                     if(this.recipe.received){
