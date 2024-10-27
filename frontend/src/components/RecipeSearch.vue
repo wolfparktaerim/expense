@@ -16,9 +16,9 @@
 
             <!-- Ingredients Search Input -->
             <div class="mb-6">
-                <label for="search" class="block text-gray-700 text-sm mb-2" style="text-align: center;">Enter Ingredients (press "," or press 'Enter' or press space to separate different ingredients):</label>
+                <label for="search" class="block text-gray-600 text-sm mb-2" style="text-align: center;">Enter Ingredients (press "," or press 'Enter' or press space to separate different ingredients):</label>
                 <div class="flex justify-center mt-4">
-                    <input type="text" id="search" class="w-1/2 border border-gray-300 rounded-md py-2 px-4 text-gray-700 focus:ring-2 focus:ring-purple-500" 
+                    <input type="text" id="search" class="w-1/2 border border-gray-300 rounded-md py-2 px-4 text-gray-600 focus:ring-2 focus:ring-purple-500" 
                         v-model="searchInput" @keydown.enter.prevent="addIngredient" @keydown.space.prevent="addIngredient" @input="addOnComma" placeholder="e.g., Carrot, Broccoli, Chicken">
                 </div>
 
