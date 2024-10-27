@@ -95,7 +95,7 @@
                 <ul class="space-y-4">
                     <li v-for="step in recipe.instructions" :key="step.number" class="p-4 bg-gray-100 rounded-lg shadow">
                         <p class="text-lg font-semibold">Step {{ step.number }}:</p>
-                            
+                        <p>{{ step.step }}</p>
 
                         <!-- Ingredients used in each step -->
                         <div v-if="step.ingredients.length > 0" class="mt-4">
