@@ -119,7 +119,7 @@ export default {
       this.favoritesStore.loadFavorites();
     },
 
-    async viewRecipeDetails(recipe) {
+async viewRecipeDetails(recipe) {
       this.isLoading = true; // Start spinner
       try {
         await this.$router.push({ path: `/recipe/${recipe.id}` });
