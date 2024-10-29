@@ -21,10 +21,10 @@
         </div>
         <div v-else>
           <div v-if="lastHoveredInfo">
-            <p class="text-lg font-bold">Country: <span class="font-normal text-gray-700">{{ lastHoveredInfo.label }}</span></p>
-            <p class="text-lg font-bold">Dish Name: <span class="font-normal text-gray-700">{{ lastHoveredInfo.popularDish.name }}</span></p>
-            <p class="text-lg font-bold">Cultural Info: <span class="font-normal text-gray-700">{{ lastHoveredInfo.popularDish.culturalInfo }}</span></p>
-            <p class="text-lg font-bold">Serving Size: <span v-if="lastHoveredInfo && lastHoveredInfo.popularDish">
+            <p class="text-lg font-bold text-gray-800">Country: <span class="font-normal text-gray-700">{{ lastHoveredInfo.label }}</span></p>
+            <p class="text-lg font-bold text-gray-800">Dish Name: <span class="font-normal text-gray-700">{{ lastHoveredInfo.popularDish.name }}</span></p>
+            <p class="text-lg font-bold text-gray-800">Cultural Info: <span class="font-normal text-gray-700">{{ lastHoveredInfo.popularDish.culturalInfo }}</span></p>
+            <p class="text-lg font-bold text-gray-800">Serving Size: <span v-if="lastHoveredInfo && lastHoveredInfo.popularDish">
             <span class="font-normal text-gray-700">{{ lastHoveredInfo.popularDish.servingSize }}</span></span>
             </p>
           </div>
@@ -36,7 +36,7 @@
 
       <!-- Card for Ingredients Used -->
       <div class="info-card mt-4">
-        <h3 class="text-lg font-bold">Ingredients Used</h3>
+        <h3 class="text-lg font-bold text-gray-800">Ingredients Used</h3>
         <ul v-if="lastHoveredInfo && lastHoveredInfo.popularDish">
           <li v-for="ingredient in lastHoveredInfo.popularDish.ingredients" :key="ingredient" class="text-gray-700">{{ ingredient }}</li>
         </ul>
@@ -44,10 +44,10 @@
 
       <!-- Card for Instructions -->
       <div class="info-card mt-4">
-        <h3 class="text-lg font-bold">Instructions</h3>
+        <h3 class="text-lg font-bold text-gray-800">Instructions</h3>
         <ol v-if="lastHoveredInfo && lastHoveredInfo.popularDish">
           <li v-for="(instruction, index) in lastHoveredInfo.popularDish.instructions" :key="instruction" class="flex items-center">
-            <p class="font-bold">Step {{ index + 1 }}: <span class="font-normal text-gray-700">{{ instruction }}</span></p>
+            <p class="font-bold text-gray-800">Step {{ index + 1 }}: <span class="font-normal text-gray-700">{{ instruction }}</span></p>
           </li>
         </ol>
       </div>
