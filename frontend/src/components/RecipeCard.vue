@@ -17,7 +17,7 @@
 
         <!-- Healthy Icon with background -->
         <div v-if="recipe.veryHealthy" class="absolute top-3 right-3 bg-green-300 rounded-full p-2 group" style="background-size: cover;">
-            <img src="../../public/icon/healthy.png" width="24px" height="24px" alt="Healthy Icon">
+            <img src="/icon/healthy.png" width="24px" height="24px" alt="Healthy Icon">
             <!-- Hidden text, shown on hover -->
             <div class="absolute left-1/2 transform -translate-x-1/2 top-10 bg-green-600 text-white text-xs font-bold py-1 px-2 rounded opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
                 Healthy choice!
