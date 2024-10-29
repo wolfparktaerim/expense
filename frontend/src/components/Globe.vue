@@ -16,14 +16,19 @@
             </div>
             <div v-else>
               <h4>Popular Dish: {{ lastHoveredInfo.popularDish.name }}</h4>
-              <h5>Key Ingredients:</h5>
+              <p>Serving Size: {{ lastHoveredInfo.popularDish.servingSize }}</p>
+              <h5>Ingredients Used:</h5>
               <ul>
                 <li v-for="ingredient in lastHoveredInfo.popularDish.ingredients" :key="ingredient">
                   {{ ingredient }}
                 </li>
               </ul>
-              <h5>Cultural Note:</h5>
-              <p>{{ lastHoveredInfo.popularDish.culturalNote }}</p>
+              <h5>Instructions</h5>
+              <ol>
+                <li v-for="instruction in lastHoveredInfo.popularDish.instructions" :key="instruction">
+                  {{ instruction }}
+                </li>
+              </ol>
             </div>
           </div>
         </div>
@@ -53,26 +58,28 @@ export default {
     function parseCuisineResponse(content) {
       const lines = content.split("\n").map((line) => line.trim());
       let name = "";
+      let servingSize = "";
       let ingredients = [];
-      let culturalNote = "";
+      let instructions = [];
       let currentSection = "";
 
       for (const line of lines) {
         if (line.startsWith("Dish Name:")) {
           name = line.split(":")[1].trim();
-        } else if (line.startsWith("Key Ingredients:")) {
+        } else if (line.startsWith("Serving Size:")) {
+          servingSize = line.split(":")[1].trim();
+        } else if (line.startsWith("Ingredients Used:")) {
           currentSection = "ingredients";
-        } else if (line.startsWith("Cultural Note:")) {
-          currentSection = "culturalNote";
-          culturalNote = line.split(":")[1].trim();
+        } else if (line.startsWith("Instructions:")) {
+          currentSection = "instructions";
         } else if (line.startsWith("-") && currentSection === "ingredients") {
           ingredients.push(line.substring(1).trim());
-        } else if (currentSection === "culturalNote") {
-          culturalNote += " " + line;
+        } else if (line.startsWith("-") && currentSection === "instructions") {
+          instructions.push(line.substring(1).trim());
         }
       }
 
-      return { name, ingredients, culturalNote: culturalNote.trim() };
+      return { name, servingSize, ingredients, instructions };  
     }
 
     const getCountry = async (lat, lng) => {
@@ -148,15 +155,19 @@ export default {
                 role: "user",
                 content: `Provide information about a popular dish from ${country} in the following format:
         Dish Name: [Name of the dish]
-        Key Ingredients:
-        - [Ingredient 1]
-        - [Ingredient 2]
-        - [Ingredient 3]
+        Serving Size: [Serving Quantity]
+        Ingredients Used:
+        - [Ingredient 1] - [Ingredient Quantity]
+        - [Ingredient 2] - [Ingredient Quantity]
+        - [Ingredient 3] - [Ingredient Quantity]
         ...
-        Cultural Note: [Brief cultural note about the dish]`,
+        Instructions:
+        - Step 1: [Step 1 instructions including ingredients and equipment used]
+        - Step 2: [Step 2 instructions including ingredients and equipment used]
+        - Step 3: [Step 3 instructions including ingredients and equipment used]`,
               },
             ],
-            temperature: 0.7,
+            temperature: 0.1,
           },
           {
             headers: {
@@ -279,13 +290,14 @@ export default {
   height: 100vh;
 }
 
+/* Default styles for larger screens */
 .globe-container {
-  width: 75%;
+  width: 50%;
   height: 100%;
 }
 
 .info-sidebar {
-  width: 25%;
+  width: 50%;
   height: 100%;
   overflow-y: auto;
   padding: 1rem;
@@ -297,5 +309,21 @@ export default {
   border-radius: 0.5rem;
   padding: 1rem;
   box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+}
+
+/* Media query for small screens */
+@media (max-width: 768px) {
+  .interactive-globe {
+    flex-direction: column; /* Stack elements vertically */
+  }
+
+  .globe-container, .info-sidebar {
+    width: 100%; /* Set width to 100% */
+    height: 50vh; /* Adjust height to fit on the screen */
+  }
+
+  .info-sidebar {
+    overflow-y: auto; /* Keep the scroll for sidebar */
+  }
 }
 </style>
