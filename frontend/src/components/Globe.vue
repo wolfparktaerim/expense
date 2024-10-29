@@ -17,7 +17,7 @@
 
         <div v-if="isLoading">
           <ScaleLoader />          
-          <p class="text-center text-gray-600">Cooking...</p>
+          <p class="text-center text-gray-600">Preparing...</p>
         </div>
         <div v-else>
           <div v-if="lastHoveredInfo">
@@ -28,7 +28,7 @@
             <span class="font-normal text-gray-700">{{ lastHoveredInfo.popularDish.servingSize }}</span></span>
             </p>
           </div>
-          <p v-else class="text-gray-600">1. Click on the globe to pin a country. 
+          <p v-else class="text-gray-600">1. Click on the globe to pin a country and prepare its cuisine. 
             <br>2. Zoom in to pin and hover over it to view its cuisine information.</p>
         </div>
       
@@ -244,7 +244,7 @@ export default {
           .labelLng((d) => d.lng)
           .labelText((d) => d.label)
           .labelSize(0.5)
-          .labelColor(() => "white")
+          .labelColor(() => "#8e24aa")
           .labelDotRadius(0.3)
           .labelAltitude(0.01)
           .onGlobeClick(handleGlobeClick)
