@@ -374,9 +374,9 @@
             this.favoritesStore = useFavoritesStore();
 
             // Fetch the recipe details based on the route ID
+            const recipeId = this.$route.params.id;
             this.id = recipeId;
             this.isLoading = true;
-            const recipeId = this.$route.params.id;
 
             // Create a delay of 5 seconds
             const delay = new Promise(resolve => setTimeout(resolve, 3000));
