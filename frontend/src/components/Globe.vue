@@ -22,7 +22,8 @@
           <span class="font-normal text-gray-700">{{ lastHoveredInfo.popularDish.servingSize }}</span></span>
           </p>
         </div>
-        <p v-else class="text-gray-600">Click on the globe to pin a country. Hover over pin to view its cuisine information.</p>
+        <p v-else class="text-gray-600">1. Click on the globe to pin a country. 
+          <br>2. Zoom in to pin and hover over it to view its cuisine information.</p>
       </div>
 
       <!-- Card for Ingredients Used -->
