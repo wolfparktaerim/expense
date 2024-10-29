@@ -1,8 +1,18 @@
 <template>
   <div class="interactive-globe">
     <div ref="globeContainer" class="globe-container"></div>
-    <div class="info-sidebar">
-      <h2 class="text-2xl font-bold mb-4 text-purple-600">Global Recipe Finder</h2>
+    <div class="infosidebar bg-gray-100 p-4 rounded-lg shadow-md flex flex-col space-y-4">
+      <h2 class="text-2xl font-bold mb-4 text-purple-600">Discover Global Recipes</h2>
+      <div class="search-container flex items-center">
+        <input
+          type="text"
+          placeholder="Revisit Country"
+          class="border rounded px-2 py-1 text-gray-700"
+        />
+        <button class="bg-purple-600 text-white font-bold ml-2 py-1 px-2 rounded hover:bg-purple-700 focus:ring-2 focus:ring-purple-600 max-w-xs">
+            Search
+        </button>
+      </div>
       <div class="info-card">
         <div v-if="lastHoveredInfo">
           <p class="text-lg font-bold">Country: <span class="font-normal text-gray-700">{{ lastHoveredInfo.label }}</span></p>
