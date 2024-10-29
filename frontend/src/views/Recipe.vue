@@ -7,8 +7,8 @@
     <div v-if="isLoading">
         <div class="text-center flex flex-col justify-center items-center mt-3">
             <h2 class="text-4xl font-bold my-8">Did You Know?</h2>
-            <p v-if="trivia" class="text-center text-gray-700 columns-lg my-8">{{ trivia }}</p>
-            <p v-else class="text-center text-gray-500 my-8">Fetching some fun food trivia...</p>
+            <p v-if="trivia" class="text-center text-purple-600 columns-lg my-8" style="max-width: 50%">{{ trivia }}</p>
+            <p v-else class="text-center text-gray-500 my-8">Fetching a fun food trivia...</p>
             <SquareLoader :color="loadingColor" class="mt-3" />
         </div>
     </div>
@@ -18,7 +18,7 @@
 
         <!-- Title and Favorite Icon Row -->
         <div class="flex items-center justify-center mb-8">
-            <h1 class="text-4xl font-bold text-purple-700 mr-4">{{ recipe.title }}</h1>
+            <h1 class="text-4xl font-bold text-purple-600 mr-4">{{ recipe.title }}</h1>
             
             <!-- HAVE BUG NOW !!! DISABLED FOR NOW-->
             <!-- Favorite Icon -->
