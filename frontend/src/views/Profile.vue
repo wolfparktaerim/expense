@@ -1,6 +1,6 @@
 <template>
     <div class="min-h-screen bg-gradient-to-br from-gray-50 to-purple-50">
-      <SubNavigation />
+      <Navigation />
       
       <!-- Loading State -->
       <div class="mx-auto px-4 py-8 max-w-7xl">
@@ -262,7 +262,7 @@
 <script>
 import { getAuth, signOut } from "firebase/auth";
 import PulseLoader from "vue-spinner/src/PulseLoader.vue";
-import SubNavigation from "../components/SubNavigation.vue";
+import Navigation from "../components/Navigation.vue";
 import { useFavoritesStore } from "../stores/favorites";
 import { mapState, mapActions } from "pinia";
 import { 
@@ -288,7 +288,7 @@ export default {
 
   components: {
     PulseLoader,
-    SubNavigation,
+    Navigation,
     UserCircle,
     LogOut,
     Heart,

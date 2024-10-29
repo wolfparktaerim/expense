@@ -1,5 +1,5 @@
 <template>
-        <SubNavigation />
+        <Navigation />
       <!-- Header Section -->
       <div class="mt-8 mb-8 text-center">
         <h1 class="text-3xl font-bold text-purple-600 mb-2">Saved Recipes</h1>
@@ -65,7 +65,7 @@
   
   <script>
   import PulseLoader from 'vue-spinner/src/PulseLoader.vue';
-  import SubNavigation from "../components/SubNavigation.vue";
+  import Navigation from "../components/Navigation.vue";
   import RecipeCard from '../components/RecipeCard.vue';
   import { useFavoritesStore } from '../stores/favorites';
   import { mapState, mapActions } from 'pinia';
@@ -76,7 +76,7 @@
     components: {
       RecipeCard,
       PulseLoader,
-      SubNavigation,
+      Navigation,
     },
   
     data() {

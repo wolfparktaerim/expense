@@ -1,5 +1,5 @@
 <template>
-    <SubNavigation />
+    <Navigation />
     <RecipeSearch />
     <Search />
     
@@ -7,14 +7,14 @@
   
   <script>
   import Search from "../components/SearchFxn.vue";
-  import SubNavigation from "../components/SubNavigation.vue";
+  import Navigation from "../components/Navigation.vue";
   import RecipeSearch from "../components/RecipeSearch.vue";
   
   export default {
     name: 'SearchPage', 
     //  Local Component Registration
     components: {
-      SubNavigation,
+      Navigation,
       RecipeSearch,
       Search,
     },

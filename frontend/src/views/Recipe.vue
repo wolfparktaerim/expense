@@ -2,7 +2,7 @@
 
 <template>
 
-    <SubNavigation />
+    <Navigation />
 
     <!-- Loading + Did you know section -->
     <div v-if="isLoading">
@@ -319,14 +319,14 @@
 <script>
 
     import RecipeSearch from "../components/RecipeSearch.vue";
-    import SubNavigation from "../components/SubNavigation.vue";
+    import Navigation from "../components/Navigation.vue";
     import axios from 'axios';
     import SquareLoader from 'vue-spinner/src/SquareLoader.vue';
   
     export default {
         components: {
             SquareLoader,
-            SubNavigation,
+            Navigation,
         },
         data() {
             return {
