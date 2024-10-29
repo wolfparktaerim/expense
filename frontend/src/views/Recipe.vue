@@ -327,7 +327,7 @@
 </template>
   
 <script>
-    import SubNavigation from "../components/SubNavigation.vue";
+    import Navigation from "../components/Navigation.vue";
     import axios from 'axios';
     import SquareLoader from 'vue-spinner/src/SquareLoader.vue';
     import { useFavoritesStore } from '../stores/favorites';
@@ -337,7 +337,7 @@
     export default {
         components: {
             SquareLoader,
-            SubNavigation,
+            Navigation,
             Chat
         },
         data() {

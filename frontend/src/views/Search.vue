@@ -4,7 +4,7 @@
 </template>
   
   <script>
-  import SubNavigation from "../components/SubNavigation.vue";
+  import Navigation from "../components/Navigation.vue";
   import RecipeSearch from "../components/RecipeSearch.vue";
   
   export default {
