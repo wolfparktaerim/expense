@@ -161,7 +161,7 @@
                             <span class="font-bold">Total Fat</span>
                             <span class="ml-1">{{ (recipeNutrition.totalNutrients.FAT.quantity / recipe.servings).toFixed(1) }}g</span>
                         </div>
-                        <span class="font-bold">{{ (recipeNutrition.totalDaily.FAT.quantity / recipe.servings).toFixed(0) }}%</span>
+                        <span class="font-bold">{{ (recipeNutrition.totalDaily.FAT.quantity / recipe.servings).toFixed(1) }}%</span>
                     </div>
 
                     <!-- Saturated Fat -->
