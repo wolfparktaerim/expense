@@ -21,7 +21,7 @@
       </div>
       <!-- Full-width Image Placeholder Section -->
       <div class="my-16 flex flex-col items-center justify-center mx-auto max-w-5xl px-4 md:px-8">
-        <h4 class="text-2xl font-semibold mb-8 text-center text-gray-800">Placeholder img title if needed</h4>
+        <h4 class="text-2xl text-center text-stone-500 text-muted-foreground mb-8 max-w-3xl mx-auto">Endless Possibilities Await You...</h4>
         <div class="bg-gray-200 rounded-lg overflow-hidden w-full" style="height: 400;">
           <img src="/app_ss.png" alt="How it works demonstration" class="w-full border rounded-t-md" />
         </div>
