@@ -119,10 +119,10 @@
   <style scoped>
   .number-highlight {
     transition: color 0.3s ease;
-    color: #b995f7; /* Purple color when animating */
+    color: #805ad5; /* Purple color when animating */
   }
   .number-final {
-    color: #7c3aed; /* Purple color for final state */
+    color: #805ad5; /* Purple color for final state */
   }
   
   @keyframes pulse {
