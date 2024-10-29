@@ -157,7 +157,10 @@
 
                     <!-- Total Fat -->
                     <div class="flex justify-between text-sm py-1 border-t">
-                        <span class="font-bold">Total Fat</span> {{ (recipeNutrition.totalNutrients.FAT.quantity / recipe.servings).toFixed(1) }}g
+                        <div class="flex">
+                            <span class="font-bold">Total Fat</span>
+                            <span class="ml-2">{{ (recipeNutrition.totalNutrients.FAT.quantity / recipe.servings).toFixed(1) }} g</span>
+                        </div>
                         <span class="font-bold">{{ (recipeNutrition.totalDaily.FAT.quantity / recipe.servings).toFixed(0) }}%</span>
                     </div>
 
@@ -193,13 +196,13 @@
 
                     <!-- Dietary Fiber -->
                     <div class="flex justify-between text-sm py-1 ml-5">
-                        <span>Dietary Fiber {{ (recipeNutrition.totalNutrients.FIBTG.quantity / recipe.servings).toFixed(1) }} g</span>
-                        <span>{{ (recipeNutrition.totalDaily.FIBTG.quantity / recipe.servings).toFixed(1) }} %</span>
+                        <span>Dietary Fiber {{ (recipeNutrition.totalNutrients.FIBTG.quantity / recipe.servings).toFixed(1) }}g</span>
+                        <span>{{ (recipeNutrition.totalDaily.FIBTG.quantity / recipe.servings).toFixed(1) }}%</span>
                     </div>
 
                     <!-- Total Sugars -->
                     <div class="flex justify-between text-sm py-1 ml-5">
-                        <span>Total Sugars {{ (recipeNutrition.totalNutrients.SUGAR.quantity / recipe.servings).toFixed(1) }} g</span>
+                        <span>Total Sugars {{ (recipeNutrition.totalNutrients.SUGAR.quantity / recipe.servings).toFixed(1) }}g</span>
                         <span></span>
                     </div>
 
