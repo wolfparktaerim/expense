@@ -1,9 +1,7 @@
 <!-- RecipeDetails.vue -->
 
 <template>
-
     <Navigation />
-
     <!-- Loading + Did you know section -->
     <div v-if="isLoading">
         <div class="text-center flex flex-col justify-center items-center h-32 mt-3">
@@ -15,7 +13,7 @@
     </div>
 
     <!-- Recipe Full Information -->
-    <div v-else class="container mx-auto mt-8 p-6 bg-gray-50 shadow-lg rounded-lg">
+    <div v-else class="container mx-auto p-6 bg-gray-50 shadow-lg rounded-lg">
 
         <!-- Title and Favorite Icon Row -->
         <div class="flex items-center justify-center mb-8">
