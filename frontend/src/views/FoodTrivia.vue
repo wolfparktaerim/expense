@@ -1,20 +1,32 @@
 <template>
-    <div class="food-trivia-container">
-      <h1 class="text-3xl font-bold text-center my-8">Random Food Trivia Generator</h1>
+    <SubNavigation></SubNavigation>
+
+    <div class="food-trivia-container" style="margin-top: 5%">
+      <h1 class="font-bold text-center mb-4 relative overflow-hidden">
+        <span class="gradient">Food Trivia Generator</span>
+      </h1>
       <div class="trivia-box">
         <p v-if="trivia" class="trivia-text text-lg text-center">{{ trivia }}</p>
-        <p v-else class="text-center text-gray-500">Press the button to get a food trivia!</p>
+        <p v-else class="text-center text-gray-500">Press the button below to get a random food trivia!</p>
       </div>
-      <button @click="generateTrivia" class="generate-button">
-        Generate trivia
-      </button>
+      <div class="text-right mt-4">
+        <button @click="generateTrivia" class="generate-button">
+          Generate trivia
+        </button>
+      </div>
     </div>
   </template>
   
   <script>
   import axios from 'axios';
-  
+  import SubNavigation from '../components/SubNavigation.vue';
+
   export default {
+    name: 'SearchPage', 
+    //  Local Component Registration
+    components: {
+      SubNavigation,
+    },
     data() {
       return {
         trivia: '',
@@ -41,6 +53,14 @@
   </script>
   
   <style scoped>
+  .gradient {
+    background: linear-gradient(to right, #D8B4FE, #8B5CF6); 
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    transition: background 0.3s ease;
+  }
+
   .food-trivia-container {
     max-width: 600px;
     margin: 0 auto;
