@@ -161,8 +161,11 @@
 
                     <!-- Total Fat -->
                     <div class="flex justify-between text-sm py-1 border-t">
-                        <span class="font-bold">Total Fat</span> {{ (recipeNutrition.totalNutrients.FAT.quantity / recipe.servings).toFixed(1) }}g
-                        <span class="font-bold">{{ (recipeNutrition.totalDaily.FAT.quantity / recipe.servings).toFixed(0) }}%</span>
+                        <div class="flex">
+                            <span class="font-bold">Total Fat</span>
+                            <span class="ml-1">{{ (recipeNutrition.totalNutrients.FAT.quantity / recipe.servings).toFixed(1) }}g</span>
+                        </div>
+                        <span class="font-bold">{{ (recipeNutrition.totalDaily.FAT.quantity / recipe.servings).toFixed(1) }}%</span>
                     </div>
 
                     <!-- Saturated Fat -->
@@ -179,37 +182,49 @@
 
                     <!-- Cholesterol -->
                     <div class="flex justify-between text-sm py-1 border-t">
-                        <span class="font-bold">Cholesterol</span> {{ (recipeNutrition.totalNutrients.CHOLE.quantity / recipe.servings).toFixed(1) }}mg
+                        <div class="flex">
+                            <span class="font-bold">Cholesterol</span>
+                            <span class="ml-1">{{ (recipeNutrition.totalNutrients.CHOLE.quantity / recipe.servings).toFixed(1) }}mg</span>
+                        </div>
                         <span class="font-bold">{{ (recipeNutrition.totalDaily.CHOLE.quantity / recipe.servings).toFixed(1) }}%</span>
                     </div>
 
                     <!-- Sodium -->
                     <div class="flex justify-between text-sm py-1 border-t">
-                        <span class="font-bold">Sodium</span> {{ (recipeNutrition.totalNutrients.NA.quantity / recipe.servings).toFixed(1) }}mg
+                        <div class="flex">
+                            <span class="font-bold">Sodium</span>
+                            <span class="ml-1">{{ (recipeNutrition.totalNutrients.NA.quantity / recipe.servings).toFixed(1) }}mg</span>
+                        </div>
                         <span class="font-bold">{{ (recipeNutrition.totalDaily.NA.quantity / recipe.servings).toFixed(1) }}%</span>
                     </div>
 
                     <!-- Total Carbohydrate -->
                     <div class="flex justify-between text-sm py-1 border-t">
-                        <span class="font-bold">Total Carbohydrate</span> {{ (recipeNutrition.totalNutrients.CHOCDF.quantity / recipe.servings).toFixed(1) }}g
+                        <div class="flex">
+                            <span class="font-bold">Total Carbohydrate</span>
+                            <span class="ml-1"> {{ (recipeNutrition.totalNutrients.CHOCDF.quantity / recipe.servings).toFixed(1) }}g</span>
+                        </div>
                         <span class="font-bold">{{ (recipeNutrition.totalDaily.CHOCDF.quantity / recipe.servings).toFixed(1) }}%</span>
                     </div>
 
                     <!-- Dietary Fiber -->
                     <div class="flex justify-between text-sm py-1 ml-5">
-                        <span>Dietary Fiber {{ (recipeNutrition.totalNutrients.FIBTG.quantity / recipe.servings).toFixed(1) }} g</span>
-                        <span>{{ (recipeNutrition.totalDaily.FIBTG.quantity / recipe.servings).toFixed(1) }} %</span>
+                        <span>Dietary Fiber {{ (recipeNutrition.totalNutrients.FIBTG.quantity / recipe.servings).toFixed(1) }}g</span>
+                        <span>{{ (recipeNutrition.totalDaily.FIBTG.quantity / recipe.servings).toFixed(1) }}%</span>
                     </div>
 
                     <!-- Total Sugars -->
                     <div class="flex justify-between text-sm py-1 ml-5">
-                        <span>Total Sugars {{ (recipeNutrition.totalNutrients.SUGAR.quantity / recipe.servings).toFixed(1) }} g</span>
+                        <span>Total Sugars {{ (recipeNutrition.totalNutrients.SUGAR.quantity / recipe.servings).toFixed(1) }}g</span>
                         <span></span>
                     </div>
 
                     <!-- Protein -->
                     <div class="flex justify-between text-sm py-1 border-t">
-                        <span class="font-bold">Protein</span> {{ (recipeNutrition.totalNutrients.PROCNT.quantity / recipe.servings).toFixed(1) }}g
+                        <div class="flex">
+                            <span class="font-bold">Protein</span>
+                            <span class="ml-1">{{ (recipeNutrition.totalNutrients.PROCNT.quantity / recipe.servings).toFixed(1) }}g</span>
+                        </div>
                         <span class="font-bold">{{ (recipeNutrition.totalDaily.PROCNT.quantity / recipe.servings).toFixed(1) }}%</span>
                     </div>
 
@@ -251,7 +266,7 @@
                             class="absolute top-0 left-0 h-full bg-blue-500 text-white text-sm flex items-center justify-center"
                             :style="{ width: carbPercentage + '%' }"
                         >
-                            Carbohydrate: {{ carbPercentage.toFixed(0) }}%
+                            {{ carbPercentage.toFixed(0) }}%
                         </div>
 
                         <!-- Protein -->
@@ -259,7 +274,7 @@
                             class="absolute top-0 h-full bg-green-500 text-white text-sm flex items-center justify-center"
                             :style="{ width: proteinPercentage + '%', left: carbPercentage + '%' }"
                         >
-                            Protein: {{ proteinPercentage.toFixed(0) }}%
+                            {{ proteinPercentage.toFixed(0) }}%
                         </div>
 
                         <!-- Fat -->
@@ -267,7 +282,23 @@
                             class="absolute top-0 h-full bg-yellow-500 text-white text-sm flex items-center justify-center"
                             :style="{ width: fatPercentage + '%', left: (carbPercentage + proteinPercentage) + '%' }"
                         >
-                            Fat: {{ fatPercentage.toFixed(0) }}%
+                            {{ fatPercentage.toFixed(0) }}%
+                        </div>
+                    </div>
+
+                    <!-- Legend for Macronutrient Colors -->
+                    <div class="flex justify-around text-sm mt-2">
+                        <div class="flex items-center space-x-2">
+                            <span class="h-4 w-4 bg-blue-500 inline-block rounded"></span>
+                            <span>Carbohydrate</span>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <span class="h-4 w-4 bg-green-500 inline-block rounded"></span>
+                            <span>Protein</span>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <span class="h-4 w-4 bg-yellow-500 inline-block rounded"></span>
+                            <span>Fat</span>
                         </div>
                     </div>
 
@@ -279,7 +310,6 @@
     <!-- temp console log button for debugging-->
     <hr>
     <br><br>
-    <!-- console log button -->
     <button @click="consoleButton">Console Log</button>
 
 

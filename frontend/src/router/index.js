@@ -6,7 +6,6 @@ import Home from '../views/Home.vue'
 import Search from '../views/Search.vue'
 import Recipe from '../views/Recipe.vue'
 import Globe from '../views/Globe.vue'
-import FoodJoke from '../views/FoodJoke.vue'
 import FoodTrivia from '../views/FoodTrivia.vue'
 import Saved from '../views/Saved.vue'
 import Profile from '../views/Profile.vue'
@@ -31,11 +30,6 @@ const routes = [
   { 
     path: '/discover', 
     component: Globe,
-    meta: { requiresAuth: true }
-  },
-  { 
-    path: '/foodjoke', 
-    component: FoodJoke,
     meta: { requiresAuth: true }
   },
   {
