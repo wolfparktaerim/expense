@@ -19,7 +19,7 @@
       <!-- No Favorites State -->
       <div v-else-if="!savedRecipes.length" class="text-center py-12">
         <img src="../../public/icon/remove_favorite.png" alt="No favorites" class="w-24 h-24 mx-auto mb-4">
-        <h2 class="text-xl font-semibold text-gray-700 mb-2">No Saved Recipes Yet</h2>
+        <h2 class="text-xl font-semibold text-gray-800 mb-2">No Saved Recipes Yet</h2>
         <p class="text-gray-600 mb-4">Start exploring and save your favorite recipes!</p>
         <router-link 
           to="/search" 
