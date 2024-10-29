@@ -140,6 +140,7 @@
                   v-for="(message, index) in chatMessages"
                   :key="index"
                   class="flex"
+                  ref="messages"
                   :class="message.isUser ? 'justify-end' : 'justify-start'"
                 >
                   <div
@@ -173,6 +174,8 @@
     </Transition>
   </div>
 </template>
+
+//breakkkkkkkkkkkkkkkkkkkk
 
 <script>
 import {
@@ -231,13 +234,14 @@ export default {
   },
 
   watch: {
-    chatMessages: {
-      handler() {
-        this.$nextTick(() => {
-          if (this.$refs.chatContainer) {
-            this.$refs.chatContainer.scrollTop =
-              this.$refs.chatContainer.scrollHeight;
-          }
+  chatMessages: {
+    handler() {
+      this.$nextTick(() => {
+        const messages = this.$refs.messages;
+        if (messages && messages.length) {
+          const lastMessage = messages[messages.length - 1];
+          lastMessage.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
         });
       },
       deep: true,
@@ -298,11 +302,24 @@ export default {
           text: "Please select at least one ingredient to find substitutes for.",
           isUser: false,
         });
+        this.scrollToLatestMessage();
         return;
       }
 
       await this.sendMessage(`Find substitutes for: ${selected.join(", ")}`);
       this.showIngredientSelection = false;
+
+      this.scrollToLatestMessage();
+    },
+
+    scrollToLatestMessage() {
+    this.$nextTick(() => {
+      const messages = this.$refs.messages;
+      if (messages && messages.length) {
+        const lastMessage = messages[messages.length - 1];
+        lastMessage.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+      });
     },
 
     async sendMessage(text) {
