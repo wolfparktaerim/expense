@@ -3,7 +3,7 @@
 <template>
 
     <SubNavigation />
-
+    <Chat></Chat>
     <!-- Loading + Did you know section -->
     <div v-if="isLoading">
         <div class="text-center flex flex-col justify-center items-center h-32 mt-3">
@@ -333,11 +333,13 @@
     import SquareLoader from 'vue-spinner/src/SquareLoader.vue';
     import { useFavoritesStore } from '../stores/favorites';
     import { getAuth, onAuthStateChanged } from 'firebase/auth';
+    import Chat from "../components/Chat.vue";
   
     export default {
         components: {
             SquareLoader,
             SubNavigation,
+            Chat
         },
         data() {
             return {
@@ -372,7 +374,6 @@
             this.favoritesStore = useFavoritesStore();
 
             // Fetch the recipe details based on the route ID
-            const recipeId = this.$route.params.id;
             this.id = recipeId;
             this.isLoading = true;
             const recipeId = this.$route.params.id;
