@@ -1,8 +1,8 @@
 <template>
   <div class="interactive-globe">
     <div ref="globeContainer" class="globe-container"></div>
-    <div class="infosidebar bg-gray-100 p-4 rounded-lg shadow-md flex flex-col space-y-4">
-      <h2 class="text-2xl font-bold mb-4 text-purple-600">Discover Global Recipes</h2>
+    <div class="info-sidebar bg-gray-100 p-4 rounded-lg shadow-md flex flex-col space-y-4">
+      <h2 class="text-2xl font-bold mb-4 text-purple-600">Discover Global Recipes!</h2>
       <div class="search-container flex items-center">
         <input
           type="text"
@@ -22,7 +22,8 @@
           <span class="font-normal text-gray-700">{{ lastHoveredInfo.popularDish.servingSize }}</span></span>
           </p>
         </div>
-        <p v-else class="text-gray-600">Click on the globe to pin a country. Hover over pin to view its cuisine information.</p>
+        <p v-else class="text-gray-600">1. Click on the globe to pin a country. 
+          <br>2. Zoom in to pin and hover over it to view its cuisine information.</p>
       </div>
 
       <!-- Card for Ingredients Used -->

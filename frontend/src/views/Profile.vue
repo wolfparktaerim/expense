@@ -54,7 +54,7 @@
   
               <!-- User Info with Tooltip -->
               <div class="flex-1 text-center sm:text-left relative group">
-                <h1 class="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-pink-600 mb-1">
+                <h1 class="text-2xl text-left font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-pink-600 mb-1">
                   {{ user?.email?.split("@")[0] || "User" }}
                 </h1>
                 <p class="text-gray-600 break-all group-hover:text-purple-600 transition-colors duration-300">
