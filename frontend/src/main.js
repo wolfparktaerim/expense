@@ -6,7 +6,8 @@ import LoginModal from './components/LoginModal.vue'
 import router from './router'
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
-
+import Toast from 'vue-toastification';
+import 'vue-toastification/dist/index.css';
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -28,6 +29,11 @@ const analytics = getAnalytics(firebaseApp);
 const app = createApp(App);
 const pinia = createPinia();
 
+app.use(Toast,{
+  transition: "Vue-Toastification__bounce",
+  maxToasts: 20,
+  newestOnTop: true
+});
 app.use(pinia);
 app.component('LoginModal', LoginModal);
 app.use(router);

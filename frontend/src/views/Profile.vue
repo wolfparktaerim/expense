@@ -282,6 +282,7 @@ import {
   X
 } from 'lucide-vue-next';
 import { Dialog, DialogPanel, DialogTitle, TransitionRoot, TransitionChild } from '@headlessui/vue';
+import { useToast } from 'vue-toastification';
 
 export default {
   name: "ProfilePage",
@@ -326,6 +327,22 @@ export default {
       displayedCount: 0,
       countInterval: null,
       tooltipVisible: false,
+      toast: useToast(),
+      updated: {
+        transition: "Vue-Toastification__fade",
+        maxToasts: 2,
+        filterToasts: toasts => {
+        // Keep track of existing types
+        const types = {};
+        return toasts.reduce((aggToasts, toast) => {
+          // Check if type was not seen before
+          if (!types[toast.type]) {
+            aggToasts.push(toast);
+            types[toast.type] = true;
+          }
+          return aggToasts;
+        }, []);
+          }}
     };
   },
 
@@ -395,6 +412,12 @@ export default {
         const auth = getAuth();
         await signOut(auth);
         this.$router.push("/");
+        this.toast.success('Signed Out Succesfully', {
+            closeButton: false,
+            hideProgressBar: true,
+            timeout: 2000
+          });
+          this.toast.updateDefaults(this.updated);
       } catch (error) {
         console.error("Error signing out:", error);
         this.error = "Failed to sign out. Please try again.";
@@ -408,6 +431,12 @@ export default {
         const auth = getAuth();
         await auth.currentUser.delete();
         this.$router.push("/");
+        this.toast.error('Account Deleted', {
+            closeButton: false,
+            hideProgressBar: true,
+            timeout: 2000
+          });
+          this.toast.updateDefaults(this.updated);
       } catch (error) {
         console.error("Error deleting account:", error);
         this.error = "Failed to delete account. Please try again.";

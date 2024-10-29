@@ -1,5 +1,7 @@
 <template>
-    <span ref="counterRef" :class="{ 'number-highlight': isAnimating }">{{ displayValue }}</span>
+    <span ref="counterRef" :class="{ 'number-highlight': isAnimating, 'number-final': isCompleted }">
+      {{ displayValue }}
+    </span>
   </template>
   
   <script>
@@ -35,7 +37,8 @@
         animationFrame: null,
         startTime: null,
         observer: null,
-        isAnimating: false
+        isAnimating: false,
+        isCompleted: false
       }
     },
   
@@ -51,7 +54,8 @@
           this.animationFrame = requestAnimationFrame(this.animate)
         } else {
           this.displayValue = this.endValue + this.suffix
-          this.isAnimating = false
+          this.isAnimating = false;
+          this.isCompleted = true;
         }
       },
   
@@ -65,7 +69,8 @@
           cancelAnimationFrame(this.animationFrame)
         }
         setTimeout(() => {
-          this.startTime = null
+          this.startTime = null;
+          this.isCompleted = false;
           this.animationFrame = requestAnimationFrame(this.animate)
         }, this.delay)
       },
@@ -114,7 +119,10 @@
   <style scoped>
   .number-highlight {
     transition: color 0.3s ease;
-    color: #7c3aed; /* Purple color when animating */
+    color: #b995f7; /* Purple color when animating */
+  }
+  .number-final {
+    color: #7c3aed; /* Purple color for final state */
   }
   
   @keyframes pulse {

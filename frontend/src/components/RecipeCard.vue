@@ -60,6 +60,7 @@
 import { useFavoritesStore } from '../stores/favorites';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import PulseLoader from 'vue-spinner/src/PulseLoader.vue';
+import { useToast } from 'vue-toastification';
 
 export default {
   props: {
@@ -76,7 +77,23 @@ export default {
       loading: false,
       favoritesStore: null,
       isLoading: false, // Spinner control for viewing recipe details
-      loadingColor: '#805ad5'
+      loadingColor: '#805ad5',
+      toast: useToast(),
+      updated: {
+        transition: "Vue-Toastification__fade",
+        maxToasts: 2,
+        filterToasts: toasts => {
+        // Keep track of existing types
+        const types = {};
+        return toasts.reduce((aggToasts, toast) => {
+          // Check if type was not seen before
+          if (!types[toast.type]) {
+            aggToasts.push(toast);
+            types[toast.type] = true;
+          }
+          return aggToasts;
+        }, []);
+          }}
     };
   },
 
@@ -117,6 +134,7 @@ export default {
 
     async viewRecipeDetails(recipe) {
       this.isLoading = true; // Start spinner
+      this.toast.clear();
       try {
         await this.$router.push({ path: `/recipe/${recipe.id}` });
       } 
@@ -139,8 +157,20 @@ export default {
 
         if (this.checkIsFavorite(recipe.id)) {
           await this.favoritesStore.removeFromFavorites(recipe.id);
+          this.toast.error('Removed from Favourites!',{
+            closeButton: false,
+            hideProgressBar: true,
+            timeout: 2000,
+          });
+          this.toast.updateDefaults(this.updated);
         } else {
           await this.favoritesStore.addToFavorites(recipe);
+          this.toast.success('Added to Favourites!', {
+            closeButton: false,
+            hideProgressBar: true,
+            timeout: 2000
+          });
+          this.toast.updateDefaults(this.updated);
         }
       } catch (error) {
         this.error = error.message;

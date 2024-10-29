@@ -128,6 +128,7 @@ import {
   fetchSignInMethodsForEmail 
 } from 'firebase/auth';
 import { useRouter } from 'vue-router';
+import { useToast } from 'vue-toastification';
 
 export default {
   name: 'LoginModal',
@@ -162,6 +163,22 @@ export default {
       showPasswordField: false,
       isNewUser: false,
       isLoading: false,
+      toast: useToast(),
+      updated: {
+        transition: "Vue-Toastification__fade",
+        maxToasts: 2,
+        filterToasts: toasts => {
+        // Keep track of existing types
+        const types = {};
+        return toasts.reduce((aggToasts, toast) => {
+          // Check if type was not seen before
+          if (!types[toast.type]) {
+            aggToasts.push(toast);
+            types[toast.type] = true;
+          }
+          return aggToasts;
+        }, []);
+          }}
     }
   },
   methods: {
@@ -292,9 +309,21 @@ export default {
     try {
       if (this.isNewUser) {
         await createUserWithEmailAndPassword(auth, this.email, this.password);
+        this.toast.success('Account created successfully', {
+            closeButton: false,
+            hideProgressBar: true,
+            timeout: 2000
+          });
+          this.toast.updateDefaults(this.updated);
         console.log('User created successfully');
       } else {
         await signInWithEmailAndPassword(auth, this.email, this.password);
+        this.toast.success('Logged in successfully', {
+            closeButton: false,
+            hideProgressBar: true,
+            timeout: 2000
+          });
+          this.toast.updateDefaults(this.updated);
         console.log('User logged in successfully');
       }
       

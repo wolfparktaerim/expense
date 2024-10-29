@@ -66,7 +66,7 @@
         <!-- Stat 2 -->
         <div class="bg-white p-6 rounded-lg shadow border-l-4 border-yellow-400 hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
           <h3 class="text-4xl font-bold text-gray-800 mb-2">
-            <NumberCounter end-value="40" :decimals="0" :delay="200" />-<NumberCounter end-value="49" :decimals="0" :delay="400" /> years
+            <NumberCounter end-value="40" suffix="-" :decimals="0" :delay="200" /><NumberCounter end-value="49" suffix=" years" :decimals="0" :delay="400" />
           </h3>
           <p class="text-gray-600">Age group with highest obesity rates (15%)</p>
         </div>
@@ -74,7 +74,7 @@
         <!-- Stat 3 -->
         <div class="bg-white p-6 rounded-lg shadow border-l-4 border-yellow-400 hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
           <h3 class="text-4xl font-bold text-gray-800 mb-2">
-            <NumberCounter end-value="2" :decimals="0" :delay="600" />x
+            <NumberCounter end-value="2" suffix="x" :decimals="0" :delay="600" />
           </h3>
           <p class="text-gray-600">Global obesity rates since 1980</p>
         </div>
