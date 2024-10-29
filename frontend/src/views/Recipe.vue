@@ -262,7 +262,7 @@
                             class="absolute top-0 left-0 h-full bg-blue-500 text-white text-sm flex items-center justify-center"
                             :style="{ width: carbPercentage + '%' }"
                         >
-                            Carbohydrate: {{ carbPercentage.toFixed(0) }}%
+                            {{ carbPercentage.toFixed(0) }}%
                         </div>
 
                         <!-- Protein -->
@@ -270,7 +270,7 @@
                             class="absolute top-0 h-full bg-green-500 text-white text-sm flex items-center justify-center"
                             :style="{ width: proteinPercentage + '%', left: carbPercentage + '%' }"
                         >
-                            Protein: {{ proteinPercentage.toFixed(0) }}%
+                            {{ proteinPercentage.toFixed(0) }}%
                         </div>
 
                         <!-- Fat -->
@@ -278,7 +278,23 @@
                             class="absolute top-0 h-full bg-yellow-500 text-white text-sm flex items-center justify-center"
                             :style="{ width: fatPercentage + '%', left: (carbPercentage + proteinPercentage) + '%' }"
                         >
-                            Fat: {{ fatPercentage.toFixed(0) }}%
+                            {{ fatPercentage.toFixed(0) }}%
+                        </div>
+                    </div>
+
+                    <!-- Legend for Macronutrient Colors -->
+                    <div class="flex justify-around text-sm mt-2">
+                        <div class="flex items-center space-x-2">
+                            <span class="h-4 w-4 bg-blue-500 inline-block rounded"></span>
+                            <span>Carbohydrate</span>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <span class="h-4 w-4 bg-green-500 inline-block rounded"></span>
+                            <span>Protein</span>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <span class="h-4 w-4 bg-yellow-500 inline-block rounded"></span>
+                            <span>Fat</span>
                         </div>
                     </div>
 
@@ -290,7 +306,6 @@
     <!-- temp console log button for debugging-->
     <hr>
     <br><br>
-    <!-- console log button -->
     <button @click="consoleButton">Console Log</button>
 
 
