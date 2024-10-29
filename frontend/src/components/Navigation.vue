@@ -14,9 +14,6 @@
         <router-link to="/search" class="text-gray-600 hover:text-purple-600 transition-all duration-300 ease-in-out hover:font-bold">
           Search
         </router-link>
-        <router-link to="/foodjoke" class="text-gray-600 hover:text-purple-600 transition-all duration-300 ease-in-out hover:font-bold">
-          Food Joke
-        </router-link>
         <router-link to="/foodtrivia" class="text-gray-600 hover:text-purple-600 transition-all duration-300 ease-in-out hover:font-bold">
           Food Trivia
         </router-link>
