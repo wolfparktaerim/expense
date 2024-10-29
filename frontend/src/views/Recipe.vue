@@ -2,6 +2,7 @@
 
 <template>
     <Navigation />
+    <Chat></Chat>
     <!-- Loading + Did you know section -->
     <div v-if="isLoading">
         <div class="text-center flex flex-col justify-center items-center h-32 mt-3">
@@ -326,8 +327,6 @@
 </template>
   
 <script>
-
-    import RecipeSearch from "../components/RecipeSearch.vue";
     import SubNavigation from "../components/SubNavigation.vue";
     import axios from 'axios';
     import SquareLoader from 'vue-spinner/src/SquareLoader.vue';
@@ -339,6 +338,7 @@
         components: {
             SquareLoader,
             SubNavigation,
+            Chat
         },
         data() {
             return {

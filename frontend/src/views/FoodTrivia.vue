@@ -1,5 +1,5 @@
 <template>
-    <SubNavigation></SubNavigation>
+    <Navigation></Navigation>
 
     <div class="food-trivia-container" style="margin-top: 5%">
       <h1 class="font-bold text-center mb-4 relative overflow-hidden">
@@ -19,13 +19,13 @@
   
   <script>
   import axios from 'axios';
-  import SubNavigation from '../components/SubNavigation.vue';
+  import Navigation from '../components/Navigation.vue';
 
   export default {
     name: 'SearchPage', 
     //  Local Component Registration
     components: {
-      SubNavigation,
+      Navigation,
     },
     data() {
       return {
