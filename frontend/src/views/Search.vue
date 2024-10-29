@@ -1,13 +1,15 @@
 <template>
     <Navigation />
     <RecipeSearch />
-    <Search />
-    
-  </template>
+</template>
   
   <script>
+<<<<<<< HEAD
   import Search from "../components/SearchFxn.vue";
   import Navigation from "../components/Navigation.vue";
+=======
+  import SubNavigation from "../components/SubNavigation.vue";
+>>>>>>> e3900a85ba37b9fb8c851c3f8c77acd9c0b2962b
   import RecipeSearch from "../components/RecipeSearch.vue";
   
   export default {
@@ -16,7 +18,6 @@
     components: {
       Navigation,
       RecipeSearch,
-      Search,
     },
   }
   </script>
