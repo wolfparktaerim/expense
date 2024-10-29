@@ -2,8 +2,8 @@
   <div class="interactive-globe">
     <div ref="globeContainer" class="globe-container"></div>
     <div class="info-sidebar">
+      <h2 class="text-2xl font-bold mb-4 text-purple-600">Global Recipe Finder</h2>
       <div class="info-card">
-        <h2 class="text-xl font-bold mb-4">Cuisine Information</h2>
         <div v-if="lastHoveredInfo">
           <p class="text-lg font-bold">Country: <span class="font-normal text-gray-700">{{ lastHoveredInfo.label }}</span></p>
           <p class="text-lg font-bold">Dish Name: <span class="font-normal text-gray-700">{{ lastHoveredInfo.popularDish.name }}</span></p>
@@ -12,14 +12,14 @@
           <span class="font-normal text-gray-700">{{ lastHoveredInfo.popularDish.servingSize }}</span></span>
           </p>
         </div>
-        <p v-else>Click on the globe to select a country and view its cuisine information</p>
+        <p v-else class="text-gray-600">Click on the globe to pin a country. Hover over pin to view its cuisine information.</p>
       </div>
 
       <!-- Card for Ingredients Used -->
       <div class="info-card mt-4">
         <h3 class="text-lg font-bold">Ingredients Used</h3>
         <ul v-if="lastHoveredInfo && lastHoveredInfo.popularDish">
-          <li v-for="ingredient in lastHoveredInfo.popularDish.ingredients" :key="ingredient" class="text-lg items-center text-gray-700">{{ ingredient }}</li>
+          <li v-for="ingredient in lastHoveredInfo.popularDish.ingredients" :key="ingredient" class="text-gray-700">{{ ingredient }}</li>
         </ul>
       </div>
 
@@ -28,7 +28,7 @@
         <h3 class="text-lg font-bold">Instructions</h3>
         <ol v-if="lastHoveredInfo && lastHoveredInfo.popularDish">
           <li v-for="(instruction, index) in lastHoveredInfo.popularDish.instructions" :key="instruction" class="flex items-center">
-            <span class="font-bold">Step {{ index + 1 }}:</span> <span class="font-normal">{{ instruction }}</span>
+            <p class="font-bold">Step {{ index + 1 }}: <span class="font-normal text-gray-700">{{ instruction }}</span></p>
           </li>
         </ol>
       </div>
@@ -154,7 +154,7 @@ export default {
             messages: [
               {
                 role: "user",
-                content: `Provide information about a popular dish from ${country} in the following format:
+                content: `Provide information about a popular dish from ${country} in the following format  :
         Dish Name: [Name of the dish]
         Cultural Info: [Brief cultural info about the dish]
         Serving Size: [Serving Quantity Number]
@@ -164,9 +164,10 @@ export default {
         - [Ingredient 3] - [Ingredient Quantity]
         ...
         Instructions:
-        - Step 1: [Step 1 instructions including ingredients and equipment used]
-        - Step 2: [Step 2 instructions including ingredients and equipment used]
-        - Step 3: [Step 3 instructions including ingredients and equipment used]`,
+        - [Instruction 1 including ingredients and equipment]
+        - [Instruction 2 including ingredients and equipment]
+        - [Instruction 3 including ingredients and equipment]
+        ...`
               },
             ],
             temperature: 0.1,
@@ -311,6 +312,11 @@ export default {
   border-radius: 0.5rem;
   padding: 1rem;
   box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+}
+
+.info-card ul {
+  list-style-type: disc; /* Use disc bullets */
+  margin-left: 25px; /* Indent the list */
 }
 
 /* Media query for small screens */
