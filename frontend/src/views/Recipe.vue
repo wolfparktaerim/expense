@@ -68,7 +68,7 @@
 
                     <!-- Vegan icon for vegan recipes -->
                     <div v-if="recipe.vegan" class="flex items-center space-x-2 relative group">
-                        <img src="../../public/icon/vegan.png" alt="Vegan Icon" class="w-8 h-8">
+                        <img src="/icon/vegan.png" alt="Vegan Icon" class="w-8 h-8">
                         <!-- Hidden text, shown on hover -->
                         <div class="absolute left-1/2 transform -translate-x-1/2 top-10 bg-green-600 text-white text-xs font-bold py-1 px-2 rounded opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
                             100% Vegan!
@@ -77,7 +77,7 @@
 
                     <!-- Popular icon for very popular recipes -->
                     <div v-if="recipe.veryPopular" class="flex items-center space-x-2 relative group">
-                        <img src="../../public/icon/popular.png" alt="Popular Icon" class="w-8 h-8">
+                        <img src="/icon/popular.png" alt="Popular Icon" class="w-8 h-8">
                         <!-- Hidden text, shown on hover -->
                         <div class="absolute left-1/2 transform -translate-x-1/2 top-10 bg-red-600 text-white text-xs font-bold py-1 px-2 rounded opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
                             Very popular!
@@ -86,7 +86,7 @@
 
                     <!-- Cheap icon for cheap recipes -->
                     <div v-if="recipe.isCheap" class="flex items-center space-x-2 relative group">
-                        <img src="../../public/icon/cheap.png" alt="Cheap Icon" class="w-8 h-8">
+                        <img src="/icon/cheap.png" alt="Cheap Icon" class="w-8 h-8">
                         <!-- Hidden text, shown on hover -->
                         <div class="absolute left-1/2 transform -translate-x-1/2 top-10 bg-yellow-600 text-white text-xs font-bold py-1 px-2 rounded opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
                             Very cheap!
@@ -95,7 +95,7 @@
 
                     <!-- Healthy icon for healthy recipes -->
                     <div v-if="recipe.veryHealthy" class="flex items-center space-x-2 relative group">
-                        <img src="../../public/icon/healthy.png" alt="Healthy Icon" class="w-8 h-8">
+                        <img src="/icon/healthy.png" alt="Healthy Icon" class="w-8 h-8">
                         <!-- Hidden text, shown on hover -->
                         <div class="absolute left-1/2 transform -translate-x-1/2 top-10 bg-green-600 text-white text-xs font-bold py-1 px-2 rounded opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
                             Healthy Choice!
