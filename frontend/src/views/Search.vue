@@ -1,7 +1,7 @@
 <template>
     <SubNavigation />
     <RecipeSearch />
-  </template>
+</template>
   
   <script>
   import SubNavigation from "../components/SubNavigation.vue";
