@@ -346,22 +346,21 @@ export default {
               {
                 role: "user",
                 content: `
-                  Do not include any markdown.
-                  Keep it concise.
                   Based on the given recipe ingredients: 
                   ${ingredientsList}. 
-                  ${prompt}. (<- Answer to this prompt only, do not add anything not necessary)
+                  Prompt: ${prompt}.
                   Return the output in this format: (make sure you add /n /t appropriately):
-                  Ingredients Used:
+                  (If ask for ingredients) Ingredients Used:
                   - [Ingredient 1] - [Ingredient Quantity][in metric]
                   - [Ingredient 2] - [Ingredient Quantity][in metric]
                   - [Ingredient 3] - [Ingredient Quantity][in metric]
                   ...
-                  Instructions:
+                  (If ask for instructions) Instructions:
                   - [Instruction 1 including ingredients and equipment]
                   - [Instruction 2 including ingredients and equipment]
                   - [Instruction 3 including ingredients and equipment]
                   ...
+                  Do not include any markdown, make it as concise as possible. Answer to 'prompt' only, do not add anything unnecessary
                   `,
               },
             ],
