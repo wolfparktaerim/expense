@@ -1,8 +1,8 @@
 <template>
   <div class="interactive-globe">
     <div ref="globeContainer" class="globe-container"></div>
-    <div class="infosidebar bg-gray-100 p-4 rounded-lg shadow-md flex flex-col space-y-4">
-      <h2 class="text-2xl font-bold mb-4 text-purple-600">Discover Global Recipes</h2>
+    <div class="info-sidebar bg-gray-100 p-4 rounded-lg shadow-md flex flex-col space-y-4">
+      <h2 class="text-2xl font-bold mb-4 text-purple-600">Discover Global Recipes!</h2>
       <div class="search-container flex items-center">
         <input
           type="text"
