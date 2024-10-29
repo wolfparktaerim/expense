@@ -1,3 +1,4 @@
+<!-- Home.vue -->
 <template>
   <Navigation />
   <div class="animated-container">

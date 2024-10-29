@@ -6,8 +6,12 @@
 
     <!-- Loading + Did you know section -->
     <div v-if="isLoading">
-        <div class="text-center flex justify-center items-center h-32 mt-3" >Did You Know? Food Trivia Section</div>
-        <SquareLoader :color="loadingColor" class="text-center flex justify-center items-center h-32 mt-3" />
+        <div class="text-center flex flex-col justify-center items-center h-32 mt-3">
+            <h2 class="text-4xl font-bold my-8">Did You Know?</h2>
+            <p v-if="trivia" class="text-center text-gray-700 columns-lg my-8">{{ trivia }}</p>
+            <p v-else class="text-center text-gray-500 my-8">Fetching some fun food trivia...</p>
+            <SquareLoader :color="loadingColor" class="mt-3" />
+        </div>
     </div>
 
     <!-- Recipe Full Information -->
@@ -262,7 +266,7 @@
                             class="absolute top-0 left-0 h-full bg-blue-500 text-white text-sm flex items-center justify-center"
                             :style="{ width: carbPercentage + '%' }"
                         >
-                            Carbohydrate: {{ carbPercentage.toFixed(0) }}%
+                            {{ carbPercentage.toFixed(0) }}%
                         </div>
 
                         <!-- Protein -->
@@ -270,7 +274,7 @@
                             class="absolute top-0 h-full bg-green-500 text-white text-sm flex items-center justify-center"
                             :style="{ width: proteinPercentage + '%', left: carbPercentage + '%' }"
                         >
-                            Protein: {{ proteinPercentage.toFixed(0) }}%
+                            {{ proteinPercentage.toFixed(0) }}%
                         </div>
 
                         <!-- Fat -->
@@ -278,7 +282,23 @@
                             class="absolute top-0 h-full bg-yellow-500 text-white text-sm flex items-center justify-center"
                             :style="{ width: fatPercentage + '%', left: (carbPercentage + proteinPercentage) + '%' }"
                         >
-                            Fat: {{ fatPercentage.toFixed(0) }}%
+                            {{ fatPercentage.toFixed(0) }}%
+                        </div>
+                    </div>
+
+                    <!-- Legend for Macronutrient Colors -->
+                    <div class="flex justify-around text-sm mt-2">
+                        <div class="flex items-center space-x-2">
+                            <span class="h-4 w-4 bg-blue-500 inline-block rounded"></span>
+                            <span>Carbohydrate</span>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <span class="h-4 w-4 bg-green-500 inline-block rounded"></span>
+                            <span>Protein</span>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <span class="h-4 w-4 bg-yellow-500 inline-block rounded"></span>
+                            <span>Fat</span>
                         </div>
                     </div>
 
@@ -290,7 +310,6 @@
     <!-- temp console log button for debugging-->
     <hr>
     <br><br>
-    <!-- console log button -->
     <button @click="consoleButton">Console Log</button>
 
 
@@ -332,50 +351,68 @@
                 },
                 recipeNutrition : null,
                 isLoading: false, // Spinner control for viewing recipe details
-                loadingColor: '#805ad5'
+                loadingColor: '#805ad5',
+                trivia: '', // New property for food trivia
+                loadingFinished: false, // To track recipe data load status
+                triviaLoaded: false, // To track trivia data load status
             };
         },
         created(){
-            // Fetch the recipe details based on the route ID
-            const recipeId = this.$route.params.id;
-            this.id = recipeId;
+            // Initialize loading states
             this.isLoading = true;
-            axios.get(`https://api.spoonacular.com/recipes/${recipeId}/information`, {
-                params: {
-                    // my api key
-                    apiKey : import.meta.env.VITE_SPOON_API_KEY,
-                }
+            const recipeId = this.$route.params.id;
+
+            // Create a delay of 5 seconds
+            const delay = new Promise(resolve => setTimeout(resolve, 3000));
+
+            // Trivia fetch promise
+            const fetchTrivia = axios.get('https://api.spoonacular.com/food/trivia/random', {
+                params: { apiKey: import.meta.env.VITE_SPOON_API_KEY }
             })
-                .then(response => {
-                    console.log(response.data);
-                    var recipeInfo = response.data;
+            .then(response => {
+                this.trivia = response.data.text;
+            })
+            .catch(error => {
+                console.error(error);
+                this.trivia = "Oops! Something went wrong fetching the trivia.";
+            });
 
-                    // extracting some useful information for later processes...
-                    this.recipe.title = recipeInfo.title;
-                    this.recipe.image = recipeInfo.image;
-                    this.recipe.instructions = recipeInfo.analyzedInstructions[0].steps;
-                    this.recipe.healthScore = recipeInfo.healthScore;
-                    this.recipe.extendedIngredients = recipeInfo.extendedIngredients;
-                    this.recipe.vegan = recipeInfo.vegan;
-                    this.recipe.vegetarian = recipeInfo.vegetarian;
-                    this.recipe.veryPopular = recipeInfo.veryPopular;
-                    this.recipe.veryHealthy = recipeInfo.veryHealthy;
-                    this.recipe.servings = recipeInfo.servings;
-                    this.recipe.preparationMinutes = recipeInfo.preparationMinutes;
-                    this.recipe.dishTypes = recipeInfo.dishTypes;
-                    this.recipe.isCheap = recipeInfo.cheap;
-                    this.recipe.received = true;
+            // Recipe fetch promise
+            const fetchRecipe = axios.get(`https://api.spoonacular.com/recipes/${recipeId}/information`, {
+                params: { apiKey: import.meta.env.VITE_SPOON_API_KEY }
+            })
+            .then(response => {
+                const recipeInfo = response.data;
+                this.recipe = { 
+                    title: recipeInfo.title,
+                    image: recipeInfo.image,
+                    instructions: recipeInfo.analyzedInstructions[0]?.steps || [],
+                    healthScore: recipeInfo.healthScore,
+                    extendedIngredients: recipeInfo.extendedIngredients,
+                    vegan: recipeInfo.vegan,
+                    vegetarian: recipeInfo.vegetarian,
+                    veryPopular: recipeInfo.veryPopular,
+                    veryHealthy: recipeInfo.veryHealthy,
+                    servings: recipeInfo.servings,
+                    preparationMinutes: recipeInfo.preparationMinutes,
+                    dishTypes: recipeInfo.dishTypes,
+                    isCheap: recipeInfo.cheap,
+                    received: true
+                };
+            })
+            .catch(error => {
+                console.error(error);
+            });
 
+            // Wait for both trivia, recipe, and delay before setting isLoading to false
+            Promise.all([fetchTrivia, fetchRecipe, delay])
+                .then(() => {
                     this.isLoading = false;
-
-                    // Fetch the nutrition information based on the ingredients used (after recipe is fully loaded)
-                    if(this.recipe.received){
+                    // Optionally, fetch additional nutrition info here if needed
+                    if (this.recipe.received) {
                         this.fetchNutritionAnalysis();
                     }
-                })
-                .catch( error => {
-                    console.error(error);
-                });
+                });    
         },
         computed:{
             // Produce a ingredient array that can pass to the nutrition analysis API (the API requires ingredients in array)
@@ -425,6 +462,7 @@
         },
 
         methods:{
+
             fetchNutritionAnalysis() {
                 // Ensure ingredients are available
                 if (this.ingredientsInArr.length > 0) {
