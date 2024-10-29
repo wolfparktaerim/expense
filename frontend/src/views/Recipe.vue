@@ -1,11 +1,11 @@
 <!-- RecipeDetails.vue -->
 
 <template>
-    <Navigation />
+    <Navigation v-if="!isLoading"/>
     <Chat></Chat>
     <!-- Loading + Did you know section -->
     <div v-if="isLoading">
-        <div class="text-center flex flex-col justify-center items-center h-32 mt-3">
+        <div class="text-center flex flex-col justify-center items-center mt-3">
             <h2 class="text-4xl font-bold my-8">Did You Know?</h2>
             <p v-if="trivia" class="text-center text-gray-700 columns-lg my-8">{{ trivia }}</p>
             <p v-else class="text-center text-gray-500 my-8">Fetching some fun food trivia...</p>
@@ -366,6 +366,7 @@
                 loadingColor: '#805ad5',
                 favorites :[],
                 favoritesStore: null,
+                trivia: ''
             };
         },
         created(){
@@ -386,6 +387,7 @@
             })
             .then(response => {
                 this.trivia = response.data.text;
+                console.log(this.trivia)
             })
             .catch(error => {
                 console.error(error);

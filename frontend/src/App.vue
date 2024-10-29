@@ -14,9 +14,7 @@
     <!-- Main content -->
     <template v-else>
       <div :class="{ 'pointer-events-none': shouldDisableInteraction }">
-        <transition name="fade">
-          <router-view />
-        </transition>
+        <router-view />
       </div>
 
       <LoginModal

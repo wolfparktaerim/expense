@@ -154,7 +154,7 @@ export default {
             messages: [
               {
                 role: "user",
-                content: `Provide information about a popular dish from ${country} in the following format  :
+                content: `Provide information about a popular dish from ${country} in the following format, and do not add markup to the response:
         Dish Name: [Name of the dish]
         Cultural Info: [Brief cultural info about the dish]
         Serving Size: [Serving Quantity Number]
