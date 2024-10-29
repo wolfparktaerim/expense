@@ -17,7 +17,7 @@
 
         <div v-if="isLoading">
           <ScaleLoader />          
-          <p class="text-center">Cooking...</p>
+          <p class="text-center text-gray-600">Cooking...</p>
         </div>
         <div v-else>
           <div v-if="lastHoveredInfo">
