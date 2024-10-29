@@ -26,9 +26,6 @@
 
         <!-- Button Section:  add to favorite + view recipe details-->
         <div class="p-4 flex justify-between">
-
-            <!-- !!!!!!!! WARNING: THIS ADD/REMOVE FAVORITE IS NOT COMPLETED, IT NEEDS USER BACKEND DATA ABOUT FAVORITES -->
-            <!-- add/remove favorite -->
             <img
                 @click="toggleFavorite(recipe)"
                 :src="checkIsFavorite(recipe.id) ? '/icon/remove_favorite.png' : '/icon/add_favorite.png'"
@@ -118,13 +115,15 @@ export default {
       this.favoritesStore.loadFavorites();
     },
 
-async viewRecipeDetails(recipe) {
+    async viewRecipeDetails(recipe) {
       this.isLoading = true; // Start spinner
       try {
         await this.$router.push({ path: `/recipe/${recipe.id}` });
-      } catch (error) {
+      } 
+      catch (error) {
         console.error('Error navigating to recipe details:', error);
-      } finally {
+      } 
+      finally {
         this.isLoading = false; // Stop spinner
       }
     },

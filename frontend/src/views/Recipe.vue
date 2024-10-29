@@ -2,7 +2,7 @@
 
 <template>
 
-    <SubNavigation />
+    <Navigation />
 
     <!-- Loading + Did you know section -->
     <div v-if="isLoading">
@@ -17,8 +17,22 @@
     <!-- Recipe Full Information -->
     <div v-else class="container mx-auto mt-8 p-6 bg-gray-50 shadow-lg rounded-lg">
 
-        <!-- Recipe title -->
-        <h1 class="text-4xl font-bold text-purple-700 text-center mb-8">{{ recipe.title }}</h1>
+        <!-- Title and Favorite Icon Row -->
+        <div class="flex items-center justify-center mb-8">
+            <h1 class="text-4xl font-bold text-purple-700 mr-4">{{ recipe.title }}</h1>
+            
+            <!-- HAVE BUG NOW !!! DISABLED FOR NOW-->
+            <!-- Favorite Icon -->
+            <!-- <img
+                @click="toggleFavorite(recipe)"
+                :src="checkIsFavorite(recipe.id) ? '/icon/remove_favorite.png' : '/icon/add_favorite.png'"
+                width="35"
+                height="auto"
+                alt="Favorite Icon"
+                class="cursor-pointer transition-transform duration-200 hover:scale-110"
+                :title="checkIsFavorite(recipe.id) ? 'Remove from Favorites' : 'Add to Favorites'"
+            /> -->
+        </div>
 
         <!-- Row 1: Image & Description -->
         <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -90,9 +104,6 @@
                     </div>
                 </div>
                 <!-- Icons end -->
-
-                <!-- Reserved spot for 'add to favorites' -->
-                 <!-- Reserved spot end -->
             </div>
         </div>
 
@@ -322,6 +333,9 @@
     import SubNavigation from "../components/SubNavigation.vue";
     import axios from 'axios';
     import SquareLoader from 'vue-spinner/src/SquareLoader.vue';
+    import { useFavoritesStore } from '../stores/favorites';
+    import { getAuth, onAuthStateChanged } from 'firebase/auth';
+    import Chat from "../components/Chat.vue";
   
     export default {
         components: {
@@ -352,15 +366,18 @@
                 recipeNutrition : null,
                 isLoading: false, // Spinner control for viewing recipe details
                 loadingColor: '#805ad5',
-                trivia: '', // New property for food trivia
-                loadingFinished: false, // To track recipe data load status
-                triviaLoaded: false, // To track trivia data load status
+                favorites :[],
+                favoritesStore: null,
             };
         },
         created(){
-            // Initialize loading states
-            this.isLoading = true;
+            // Initialize the store
+            this.favoritesStore = useFavoritesStore();
+
+            // Fetch the recipe details based on the route ID
             const recipeId = this.$route.params.id;
+            this.id = recipeId;
+            this.isLoading = true;
 
             // Create a delay of 5 seconds
             const delay = new Promise(resolve => setTimeout(resolve, 3000));
@@ -413,6 +430,18 @@
                         this.fetchNutritionAnalysis();
                     }
                 });    
+        },
+        mounted() {
+            // Load favorites when component mounts and user is authenticated
+            const auth = getAuth();
+            onAuthStateChanged(auth, (user) => {
+            if (user) {
+                this.loadFavorites();
+            }
+            });
+
+            // Watch store changes
+            this.watchStoreChanges();
         },
         computed:{
             // Produce a ingredient array that can pass to the nutrition analysis API (the API requires ingredients in array)
@@ -493,6 +522,38 @@
                     console.error("Ingredients array is empty or not properly formatted.");
                 }
             },
+            watchStoreChanges() {
+                // Manual store watching since we're not using storeToRefs
+                this.favoritesStore.$subscribe((mutation, state) => {
+                    this.favorites = state.favorites;
+                    this.loading = state.loading;
+                });
+            },
+            loadFavorites() {
+                this.favoritesStore.loadFavorites();
+            },
+            checkIsFavorite(recipeId) {
+                return this.favoritesStore.isFavorite(recipeId);
+                        },async toggleFavorite(recipe) {
+                try {
+                    const auth = getAuth();
+                    if (!auth.currentUser) {
+                    // Handle unauthenticated user - redirect to login
+                    this.$router.push('/login');
+                    return;
+                    }
+
+                    if (this.checkIsFavorite(recipe.id)) {
+                    await this.favoritesStore.removeFromFavorites(recipe.id);
+                    } else {
+                    await this.favoritesStore.addToFavorites(recipe);
+                    }
+                } catch (error) {
+                    this.error = error.message;
+                    console.error('Error toggling favorite:', error);
+                }
+            },
+            // console log button to check certain data, will disable it eventually
             consoleButton() {
                 console.log('Result: ', this.ingredientsInArr);
             }
