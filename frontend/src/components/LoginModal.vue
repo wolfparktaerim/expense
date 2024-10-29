@@ -166,10 +166,31 @@ export default {
   },
   methods: {
     handleBackdropClick() {
-      if (this.dismissible) {
-        this.closeModal();
-      }
-    },
+    if (this.dismissible) {
+      this.handleModalClose();
+    }
+  },
+
+  handleModalClose() {
+    if (!this.dismissible && !this.authStore.isAuthenticated) {
+      return;
+    }
+    
+    const wasVisible = this.isModalVisible;
+    this.isModalVisible = false;
+    this.selectedMethod = null;
+    this.$emit('close');
+    
+    // Clear auth store state
+    this.authStore.showLoginModal = false;
+    
+    // If we came from home and modal was visible, go back
+    if (wasVisible && this.router.currentRoute.value.path !== '/') {
+      this.router.push('/');
+    }
+    
+    this.authStore.pendingRoute = null;
+  },
     closeModal() {
       if (!this.dismissible && !this.authStore.isAuthenticated) {
         return;
@@ -262,34 +283,41 @@ export default {
       return this.passwordErrors.length === 0;
     },
     async handleSubmit() {
-      if (!this.validatePassword()) {
-        return;
-      }
+    if (!this.validatePassword()) {
+      return;
+    }
 
-      this.isLoading = true;
-      const auth = getAuth();
-      try {
-        if (this.isNewUser) {
-          await createUserWithEmailAndPassword(auth, this.email, this.password);
-          console.log('User created successfully');
-          this.router.push('/search');
-        } else {
-          await signInWithEmailAndPassword(auth, this.email, this.password);
-          console.log('User logged in successfully');
-          this.router.push('/search');
-        }
-        this.closeModal();
-      } catch (error) {
-        console.error('Authentication error:', error);
-        this.passwordErrors.push(
-          error.code === 'auth/wrong-password' 
-            ? 'Invalid password' 
-            : error.message
-        );
-      } finally {
-        this.isLoading = false;
+    this.isLoading = true;
+    const auth = getAuth();
+    try {
+      if (this.isNewUser) {
+        await createUserWithEmailAndPassword(auth, this.email, this.password);
+        console.log('User created successfully');
+      } else {
+        await signInWithEmailAndPassword(auth, this.email, this.password);
+        console.log('User logged in successfully');
       }
-    },
+      
+      // Handle successful authentication
+      this.closeModal();
+      
+      // Navigate to pending route if exists
+      if (this.authStore.pendingRoute) {
+        this.router.push(this.authStore.pendingRoute);
+        this.authStore.pendingRoute = null;
+      }
+    } catch (error) {
+      console.error('Authentication error:', error);
+      this.passwordErrors.push(
+        error.code === 'auth/wrong-password' 
+          ? 'Invalid password' 
+          : error.message
+      );
+    } finally {
+      this.isLoading = false;
+    }
+  }
+},
     async forgotPassword() {
       if (!this.validateEmail()) {
         return;
@@ -308,8 +336,7 @@ export default {
         this.isLoading = false;
       }
     }
-  }
-}
+  };
 </script>
 
 <style scoped>

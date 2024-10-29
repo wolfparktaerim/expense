@@ -3,35 +3,38 @@
     <div ref="globeContainer" class="globe-container"></div>
     <div class="info-sidebar">
       <div class="info-card">
-        <h2>Cuisine Information</h2>
+        <h2 class="text-xl font-bold mb-4">Cuisine Information</h2>
         <div v-if="lastHoveredInfo">
-          <h3>{{ lastHoveredInfo.label }}</h3>
-          <p>Cuisine: {{ lastHoveredInfo.cuisine }}</p>
-          <div v-if="lastHoveredInfo.popularDish">
-            <div v-if="lastHoveredInfo.popularDish.loading">
-              <p>Loading popular dish information...</p>
-            </div>
-            <div v-else-if="lastHoveredInfo.popularDish.error">
-              <p>Error fetching popular dish information. Please try again.</p>
-            </div>
-            <div v-else>
-              <h4>Popular Dish: {{ lastHoveredInfo.popularDish.name }}</h4>
-              <h5>Key Ingredients:</h5>
-              <ul>
-                <li v-for="ingredient in lastHoveredInfo.popularDish.ingredients" :key="ingredient">
-                  {{ ingredient }}
-                </li>
-              </ul>
-              <h5>Cultural Note:</h5>
-              <p>{{ lastHoveredInfo.popularDish.culturalNote }}</p>
-            </div>
-          </div>
+          <p class="text-lg font-bold">Country: <span class="font-normal text-gray-700">{{ lastHoveredInfo.label }}</span></p>
+          <p class="text-lg font-bold">Dish Name: <span class="font-normal text-gray-700">{{ lastHoveredInfo.popularDish.name }}</span></p>
+          <p class="text-lg font-bold">Cultural Info: <span class="font-normal text-gray-700">{{ lastHoveredInfo.popularDish.culturalInfo }}</span></p>
+          <p class="text-lg font-bold">Serving Size: <span v-if="lastHoveredInfo && lastHoveredInfo.popularDish">
+          <span class="font-normal text-gray-700">{{ lastHoveredInfo.popularDish.servingSize }}</span></span>
+          </p>
         </div>
         <p v-else>Click on the globe to select a country and view its cuisine information</p>
       </div>
+
+      <!-- Card for Ingredients Used -->
+      <div class="info-card mt-4">
+        <h3 class="text-lg font-bold">Ingredients Used</h3>
+        <ul v-if="lastHoveredInfo && lastHoveredInfo.popularDish">
+          <li v-for="ingredient in lastHoveredInfo.popularDish.ingredients" :key="ingredient" class="text-lg items-center text-gray-700">{{ ingredient }}</li>
+        </ul>
+      </div>
+
+      <!-- Card for Instructions -->
+      <div class="info-card mt-4">
+        <h3 class="text-lg font-bold">Instructions</h3>
+        <ol v-if="lastHoveredInfo && lastHoveredInfo.popularDish">
+          <li v-for="(instruction, index) in lastHoveredInfo.popularDish.instructions" :key="instruction" class="flex items-center">
+            <span class="font-bold">Step {{ index + 1 }}:</span> <span class="font-normal">{{ instruction }}</span>
+          </li>
+        </ol>
+      </div>
     </div>
   </div>
-</template>
+</template> 
 
 <script>
 const MAPS_API_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
@@ -53,26 +56,31 @@ export default {
     function parseCuisineResponse(content) {
       const lines = content.split("\n").map((line) => line.trim());
       let name = "";
+      let servingSize = "";
       let ingredients = [];
-      let culturalNote = "";
+      let instructions = [];
+      let culturalInfo = "";
       let currentSection = "";
 
       for (const line of lines) {
         if (line.startsWith("Dish Name:")) {
           name = line.split(":")[1].trim();
-        } else if (line.startsWith("Key Ingredients:")) {
+        } else if (line.startsWith("Serving Size:")) {
+          servingSize = line.split(":")[1].trim();
+        } else if (line.startsWith("Ingredients Used:")) {
           currentSection = "ingredients";
-        } else if (line.startsWith("Cultural Note:")) {
-          currentSection = "culturalNote";
-          culturalNote = line.split(":")[1].trim();
+        } else if (line.startsWith("Instructions:")) {
+          currentSection = "instructions";
+        } else if (line.startsWith("Cultural Info:")) { 
+          culturalInfo = line.split(":")[1].trim();
         } else if (line.startsWith("-") && currentSection === "ingredients") {
           ingredients.push(line.substring(1).trim());
-        } else if (currentSection === "culturalNote") {
-          culturalNote += " " + line;
+        } else if (line.startsWith("-") && currentSection === "instructions") {
+          instructions.push(line.substring(1).trim());
         }
       }
 
-      return { name, ingredients, culturalNote: culturalNote.trim() };
+      return { name, servingSize, ingredients, instructions, culturalInfo };  
     }
 
     const getCountry = async (lat, lng) => {
@@ -118,7 +126,7 @@ export default {
       try {
         const country = await getCountry(lat, lng);
         newPlace.label = country;
-        newPlace.cuisine = `Cuisine of ${country}`;
+        newPlace.cuisine = `${country}`;
         updateGlobe();
         if (country != "Unknown") {
           getPopularDishes(country);
@@ -148,15 +156,20 @@ export default {
                 role: "user",
                 content: `Provide information about a popular dish from ${country} in the following format:
         Dish Name: [Name of the dish]
-        Key Ingredients:
-        - [Ingredient 1]
-        - [Ingredient 2]
-        - [Ingredient 3]
+        Cultural Info: [Brief cultural info about the dish]
+        Serving Size: [Serving Quantity Number]
+        Ingredients Used:
+        - [Ingredient 1] - [Ingredient Quantity]
+        - [Ingredient 2] - [Ingredient Quantity]
+        - [Ingredient 3] - [Ingredient Quantity]
         ...
-        Cultural Note: [Brief cultural note about the dish]`,
+        Instructions:
+        - Step 1: [Step 1 instructions including ingredients and equipment used]
+        - Step 2: [Step 2 instructions including ingredients and equipment used]
+        - Step 3: [Step 3 instructions including ingredients and equipment used]`,
               },
             ],
-            temperature: 0.7,
+            temperature: 0.1,
           },
           {
             headers: {
@@ -279,13 +292,14 @@ export default {
   height: 100vh;
 }
 
+/* Default styles for larger screens */
 .globe-container {
-  width: 75%;
+  width: 50%;
   height: 100%;
 }
 
 .info-sidebar {
-  width: 25%;
+  width: 50%;
   height: 100%;
   overflow-y: auto;
   padding: 1rem;
@@ -297,5 +311,21 @@ export default {
   border-radius: 0.5rem;
   padding: 1rem;
   box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+}
+
+/* Media query for small screens */
+@media (max-width: 768px) {
+  .interactive-globe {
+    flex-direction: column; /* Stack elements vertically */
+  }
+
+  .globe-container, .info-sidebar {
+    width: 100%; /* Set width to 100% */
+    height: 50vh; /* Adjust height to fit on the screen */
+  }
+
+  .info-sidebar {
+    overflow-y: auto; /* Keep the scroll for sidebar */
+  }
 }
 </style>

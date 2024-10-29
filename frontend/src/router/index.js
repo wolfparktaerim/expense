@@ -9,7 +9,6 @@ import Globe from '../views/Globe.vue'
 import FoodTrivia from '../views/FoodTrivia.vue'
 import Saved from '../views/Saved.vue'
 import Profile from '../views/Profile.vue'
-import { watch } from 'vue'
 
 const routes = [
   { 
@@ -52,23 +51,40 @@ const routes = [
 const router = createRouter({
   history: createWebHistory(),
   routes,
-  scrollBehavior() {
-    document.getElementById('app').scrollIntoView({behavior:'smooth'});
+  scrollBehavior(to, from, savedPosition) {
+    const element = document.getElementById('app');
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+    return { top: 0 }
   }
 })
 
 router.beforeEach(async (to, from, next) => {
   const authStore = useAuthStore()
   
+  // Handle auth-required routes
   if (to.meta.requiresAuth) {
     if (!authStore.isAuthenticated) {
-      authStore.pendingRoute = to
-      authStore.showLoginModal = true
-      next()
+      // Coming from home page
+      if (from.path === '/') {
+        authStore.pendingRoute = to
+        authStore.showLoginModal = true
+        next()
+      } else {
+        // Coming from other pages
+        authStore.showLoginModal = false
+        next('/')
+      }
     } else {
+      // User is authenticated
+      authStore.showLoginModal = false
       next()
     }
   } else {
+    // Non-auth route
+    authStore.showLoginModal = false
+    authStore.pendingRoute = null
     next()
   }
 })
