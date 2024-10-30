@@ -6,7 +6,7 @@
     <!-- Loading + Did you know section -->
     <div v-if="isLoading">
         <div class="text-center flex flex-col justify-center items-center mt-3">
-            <h2 class="text-4xl font-bold my-8">Did You Know?</h2>
+            <h2 class="text-4xl text-gray-800 font-bold my-8">Did You Know?</h2>
             <p v-if="trivia" class="text-center text-purple-600 columns-lg my-8" style="max-width: 50%">{{ trivia }}</p>
             <p v-else class="text-center text-gray-500 my-8">Fetching a fun food trivia...</p>
             <SquareLoader :color="loadingColor" class="mt-3" />
@@ -22,7 +22,7 @@
             
             <!-- HAVE BUG NOW !!! DISABLED FOR NOW-->
             <!-- Favorite Icon -->
-            <img
+            <!-- <img
                 @click="toggleFavorite(recipe)"
                 :src="checkIsFavorite(recipe.id) ? '/icon/remove_favorite.png' : '/icon/add_favorite.png'"
                 width="35"
@@ -30,7 +30,7 @@
                 alt="Favorite Icon"
                 class="cursor-pointer transition-transform duration-200 hover:scale-110"
                 :title="checkIsFavorite(recipe.id) ? 'Remove from Favorites' : 'Add to Favorites'"
-            />
+            /> -->
         </div>
 
         <!-- Row 1: Image & Description -->
@@ -45,19 +45,19 @@
             <div class="bg-white p-6 rounded-lg shadow-md flex flex-col justify-center space-y-6">
                 <!-- Serving Size -->
                 <div class="text-lg">
-                    <span class="text-black">Serving Size:</span> <span class="text-gray-700">{{ recipe.servings }}</span>
+                    <span class="text-gray-800">Serving Size:</span> <span class="text-gray-700">{{ recipe.servings }}</span>
                 </div>
                 <!-- Preparation Time -->
                 <div v-if="recipe.preparationMinutes!=null">
-                    <span class="text-lg text-black">Preparation Time (minutes):</span> <span class="text-lg text-gray-700">{{ recipe.preparationMinutes }}</span>
+                    <span class="text-lg text-gray-800">Preparation Time (minutes):</span> <span class="text-lg text-gray-700">{{ recipe.preparationMinutes }}</span>
                 </div>
                 <!-- Health Score -->
                 <div class="text-lg">
-                    <span class="text-black">Health score:</span> <span class="text-gray-700">{{ recipe.healthScore }}</span>
+                    <span class="text-gray-800">Health score:</span> <span class="text-gray-700">{{ recipe.healthScore }}</span>
                 </div>
                 <!-- Meal types -->
                 <div>
-                    <span class="text-lg text-black">Dish Type: </span>
+                    <span class="text-lg text-gray-800">Dish Type: </span>
                     <span v-for="dishType in recipe.dishTypes" class="text-lg text-gray-700">
                         {{ dishType }} &nbsp;&nbsp;
                     </span>
@@ -114,12 +114,12 @@
                 <h2 class="text-2xl font-bold mb-4 text-purple-600">Instructions</h2>
                 <ul class="space-y-4">
                     <li v-for="step in recipe.instructions" :key="step.number" class="p-4 bg-gray-100 rounded-lg shadow">
-                        <p class="text-lg font-semibold">Step {{ step.number }}:</p>
+                        <p class="text-lg font-semibold text-gray-800">Step {{ step.number }}:</p>
                         <p class="text-gray-700">{{ step.step }}</p>
 
                         <!-- Ingredients used in each step -->
                         <div v-if="step.ingredients.length > 0" class="mt-4">
-                            <h4 class="font-semibold">Ingredients:</h4>
+                            <h4 class="font-semibold text-gray-800">Ingredients:</h4>
                             <ul class="list-disc pl-6 text-gray-700">
                                 <li v-for="ingredient in step.ingredients" :key="ingredient.id">{{ ingredient.name }}</li>
                             </ul>
@@ -127,7 +127,7 @@
 
                         <!-- Equipment used in each step -->
                         <div v-if="step.equipment.length > 0" class="mt-4">
-                            <h4 class="font-semibold">Equipment:</h4>
+                            <h4 class="font-semibold text-gray-800">Equipment:</h4>
                             <div class="flex space-x-4">
                                 <div v-for="equipment in step.equipment" :key="equipment.id" class="flex items-center">
                                     <img :src="equipment.image" :alt="equipment.name" class="w-12 h-12 rounded-full mr-2">
@@ -152,7 +152,7 @@
                 </div>
 
                 <!-- Nutrition Information -->
-                <div class="bg-white p-6 rounded-lg shadow-md">
+                <div class="bg-white p-6 rounded-lg shadow-md text-gray-800">
 
                     <!-- Title -->
                     <h2 class="text-2xl font-bold mb-4 text-purple-600">Nutrition Label</h2>
@@ -167,7 +167,7 @@
                     </p>
 
                      <!-- % Daily Value* Header -->
-                    <p class="text-sm text-black mb-2 font-bold text-right">% Daily Value*</p>
+                    <p class="text-sm text-gray-800 mb-2 font-bold text-right">% Daily Value*</p>
 
                     <!-- Total Fat -->
                     <div class="flex justify-between text-sm py-1 border-t">

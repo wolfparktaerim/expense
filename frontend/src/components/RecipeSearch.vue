@@ -19,7 +19,7 @@
                 <label for="search" class="block text-gray-600 text-lg mb-2" style="text-align: center;">Enter Ingredients (press "," or press 'Enter' or press space to separate different ingredients):</label>
                 <div class="flex justify-center mt-4">
                     <input type="text" id="search" class="w-1/2 border border-gray-300 rounded-md py-2 px-4 text-gray-600 focus:ring-2 focus:ring-purple-500" 
-                        v-model="searchInput" @keydown.enter.prevent="addIngredient" @keydown.space.prevent="addIngredient" @input="addOnComma" placeholder="Apple, broccoli, chicken...">
+                        v-model="searchInput" @keydown.enter.prevent="addIngredient" @input="addOnComma" placeholder="Apple, broccoli, chicken...">
                 </div>
 
                 <!-- Display ingredients as tags -->
@@ -90,6 +90,18 @@
                     // Predefined list of cuisines (available cuisines from spoonacular API)
                     cuisines: ['African', 'Asian', 'American', 'British', 'Cajun', 'Caribbean', 'Chinese', 'Eastern European', 'European', 'French', 'German', 'Greek', 'Indian', 'Irish', 'Italian', 'Japanese', 'Jewish', 'Korean', 'Latin American', 'Mediterranean', 'Mexican', 'Middle Eastern', 'Nordic', 'Southern', 'Spanish', 'Thai', 'Vietnamese'],
 
+                    // Selected intolerances
+                    selectedIntolerances : [],
+
+                    // Predfined list of intolerances (from spoonacular API)
+                    intolerances : [],
+
+                    // Selected diets 
+                    selectedDiets : [],
+
+                    // Predefined list of diets (from spoonacular API)
+                    diets : [],
+
                     // Recipe results
                     recipes: [],
 
@@ -153,8 +165,8 @@
                     this.isLoading = true
                     const ingredientQuery = this.ingredients.join(',');
                     const cuisineQuery = this.selectedCuisine;
-                    const intoleranceQuery = "";
-                    const dietQuery = "";
+                    const intoleranceQuery = this.selectedIntolerances;
+                    const dietQuery = this.selectedDiets;
 
                     if (ingredientQuery) {
                         axios.get('https://api.spoonacular.com/recipes/complexSearch', {

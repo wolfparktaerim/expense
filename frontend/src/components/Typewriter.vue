@@ -1,5 +1,5 @@
 <template>
-  <div class="text-5xl font-bold text-center mb-8">
+  <div class="text-5xl text-gray-800 font-bold text-center mb-8">
     {{ currentStructure.prefix }}
     <span class="text-purple-600">{{ displayText }}<span class="cursor-blink">|</span></span>
     {{ currentStructure.suffix }}

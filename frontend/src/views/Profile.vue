@@ -112,14 +112,14 @@
                 />
               </div>
               <div class="space-y-3">
-                <p class="text-sm text-gray-600 flex items-center group-hover:text-purple-600 transition-colors duration-300">
+                <p class="text-sm text-gray-700 flex items-center group-hover:text-purple-600 transition-colors duration-300">
                   <Calendar class="w-4 h-4 mr-2" />
-                  <span class="font-medium">Member since:</span>
+                  <span class="font-medium">Member Since:</span>
                   <span class="ml-2">{{ memberSince }}</span>
                 </p>
                 <p class="text-sm text-gray-600 flex items-center group-hover:text-purple-600 transition-colors duration-300">
                   <Clock class="w-4 h-4 mr-2" />
-                  <span class="font-medium">Last login:</span>
+                  <span class="font-medium">Last Login:</span>
                   <span class="ml-2">{{ lastLogin }}</span>
                 </p>
               </div>
