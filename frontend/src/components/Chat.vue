@@ -349,7 +349,7 @@ export default {
                   Based on the given recipe ingredients: 
                   ${ingredientsList}. 
                   Prompt: ${prompt}.
-                  Return the output in this format: (make sure you add /n /t appropriately):
+                  Return the output in this format:
                   (If ask for ingredients) Ingredients Used:
                   - [Ingredient 1] - [Ingredient Quantity][in metric]
                   - [Ingredient 2] - [Ingredient Quantity][in metric]
