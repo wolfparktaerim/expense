@@ -22,7 +22,7 @@
             
             <!-- HAVE BUG NOW !!! DISABLED FOR NOW-->
             <!-- Favorite Icon -->
-            <img
+            <!-- <img
                 @click="toggleFavorite(recipe)"
                 :src="checkIsFavorite(recipe.id) ? '/icon/remove_favorite.png' : '/icon/add_favorite.png'"
                 width="35"
@@ -30,7 +30,7 @@
                 alt="Favorite Icon"
                 class="cursor-pointer transition-transform duration-200 hover:scale-110"
                 :title="checkIsFavorite(recipe.id) ? 'Remove from Favorites' : 'Add to Favorites'"
-            />
+            /> -->
         </div>
 
         <!-- Row 1: Image & Description -->
