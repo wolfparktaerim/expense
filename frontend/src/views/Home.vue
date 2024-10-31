@@ -15,7 +15,6 @@ import HowItWorks from "../components/HowItWorks.vue";
 import RentFooter from "../components/RentFooter.vue";
 import Carousel from "../components/Carousel.vue";
 import Navigation from "../components/Navigation.vue";
-import Globe from "../components/Globe.vue";
 import TagLine from "../components/TagLine.vue";
 
 export default {
