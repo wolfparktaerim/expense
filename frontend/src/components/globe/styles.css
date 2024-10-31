@@ -1,0 +1,68 @@
+/* src/components/globe/styles.css */
+.interactive-globe {
+    display: flex;
+    height: 100vh;
+  }
+  
+  .globe-container {
+    width: 50%;
+    height: 100%;
+  }
+  
+  .info-sidebar {
+    width: 50%;
+    height: 100%;
+    overflow-y: auto;
+    padding: 1rem;
+    background-color: #f3f4f6;
+  }
+  
+  .info-card {
+    background-color: white;
+    border-radius: 0.5rem;
+    padding: 1rem;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+  }
+  
+  .info-card ul {
+    list-style-type: disc;
+    margin-left: 25px;
+  }
+  
+  .marker-container {
+    pointer-events: auto !important;
+    cursor: pointer !important;
+  }
+  
+  .marker-tooltip {
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 4px 8px;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    pointer-events: none;
+    z-index: 1000;
+  }
+  
+  .marker-label {
+    color: #000;
+    font-family: Arial, sans-serif;
+    font-size: 12px;
+    font-weight: bold;
+  }
+  
+  /* Media query for small screens */
+  @media (max-width: 768px) {
+    .interactive-globe {
+      flex-direction: column;
+    }
+  
+    .globe-container,
+    .info-sidebar {
+      width: 100%;
+      height: 50vh;
+    }
+  
+    .info-sidebar {
+      overflow-y: auto;
+    }
+  }
