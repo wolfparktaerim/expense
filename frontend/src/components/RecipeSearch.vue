@@ -86,7 +86,7 @@
             
             <div v-else>
                 <!-- Show "No Results Found" if no data retrieved from the API -->
-                <div v-if="searchTriggered && searchNum == 5151" class="flex justify-center items-center h-64 mt-3">
+                <div v-if="searchTriggered && (searchNum == 5151 || searchNum == 0)" class="flex justify-center items-center h-64 mt-3">
                     <p class="text-lg font-bold text-purple-600 ">No Results Found</p>
                 </div>
 
