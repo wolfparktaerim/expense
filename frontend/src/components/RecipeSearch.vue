@@ -5,53 +5,82 @@
             <Typewriter />
             <RecipeCard />
 
-            <!-- Cuisine Dropdown -->
-            <!-- <div class="mb-4 text-right">
-                <label class="text-sm text-gray-600 mr-2">Select Cuisine</label>
-                <select v-model="selectedCuisine" class="border border-gray-300 rounded-md py-2 px-4 bg-white text-gray-700 focus:ring-2 focus:ring-purple-500">
-                    <option value="">Any Cuisine</option>
-                    <option v-for="cuisine in cuisines" :value="cuisine">{{ cuisine }}</option>
-                </select>
-            </div> -->
+            <!-- Filter function -->
 
-            <!-- filters -->
-            <div class="flex flex-wrap items-center justify-center space-x-4 mb-4">
-                <!-- Cuisine Filter -->
-                <div class="text-right">
-                    <label class="text-sm text-gray-600 mr-2">Select Cuisine</label>
-                    <select v-model="selectedCuisine" class="border border-gray-300 rounded-md py-2 px-4 bg-white text-gray-700 focus:ring-2 focus:ring-purple-500">
-                        <option value="">Any Cuisine</option>
-                        <option v-for="cuisine in cuisines" :value="cuisine">{{ cuisine }}</option>
-                    </select>
+            <!-- Background Overlay -->
+            <div v-if="showDrawer" 
+                class="fixed inset-0 bg-gray-900 bg-opacity-50 z-40" 
+                @click="showDrawer = false">
+            </div>
+
+            <!-- Filter Drawer -->
+            <div v-if="showDrawer" 
+                class="fixed inset-x-0 top-1/2 transform -translate-y-1/2 bg-white z-50 w-3/4 max-w-4xl mx-auto p-6 rounded-lg shadow-lg">
+                <div class="flex justify-between items-center mb-4">
+                    <h2 class="text-lg font-semibold text-gray-800">Filter Recipes</h2>
+                    <button @click="showDrawer = false" class="text-gray-500 hover:text-gray-700">
+                        ✕
+                    </button>
                 </div>
 
-                <!-- Diet Filter -->
-                <div class="text-right">
-                    <label class="text-sm text-gray-600 mr-2">Select Diet</label>
-                    <select v-model="selectedDiets" class="border border-gray-300 rounded-md py-2 px-4 bg-white text-gray-700 focus:ring-2 focus:ring-purple-500">
-                        <option value="">Any Diet</option>
-                        <option v-for="diet in diets" :value="diets">{{ diet }}</option>
-                    </select>
+                <!-- First Row: Cuisine and Diet Filters -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+                    <!-- Cuisine Filter -->
+                    <div class="text-left">
+                        <label class="text-sm text-gray-600 mb-2 block">Filter by Cuisine</label>
+                        <select v-model="selectedCuisine" 
+                                class="w-full border border-gray-300 rounded-md py-2 px-4 bg-white text-gray-700 focus:ring-2 focus:ring-purple-500">
+                            <option value="">Any Cuisine</option>
+                            <option v-for="cuisine in cuisines" :value="cuisine">{{ cuisine }}</option>
+                        </select>
+                    </div>
+
+                    <!-- Diet Filter -->
+                    <div class="text-left">
+                        <label class="text-sm text-gray-600 mb-2 block">Filter by Diet</label>
+                        <select v-model="selectedDiet" 
+                                class="w-full border border-gray-300 rounded-md py-2 px-4 bg-white text-gray-700 focus:ring-2 focus:ring-purple-500">
+                            <option value="">Any Diet</option>
+                            <option v-for="diet in diets" :value="diet">{{ diet }}</option>
+                        </select>
+                    </div>
                 </div>
 
-                <!-- Intolerance Filter -->
-                <div class="text-right">
-                    <label class="text-sm text-gray-600 mr-2">Intolerances</label>
-                    <select v-model="selectedIntolerances" multiple class="border border-gray-300 rounded-md py-2 px-4 bg-white text-gray-700 focus:ring-2 focus:ring-purple-500">
-                        <option v-for="intolerance in intolerances" :value="intolerances">{{ intolerance }}</option>
-                    </select>
+                <!-- Second Row: Intolerance Checkboxes -->
+                <div class="text-left">
+                    <label class="text-sm text-gray-600 mb-2 block">Filter by Intolerances</label>
+                    <div class="grid grid-cols-2 sm:grid-cols-3 gap-2">
+                        <div v-for="intolerance in intolerances" :key="intolerance" class="flex items-center">
+                            <input type="checkbox" :value="intolerance" v-model="selectedIntolerances" 
+                                class="form-checkbox text-purple-600 focus:ring-2 focus:ring-purple-500">
+                            <span class="ml-2 text-gray-700">{{ intolerance }}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Apply Filters Button -->
+                <div class="mt-6 flex justify-end">
+                    <button @click="applyFilters" 
+                            class="bg-purple-600 text-white font-bold py-2 px-6 rounded hover:bg-purple-700 focus:ring-2 focus:ring-purple-600">
+                        Apply Filters
+                    </button>
                 </div>
             </div>
 
 
-
-
             <!-- Ingredients Search Input -->
             <div class="mb-6">
+
                 <label for="search" class="block text-gray-600 text-lg mb-2" style="text-align: center;">Enter Ingredients (press "," or press 'Enter' to separate different ingredients):</label>
                 <div class="flex justify-center mt-4">
                     <input type="text" id="search" class="w-1/2 border border-gray-300 rounded-md py-2 px-4 text-gray-600 focus:ring-2 focus:ring-purple-500" 
                         v-model="searchInput" @keydown.enter.prevent="addIngredient" @input="addOnComma" placeholder="Apple, broccoli, chicken...">
+                    &nbsp;&nbsp;
+                    <!-- Filter Drawer Button -->
+                    <button @click="showDrawer = true" 
+                            class="bg-purple-600 text-white font-bold py-2 px-4 rounded hover:bg-purple-700 focus:ring-2 focus:ring-purple-600">
+                        Add Filter
+                    </button>
                 </div>
 
                 <!-- Display ingredients as tags -->
@@ -86,7 +115,7 @@
             
             <div v-else>
                 <!-- Show "No Results Found" if no data retrieved from the API -->
-                <div v-if="searchTriggered && (searchNum == 5151 || searchNum == 0)" class="flex justify-center items-center h-64 mt-3">
+                <div v-if="searchTriggered && (searchNum == 5151 || searchNum == 0) && !recipes" class="flex justify-center items-center h-64 mt-3">
                     <p class="text-lg font-bold text-purple-600 ">No Results Found</p>
                 </div>
 
@@ -128,7 +157,7 @@
                     intolerances : ['Dairy', 'Egg', 'Peanut', 'Gluten', 'Grain', 'Seafood', 'Sesame', 'Shellfish', 'Soy', 'Sulfite', 'Tree Nut', 'Wheat'],
 
                     // Selected diets 
-                    selectedDiets : [],
+                    selectedDiet : "",
                     // Predefined list of diets (from spoonacular API)
                     diets : ['Gluten Free', 'Ketogenic', 'Vegetarian', 'Lacto-Vegetarian', 'Ovo-Vegetarian', 'Vegan', 'Pescetarian', 'Paleo', 'Primal', 'Low FODMAP'],
 
@@ -140,10 +169,11 @@
 
                     // has user search anything yet?
                     searchTriggered : false,
-
                     isLoading: false,
                     loadingColor: '#805ad5',
-                    searchNum: 0
+                    searchNum: 0,
+                    showDrawer: false,
+
                 };
             },
             created(){
@@ -196,7 +226,7 @@
                     const ingredientQuery = this.ingredients.join(',');
                     const cuisineQuery = this.selectedCuisine;
                     const intoleranceQuery = this.selectedIntolerances.join(',');
-                    const dietQuery = this.selectedDiets.join(',');
+                    const dietQuery = this.selectedDiets;
 
                     if (ingredientQuery) {
                         axios.get('https://api.spoonacular.com/recipes/complexSearch', {
@@ -225,7 +255,6 @@
 
                             // store the search results
                             sessionStorage.setItem('lastSearchResults', JSON.stringify(this.recipes));
-                            this.searchTriggered = true;
                             sessionStorage.setItem('searchTriggered', JSON.stringify(this.searchTriggered));
                         
                         })
@@ -252,9 +281,10 @@
                         console.log(response.data);
                         this.recipes = [response.data.recipes[0]];  // Pick the first random recipe
                         this.isLoading = false;
+                        this.searchTriggered = true;
+                        this.searchNum = 1;
                         // store the search result
                         sessionStorage.setItem('lastSearchResults', JSON.stringify(this.recipes));
-                        this.searchTriggered = true;
                         sessionStorage.setItem('searchTriggered', JSON.stringify(this.searchTriggered));
                     })
                     .catch(error => {
@@ -265,6 +295,9 @@
                 clearSessionStorage() {
                     sessionStorage.removeItem('lastSearchResults');
                     sessionStorage.removeItem('searchTriggered');
+                },
+                applyFilters() {
+                    this.showDrawer = false;
                 }
             },
             beforeRouteLeave(to, from, next) {
