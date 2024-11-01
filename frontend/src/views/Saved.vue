@@ -1,4 +1,5 @@
 <template>
+  <div class="min-h-screen bg-gradient-to-br from-gray-50 to-purple-50">
         <Navigation />
       <!-- Header Section -->
       <div class="mt-8 mb-8 text-center">
@@ -61,6 +62,7 @@
         </div>
       </div>
     </div>
+  </div>
   </template>
   
   <script>

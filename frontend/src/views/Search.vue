@@ -1,6 +1,9 @@
 <template>
+  <div class='min-h-screen bg-gradient-to-br from-gray-50 to-purple-50'>
+
     <Navigation />
     <RecipeSearch />
+  </div>
 </template>
   
   <script>

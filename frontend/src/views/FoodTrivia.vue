@@ -1,4 +1,5 @@
 <template>
+  <div class='min-h-screen bg-gradient-to-br from-gray-50 to-purple-50'>
     <Navigation></Navigation>
 
     <div class="food-trivia-container" style="margin-top: 5%">
@@ -15,6 +16,7 @@
         </button>
       </div>
     </div>
+  </div>
   </template>
   
   <script>

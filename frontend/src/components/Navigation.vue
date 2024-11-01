@@ -1,3 +1,4 @@
+<!-- Navigation.vue -->
 <template>
   <LoginModal @close="showLogin = false" v-if="showLogin" />
   <header
@@ -6,6 +7,7 @@
       { 'bg-white/70 backdrop-blur-sm': isScrolled }
     ]"
   >
+    <!-- Rest of the header content remains the same until the logout button -->
     <nav class="container mx-auto px-4 py-4 flex items-center justify-between">
       <!-- Logo -->
       <div class="flex items-center">
@@ -88,14 +90,8 @@
               >
                 Your Profile
               </RouterLink>
-              <RouterLink
-                to="/settings"
-                class="block px-4 py-2 text-sm text-gray-700 hover:bg-purple-50 hover:text-purple-600"
-              >
-                Settings
-              </RouterLink>
               <button
-                @click="logout"
+                @click="confirmLogout"
                 class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-purple-50 hover:text-purple-600"
               >
                 Logout
@@ -169,7 +165,7 @@
             {{ item.name }}
           </RouterLink>
           <button
-            @click="logout"
+            @click="confirmLogout"
             class="w-full mt-2 bg-purple-600 text-white px-4 py-2 rounded-full hover:bg-purple-700 transition duration-300"
           >
             Logout
@@ -178,6 +174,63 @@
       </div>
     </transition>
   </header>
+
+  <!-- Logout Confirmation Modal -->
+  <TransitionRoot appear :show="showLogoutConfirm" as="template">
+    <Dialog as="div" @close="showLogoutConfirm = false" class="relative z-50">
+      <TransitionChild
+        as="template"
+        enter="duration-300 ease-out"
+        enter-from="opacity-0"
+        enter-to="opacity-100"
+        leave="duration-200 ease-in"
+        leave-from="opacity-100"
+        leave-to="opacity-0"
+      >
+        <div class="fixed inset-0 bg-black bg-opacity-50" />
+      </TransitionChild>
+
+      <div class="fixed inset-0 overflow-y-auto">
+        <div class="flex min-h-full items-center justify-center p-4">
+          <TransitionChild
+            as="template"
+            enter="duration-300 ease-out"
+            enter-from="opacity-0 scale-95"
+            enter-to="opacity-100 scale-100"
+            leave="duration-200 ease-in"
+            leave-from="opacity-100 scale-100"
+            leave-to="opacity-0 scale-95"
+          >
+            <DialogPanel class="bg-white p-6 rounded-xl shadow-xl max-w-md mx-4">
+              <DialogTitle class="text-xl font-semibold mb-4 text-gray-800 flex items-center">
+                <LogOut class="w-5 h-5 text-purple-600 mr-2" />
+                Confirm Logout
+              </DialogTitle>
+              <p class="text-gray-600 mb-6">
+                Are you sure you want to log out of your account?
+              </p>
+              <div class="flex flex-col sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-4">
+                <button
+                  @click="showLogoutConfirm = false"
+                  class="px-4 py-2 text-gray-600 hover:text-gray-800 hover:bg-gray-100 rounded-lg transition-colors duration-300 flex items-center justify-center"
+                >
+                  <X class="w-4 h-4 mr-2" />
+                  Cancel
+                </button>
+                <button
+                  @click="handleLogout"
+                  class="px-4 py-2 bg-gradient-to-r from-purple-500 to-purple-600 text-white rounded-lg hover:from-purple-600 hover:to-purple-700 transform hover:-translate-y-0.5 transition-all duration-300 flex items-center justify-center"
+                >
+                  <LogOut class="w-4 h-4 mr-2" />
+                  Logout
+                </button>
+              </div>
+            </DialogPanel>
+          </TransitionChild>
+        </div>
+      </div>
+    </Dialog>
+  </TransitionRoot>
 </template>
 
 <script setup>
@@ -185,19 +238,24 @@ import { ref, onMounted, onBeforeUnmount } from 'vue'
 import { RouterLink, useRouter } from 'vue-router'
 import { storeToRefs } from 'pinia'
 import { useAuthStore } from '../stores/auth'
-import { Search, User, ChevronDown, Menu, X } from 'lucide-vue-next'
+import { Search, User, ChevronDown, Menu, X, LogOut } from 'lucide-vue-next'
 import LoginModal from './LoginModal.vue'
+import { getAuth, signOut } from 'firebase/auth'
+import { Dialog, DialogPanel, DialogTitle, TransitionRoot, TransitionChild } from '@headlessui/vue'
+import { useToast } from 'vue-toastification'
 
 // Auth store
 const authStore = useAuthStore()
 const { isAuthenticated } = storeToRefs(authStore)
 const router = useRouter()
+const toast = useToast()
 
 // State
 const mobileMenuOpen = ref(false)
 const isScrolled = ref(false)
 const showLogin = ref(false)
 const profileMenuOpen = ref(false)
+const showLogoutConfirm = ref(false)
 
 // Menu items for logged-in users
 const loggedInMenuItems = [
@@ -225,15 +283,30 @@ const login = () => {
   mobileMenuOpen.value = false
 }
 
-const logout = async () => {
-  const auth = getAuth()
+const confirmLogout = () => {
+  showLogoutConfirm.value = true
+  profileMenuOpen.value = false
+}
+
+const handleLogout = async () => {
   try {
-    await auth.signOut()
-    profileMenuOpen.value = false
-    mobileMenuOpen.value = false
+    const auth = getAuth()
+    await signOut(auth)
     router.push('/')
+    toast.success('Signed Out Successfully', {
+      closeButton: false,
+      hideProgressBar: true,
+      timeout: 2000
+    })
   } catch (error) {
     console.error('Error signing out:', error)
+    toast.error('Failed to sign out. Please try again.', {
+      closeButton: false,
+      hideProgressBar: true,
+      timeout: 2000
+    })
+  } finally {
+    showLogoutConfirm.value = false
   }
 }
 

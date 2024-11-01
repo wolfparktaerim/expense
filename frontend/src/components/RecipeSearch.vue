@@ -3,7 +3,6 @@
         <!-- Search Engine -->
         <div class="container mx-auto py-8 px-4 mt-12">
             <Typewriter />
-            <RecipeCard />
 
             <!-- Filter function -->
 
