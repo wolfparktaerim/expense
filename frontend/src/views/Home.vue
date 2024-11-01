@@ -2,10 +2,13 @@
 <template>
   <div class="relative">
     <!-- Login Modal -->
-    <LoginModal v-if="showLogin" @close="showLogin = false" />
+     <!-- <component :is="components.LoginModal-->
+      <!-- This syntax dynamically loads the component by referencing it from components in data(). -->
+    <component :is="components.LoginModal" v-if="showLogin" @close="showLogin = false" />
     
     <!-- Video Modal -->
-    <VideoModal
+    <component
+      :is="components.VideoModal"
       v-model="showVideo"
       :video-id="videoId"
       title="Discover Healthy Recipes Demo"
@@ -39,30 +42,80 @@
   </div>
 </template>
 
-<script setup>
-import { ref, onMounted } from 'vue';
+<script>
 import HowItWorks from "../components/HowItWorks.vue";
 import RentFooter from "../components/RentFooter.vue";
 import Carousel from "../components/Carousel.vue";
 import Navigation from "../components/Navigation.vue";
 import TagLine from "../components/TagLine.vue";
+
+// Import LoginModal and VideoModal
 import LoginModal from "../components/LoginModal.vue";
 import VideoModal from "../components/VideoModal.vue";
 
-const showLogin = ref(false);
-const showVideo = ref(false);
-const videoId = 'fnnBJupnwrE';
-
-// Animation method
-const animateComponents = () => {
-  const components = document.querySelectorAll('.animate-up');
-  components.forEach((component, index) => {
-    component.style.animationDelay = `${index * 0.2}s`;
-  });
+export default {
+  components: {
+    HowItWorks,
+    RentFooter,
+    Carousel,
+    Navigation,
+    TagLine
+  },
+  data() {
+    return {
+      showLogin: false,
+      showVideo: false,
+      videoId: 'fnnBJupnwrE',
+      components: { // Register components here for use with <component :is="">
+        LoginModal,
+        VideoModal
+      }
+    };
+  },
+  methods: {
+    animateComponents() {
+      const components = document.querySelectorAll('.animate-up');
+      components.forEach((component, index) => {
+        component.style.animationDelay = `${index * 0.2}s`;
+      });
+    }
+  },
+  mounted() {
+    this.animateComponents();
+  }
 };
-
-// Mount hook
-onMounted(() => {
-  animateComponents();
-});
 </script>
+
+<style scoped>
+.animated-container {
+  overflow: hidden;
+}
+
+.animate-up {
+  animation: slideUp 1s ease-out forwards;
+  opacity: 0;
+  transform: translateY(50px);
+}
+
+@keyframes slideUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.logo {
+  height: 6em;
+  padding: 1.5em;
+  will-change: filter;
+  transition: filter 300ms;
+}
+
+.logo:hover {
+  filter: drop-shadow(0 0 2em #646cffaa);
+}
+
+.logo.vue:hover {
+  filter: drop-shadow(0 0 2em #42b883aa);
+}
+</style>

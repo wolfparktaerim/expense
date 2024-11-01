@@ -16,7 +16,7 @@
             <span class="gradient">Discover Healthy Recipes</span>
           </span>
           <span class="mt-2 block text-3xl font-bold leading-tight tracking-tight text-gray-900 md:text-5xl">
-            For a Healthier Tomorrow
+            <span class='gradient'>For a Healthier Tomorrow</span>
           </span>
         </h1>
 
@@ -54,21 +54,47 @@
   </section>
 </template>
 
-<script setup>
-import { useRouter } from 'vue-router'
-import { storeToRefs } from 'pinia'
+<script>
 import { useAuthStore } from '../stores/auth'
 
-const router = useRouter()
-const authStore = useAuthStore()
-const { isAuthenticated } = storeToRefs(authStore)
-const emit = defineEmits(['show-login', 'show-video'])
+export default {
+  name: 'TagLine',
+  
+  emits: ['show-login', 'show-video'],
+  
+  data() {
+    return {
+      authStore: null,
+    }
+  },
 
-const handleGetStarted = () => {
-  if (isAuthenticated.value) {
-    router.push('/search')
-  } else {
-    emit('show-login')
+  computed: {
+    isAuthenticated() {
+      return this.authStore?.isAuthenticated
+    }
+  },
+
+  created() {
+    this.authStore = useAuthStore()
+  },
+
+  methods: {
+    handleGetStarted() {
+      if (this.isAuthenticated) {
+        this.$router.push('/search')
+      } else {
+        this.$emit('show-login')
+      }
+    }
   }
 }
 </script>
+<style scoped>
+.gradient {
+  background: linear-gradient(to right, #D8B4FE, #8B5CF6); 
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  transition: background 0.3s ease;
+}
+</style>  

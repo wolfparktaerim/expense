@@ -63,28 +63,41 @@
   </TransitionRoot>
 </template>
 
-<script setup>
+<script>
 import { Dialog, DialogPanel, DialogTitle, TransitionChild, TransitionRoot } from '@headlessui/vue'
 import { X } from 'lucide-vue-next'
 
-defineProps({
-  modelValue: {
-    type: Boolean,
-    required: true
+export default {
+  name: 'VideoModal',
+  
+  components: {
+    Dialog,
+    DialogPanel,
+    DialogTitle,
+    TransitionChild,
+    TransitionRoot,
+    X
   },
-  videoId: {
-    type: String,
-    required: true
-  },
-  title: {
-    type: String,
-    default: ''
-  },
-  description: {
-    type: String,
-    default: ''
-  }
-})
 
-defineEmits(['update:modelValue'])
+  props: {
+    modelValue: {
+      type: Boolean,
+      required: true
+    },
+    videoId: {
+      type: String,
+      required: true
+    },
+    title: {
+      type: String,
+      default: ''
+    },
+    description: {
+      type: String,
+      default: ''
+    }
+  },
+
+  emits: ['update:modelValue']
+}
 </script>
