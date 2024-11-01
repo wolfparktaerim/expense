@@ -6,13 +6,45 @@
             <RecipeCard />
 
             <!-- Cuisine Dropdown -->
-            <div class="mb-4 text-right">
+            <!-- <div class="mb-4 text-right">
                 <label class="text-sm text-gray-600 mr-2">Select Cuisine</label>
                 <select v-model="selectedCuisine" class="border border-gray-300 rounded-md py-2 px-4 bg-white text-gray-700 focus:ring-2 focus:ring-purple-500">
                     <option value="">Any Cuisine</option>
                     <option v-for="cuisine in cuisines" :value="cuisine">{{ cuisine }}</option>
                 </select>
+            </div> -->
+
+            <!-- filters -->
+            <div class="flex flex-wrap items-center justify-center space-x-4 mb-4">
+                <!-- Cuisine Filter -->
+                <div class="text-right">
+                    <label class="text-sm text-gray-600 mr-2">Select Cuisine</label>
+                    <select v-model="selectedCuisine" class="border border-gray-300 rounded-md py-2 px-4 bg-white text-gray-700 focus:ring-2 focus:ring-purple-500">
+                        <option value="">Any Cuisine</option>
+                        <option v-for="cuisine in cuisines" :value="cuisine">{{ cuisine }}</option>
+                    </select>
+                </div>
+
+                <!-- Diet Filter -->
+                <div class="text-right">
+                    <label class="text-sm text-gray-600 mr-2">Select Diet</label>
+                    <select v-model="selectedDiets" class="border border-gray-300 rounded-md py-2 px-4 bg-white text-gray-700 focus:ring-2 focus:ring-purple-500">
+                        <option value="">Any Diet</option>
+                        <option v-for="diet in diets" :value="diets">{{ diet }}</option>
+                    </select>
+                </div>
+
+                <!-- Intolerance Filter -->
+                <div class="text-right">
+                    <label class="text-sm text-gray-600 mr-2">Intolerances</label>
+                    <select v-model="selectedIntolerances" multiple class="border border-gray-300 rounded-md py-2 px-4 bg-white text-gray-700 focus:ring-2 focus:ring-purple-500">
+                        <option v-for="intolerance in intolerances" :value="intolerances">{{ intolerance }}</option>
+                    </select>
+                </div>
             </div>
+
+
+
 
             <!-- Ingredients Search Input -->
             <div class="mb-6">
@@ -34,6 +66,8 @@
                     </div>
                 </div>
             </div>
+
+            <!-- Buttons: Search Recipe & I'm Feeling Lucky -->
             <div class="flex justify-center space-x-4 mt-4">
                 <button class="bg-purple-600 text-white font-bold py-2 px-4 rounded hover:bg-purple-700 focus:ring-2 focus:ring-purple-600 disabled:bg-gray-400 disabled:cursor-not-allowed" 
                     @click="searchRecipes" :disabled="ingredients.length === 0" title="Search recipes with the selected ingredients" style="max-width: 50%;max-height:10%;">
@@ -80,27 +114,23 @@
                 return {
                     // Input for ingredients
                     searchInput: '',
-
                     // Selected ingredients list
                     ingredients: [],
 
                     // Selected cuisine
                     selectedCuisine: '',
-
                     // Predefined list of cuisines (available cuisines from spoonacular API)
                     cuisines: ['African', 'Asian', 'American', 'British', 'Cajun', 'Caribbean', 'Chinese', 'Eastern European', 'European', 'French', 'German', 'Greek', 'Indian', 'Irish', 'Italian', 'Japanese', 'Jewish', 'Korean', 'Latin American', 'Mediterranean', 'Mexican', 'Middle Eastern', 'Nordic', 'Southern', 'Spanish', 'Thai', 'Vietnamese'],
 
                     // Selected intolerances
                     selectedIntolerances : [],
-
                     // Predfined list of intolerances (from spoonacular API)
-                    intolerances : [],
+                    intolerances : ['Dairy', 'Egg', 'Peanut', 'Gluten', 'Grain', 'Seafood', 'Sesame', 'Shellfish', 'Soy', 'Sulfite', 'Tree Nut', 'Wheat'],
 
                     // Selected diets 
                     selectedDiets : [],
-
                     // Predefined list of diets (from spoonacular API)
-                    diets : [],
+                    diets : ['Gluten Free', 'Ketogenic', 'Vegetarian', 'Lacto-Vegetarian', 'Ovo-Vegetarian', 'Vegan', 'Pescetarian', 'Paleo', 'Primal', 'Low FODMAP'],
 
                     // Recipe results
                     recipes: [],
@@ -165,8 +195,8 @@
                     this.isLoading = true
                     const ingredientQuery = this.ingredients.join(',');
                     const cuisineQuery = this.selectedCuisine;
-                    const intoleranceQuery = this.selectedIntolerances;
-                    const dietQuery = this.selectedDiets;
+                    const intoleranceQuery = this.selectedIntolerances.join(',');
+                    const dietQuery = this.selectedDiets.join(',');
 
                     if (ingredientQuery) {
                         axios.get('https://api.spoonacular.com/recipes/complexSearch', {
