@@ -53,14 +53,20 @@
                 </div>
                 <!-- Health Score -->
                 <div class="text-lg">
-                    <span class="text-gray-800">Health score:</span> <span class="text-gray-700">{{ recipe.healthScore }}</span>
+                    <span class="text-gray-800">Health Score:</span> <span class="text-gray-700">{{ recipe.healthScore }}</span>
                 </div>
                 <!-- Meal types -->
-                <div>
+                <div class="mb-4">
                     <span class="text-lg text-gray-800">Dish Type: </span>
-                    <span v-for="dishType in recipe.dishTypes" class="text-lg text-gray-700">
-                        {{ dishType }} &nbsp;&nbsp;
-                    </span>
+                    <div class="flex flex-wrap mt-2">
+                        <span
+                            v-for="(dishType, index) in recipe.dishTypes"
+                            :key="index"
+                            class="bg-purple-100 text-purple-700 px-3 py-1 rounded-full m-1 text-sm inline-flex items-center"
+                        >
+                            {{ dishType }}
+                        </span>
+                    </div>
                 </div>
 
                 <!-- Icons for vegan, popularity, etc. -->
@@ -146,7 +152,7 @@
                     <h2 class="text-2xl font-bold mb-4 text-purple-600">Ingredients Used</h2>
                     <ul class="list-disc pl-6 space-y-2 text-gray-700">
                         <li v-for="ingredient in recipe.extendedIngredients" :key="ingredient.id">
-                            {{ ingredient.name }} - {{ ingredient.amount }} {{ ingredient.unit }}
+                            {{ ingredient.name.charAt(0).toUpperCase() + ingredient.name.slice(1) }} - {{ (ingredient.amount).toFixed(1) }} {{ ingredient.unit }}
                         </li>
                     </ul>
                 </div>

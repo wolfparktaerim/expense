@@ -9,6 +9,7 @@ import Globe from '../views/Globe.vue'
 import FoodTrivia from '../views/FoodTrivia.vue'
 import Saved from '../views/Saved.vue'
 import Profile from '../views/Profile.vue'
+import NotFoundView from '../views/NotFoundView.vue'
 
 const routes = [
   { 
@@ -46,7 +47,11 @@ const routes = [
     component: Profile,
     meta: { requiresAuth: true }
   },
-
+  {
+    path: '/:catchAll(.*)',
+    component: NotFoundView,
+    meta: { requiresAuth: false }
+  }
 ]
 
 const router = createRouter({
