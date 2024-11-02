@@ -5,11 +5,6 @@ import autoprefixer from 'autoprefixer'
 
 export default defineConfig({
   plugins: [vue()],
-  resolve: {
-    alias: {
-      'three': path.resolve('./node_modules/three')
-    }
-  },
   css: {
     postcss: {
       plugins: [tailwindcss, autoprefixer],
