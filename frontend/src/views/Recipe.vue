@@ -2,7 +2,11 @@
 
 <template>
     <Navigation v-if="!isLoading"/>
-    <Chat></Chat>
+
+    <div v-if="!isLoading">
+        <Chat></Chat>
+    </div>
+    
     <!-- Loading + Did you know section -->
     <div v-if="isLoading">
         <div class="text-center flex flex-col justify-center items-center mt-3">
@@ -158,7 +162,7 @@
                 </div>
 
                 <!-- Nutrition Information -->
-                <div class="bg-white p-6 rounded-lg shadow-md text-gray-800">
+                <div class="bg-white p-6 rounded-lg shadow-md text-gray-800" v-if="recipeNutrition!==null">
 
                     <!-- Title -->
                     <h2 class="text-2xl font-bold mb-4 text-purple-600">Nutrition Label</h2>
@@ -319,6 +323,8 @@
                     </div>
 
                 </div>
+                <!-- Nutrition information ends  -->
+                 <div v-else>Unfortunately, the Nutrition Label for this recipe is unavailable.</div>
             </div>
         </div>
 
@@ -500,7 +506,6 @@
         },
 
         methods:{
-
             fetchNutritionAnalysis() {
                 // Ensure ingredients are available
                 if (this.ingredientsInArr.length > 0) {
@@ -526,6 +531,38 @@
                         console.log(this.recipe.title);
                         console.log(this.ingredientsInArr);
                         console.error(error);
+                        // if (error.response) {
+                        //     const statusCode = error.response.status;
+                        //     switch (statusCode) {
+                        //         case 304:
+                        //             console.warn("Data not modified. Using cached data.");
+                        //             this.$router.push('/search');
+                        //             break;
+                        //         case 404:
+                        //             console.error("Recipe not found. Please check the URL or recipe ID.");
+                        //             alert("Error: Recipe not found. Please try again later.");
+                        //             this.$router.push('/search');
+                        //             break;
+                        //         case 409:
+                        //             console.error("Conflict error: ETag mismatch. Please try resubmitting the data.");
+                        //             alert("Conflict detected. Please refresh and try again.");
+                        //             this.$router.push('/search');
+                        //             break;
+                        //         case 422:
+                        //             console.error("Unprocessable entity. Unable to parse recipe or extract nutritional information.");
+                        //             alert("Error: Unable to process this recipe. Please try another recipe!");
+                        //             this.$router.push('/search');
+                        //             break;
+                        //         case 555:
+                        //             console.error("Insufficient recipe quality. Unable to process the recipe data.");
+                        //             alert("This recipe does not meet the quality standards for processing. Please try another recipe!");
+                        //             this.$router.push('/search');
+                        //             break;
+                        //     }
+                        // } else {
+                        //     console.error("Network or other error:", error.message);
+                        //     alert("A network error occurred. Please check your connection and try again.");
+                        // }
                     });
                 } else {
                     console.error("Ingredients array is empty or not properly formatted.");
