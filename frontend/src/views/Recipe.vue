@@ -4,7 +4,7 @@
     <Navigation v-if="!isLoading"/>
 
     <div v-if="!isLoading">
-        <Chat></Chat>
+        <Chat/>
     </div>
     
     <!-- Loading + Did you know section -->
