@@ -10,7 +10,7 @@ import FoodTrivia from '../views/FoodTrivia.vue'
 import Saved from '../views/Saved.vue'
 import Profile from '../views/Profile.vue'
 import NotFoundView from '../views/NotFoundView.vue'
-import Minigame from '../views/Minigame.vue'
+import MiniGame from '../views/Minigame.vue'
 
 const routes = [
   { 
@@ -55,8 +55,8 @@ const routes = [
   },
   {
     path: '/minigame',
-    component: Minigame,
-    meta: { requiresAuth: false }
+    component: MiniGame,
+    meta: { requiresAuth: true }
   }
 ]
 
