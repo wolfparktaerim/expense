@@ -10,6 +10,7 @@ import FoodTrivia from '../views/FoodTrivia.vue'
 import Saved from '../views/Saved.vue'
 import Profile from '../views/Profile.vue'
 import NotFoundView from '../views/NotFoundView.vue'
+import Minigame from '../views/Minigame.vue'
 
 const routes = [
   { 
@@ -50,6 +51,11 @@ const routes = [
   {
     path: '/:catchAll(.*)',
     component: NotFoundView,
+    meta: { requiresAuth: false }
+  },
+  {
+    path: '/minigame',
+    component: Minigame,
     meta: { requiresAuth: false }
   }
 ]
