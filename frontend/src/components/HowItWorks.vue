@@ -6,11 +6,11 @@
       </h3>
       <div class="flex flex-col sm:flex-row justify-between items-stretch gap-8 mb-16">
         <div v-for="(step, index) in steps" :key="step.title"
-          class="step-item flex flex-col items-center p-6 bg-white rounded-lg shadow-lg transition-all duration-300 hover:shadow-xl hover:-translate-y-1 flex-1"
+          class="step-item flex flex-col items-center p-6 bg-white rounded-lg shadow-lg transition-all duration-500 hover:shadow-2xl hover:-translate-y-2 flex-1 group"
           :class="{ 'is-visible': step.isVisible }" @mouseenter="activeStep = index" @mouseleave="activeStep = null">
-          <div class="relative mb-8 transition-transform duration-300" :class="{ 'scale-110': activeStep === index }">
-            <div class="absolute inset-0 bg-purple-100 rounded-full scale-150 opacity-50"></div>
-            <component :is="step.icon" class="h-16 w-16 text-purple-600 relative z-10" />
+          <div class="relative mb-8 transition-transform duration-500" :class="{ 'scale-110': activeStep === index }">
+            <div class="absolute inset-0 bg-purple-100 rounded-full scale-150 opacity-50 group-hover:bg-purple-200 transition-colors duration-300"></div>
+            <component :is="step.icon" class="h-16 w-16 text-purple-600 relative z-10 group-hover:text-purple-700 transition-colors duration-300" />
           </div>
           <h4 class="text-xl text-center font-semibold mb-4 text-gray-800">{{ step.title }}</h4>
           <p class="text-gray-600 text-center flex-grow">{{ step.description }}</p>

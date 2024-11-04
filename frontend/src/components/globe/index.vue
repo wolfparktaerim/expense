@@ -156,7 +156,7 @@ export default {
       );
       setTimeout(() => {
         globe.value.pointOfView(
-          { lat: targetLat, lng: targetLng, altitude: 0.3 },
+          { lat: targetLat, lng: targetLng, altitude: 0.7 },
           1000
         );
       }, 1500);
