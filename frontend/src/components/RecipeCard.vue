@@ -1,60 +1,166 @@
-<!-- RecipeCard.vue -->
-<!-- Recipe Card Display under Search Results and Favorites -->
-
 <template>
-    <!-- Display Recipe Results using cards -->
-    <div v-for="recipe in recipes" :key="recipe.id" class="bg-white shadow-lg rounded-lg overflow-hidden hover:shadow-2xl transition-shadow duration-300 flex flex-col justify-between mx-auto relative" style="width: 250px; height: 350px;">
+  <div v-for="recipe in recipes" 
+       :key="recipe.id" 
+       class="recipe-card bg-white shadow-lg rounded-lg overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 flex flex-col justify-between mx-auto relative gap"
+       :class="{ 'loading': isLoading }"
+       style="width: 280px; height: 400px;">
+      
+      <!-- Recipe Image with Conditional Overlay -->
+      <div class="relative overflow-hidden" style="padding-top: 75%;">
+          <img :src="recipe.image" 
+               :alt="recipe.title" 
+               class="absolute top-0 left-0 w-full h-full object-cover transition-transform duration-300 hover:scale-110">
+          
+          <!-- Image Overlay only shown if recipe has time or servings info -->
+          <div v-if="hasQuickInfo(recipe)"
+               class="absolute inset-0 bg-black bg-opacity-0 hover:bg-opacity-40 transition-opacity duration-300 flex items-center justify-center opacity-0 hover:opacity-100">
+              <div class="text-white text-center p-4">
+                  <p v-if="recipe.readyInMinutes" class="font-medium mb-2">{{ recipe.readyInMinutes }} mins</p>
+                  <p v-if="recipe.servings" class="text-sm">{{ recipe.servings }} servings</p>
+              </div>
+          </div>
+      </div>
 
-        <!-- Recipe Image -->
-        <div class="relative" style="padding-top: 75%; position: relative;">
-            <img :src="recipe.image" alt="Recipe Image" class="absolute top-0 left-0 w-full h-full object-cover">
-        </div>
+      <!-- Badges Section -->
+      <div class="absolute top-3 right-3 flex flex-col gap-2">
+          <!-- Healthy Badge -->
+          <div v-if="recipe.veryHealthy" 
+               class="badge-container group">
+              <div class="bg-green-500 rounded-full p-2 shadow-md">
+                  <img src="/icon/healthy.png" width="24" height="24" alt="Healthy">
+              </div>
+              <span class="badge-tooltip">Healthy Choice!</span>
+          </div>
+          
+          <!-- Vegetarian Badge -->
+          <div v-if="recipe.vegetarian" 
+               class="badge-container group">
+              <div class="bg-green-400 rounded-full p-2 shadow-md">
+                  <span class="text-white text-xs">🥬</span>
+              </div>
+              <span class="badge-tooltip">Vegetarian</span>
+          </div>
+      </div>
 
-        <!-- Title Section -->
-        <div class="p-4 flex-1">
-            <h3 class="text-sm font-bold text-purple-600 line-clamp-2">{{ recipe.title }}</h3>
-        </div>
+      <!-- Content Section -->
+      <div class="p-4 flex-1">
+          <h3 class="text-lg font-bold text-purple-600 line-clamp-2 mb-2 hover:text-purple-700 cursor-pointer"
+              @click="viewRecipeDetails(recipe)">
+              {{ recipe.title }}
+          </h3>
+          <p v-if="recipe.cuisines && recipe.cuisines.length" 
+             class="text-sm text-gray-600 mb-2">
+              {{ recipe.cuisines.join(', ') }}
+          </p>
+      </div>
 
-        <!-- Healthy Icon with background -->
-        <div v-if="recipe.veryHealthy" class="absolute top-3 right-3 bg-green-300 rounded-full p-2 group" style="background-size: cover;">
-            <img src="/icon/healthy.png" width="24px" height="24px" alt="Healthy Icon">
-            <!-- Hidden text, shown on hover -->
-            <div class="absolute left-1/2 transform -translate-x-1/2 top-10 bg-green-600 text-white text-xs font-bold py-1 px-2 rounded opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
-                Healthy choice!
-            </div>
-        </div>
+      <!-- Action Buttons -->
+      <div class="p-4 flex justify-between items-center border-t border-gray-100">
+          <!-- Favorite Button with Animation -->
+          <button @click="toggleFavorite(recipe)"
+                  class="favorite-btn"
+                  :class="{ 'is-favorite': checkIsFavorite(recipe.id) }"
+                  :disabled="isLoading">
+              <img :src="checkIsFavorite(recipe.id) ? '/icon/remove_favorite.png' : '/icon/add_favorite.png'"
+                   width="35"
+                   height="35"
+                   :alt="checkIsFavorite(recipe.id) ? 'Remove from Favorites' : 'Add to Favorites'"
+                   class="transition-transform duration-200">
+          </button>
 
-        <!-- Button Section:  add to favorite + view recipe details-->
-        <div class="p-4 flex justify-between">
-            <img
-                @click="toggleFavorite(recipe)"
-                :src="checkIsFavorite(recipe.id) ? '/icon/remove_favorite.png' : '/icon/add_favorite.png'"
-                width="35"
-                height="auto"
-                alt="Favorite Icon"
-                class="cursor-pointer transition-transform duration-200 hover:scale-110"
-                :title="checkIsFavorite(recipe.id) ? 'Remove from Favorites' : 'Add to Favorites'"
-            />
-              <!-- loading indicator -->
-              <div v-if="isLoading" class="text-center flex justify-center items-center h-32 mt-3">
-                <PulseLoader :color="loadingColor"></PulseLoader>
-            </div>
-            
-            <!-- Error message display -->
-            <div v-if="error" class="text-red-500 text-sm mt-2">
-                {{ error }}
-            </div>
-
-             <!-- View recipe details button and spinner -->
-                <button @click="viewRecipeDetails(recipe)" class="bg-purple-600 text-white py-2 px-3 ml-5 rounded w-full hover:bg-purple-700 transition-colors duration-200 text-sm">
-                    View Recipe Details
-                </button>
-                <PulseLoader v-if="isLoading" :color="loadingColor" class="absolute inset-0 m-auto" />
-            </div>
-
-    </div>
+          <!-- View Details Button -->
+          <button @click="viewRecipeDetails(recipe)"
+                  class="view-recipe-btn bg-purple-600 text-white py-2 px-4 rounded-lg flex-grow ml-4 hover:bg-purple-700 transition-colors duration-200"
+                  :disabled="isLoading">
+              <span v-if="!isLoading">View Recipe</span>
+              <PulseLoader v-else :color="'#ffffff'" :size="'8px'" />
+          </button>
+      </div>
+  </div>
 </template>
 
+<style scoped>
+.recipe-card {
+  backface-visibility: hidden;
+}
+
+.recipe-card.loading {
+  pointer-events: none;
+  opacity: 0.7;
+}
+
+.badge-container {
+  position: relative;
+}
+
+.badge-tooltip {
+  position: absolute;
+  left: -100%;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  opacity: 0;
+  transition: all 0.2s ease;
+  pointer-events: none;
+  white-space: nowrap;
+}
+
+.badge-container:hover .badge-tooltip {
+  opacity: 1;
+  left: -120%;
+}
+
+.favorite-btn {
+  position: relative;
+  overflow: hidden;
+  padding: 8px;
+  border-radius: 50%;
+  transition: all 0.3s ease;
+}
+
+.favorite-btn::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle, rgba(168, 85, 247, 0.2) 0%, transparent 70%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.favorite-btn:hover::before {
+  opacity: 1;
+}
+
+.favorite-btn.is-favorite img {
+  filter: drop-shadow(0 0 2px rgba(168, 85, 247, 0.5));
+}
+
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.view-recipe-btn:disabled {
+  background-color: #d1d5db;
+  cursor: not-allowed;
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+.favorite-btn.is-favorite:hover img {
+  animation: pulse 1s infinite;
+}
+</style>
 
 <script>
 import { useFavoritesStore } from '../stores/favorites';
@@ -63,160 +169,123 @@ import PulseLoader from 'vue-spinner/src/PulseLoader.vue';
 import { useToast } from 'vue-toastification';
 
 export default {
+  name: 'RecipeCard',
+  components: {
+      PulseLoader
+  },
   props: {
-    recipes: {
-      type: Array,
-      required: true,
-    },
-  },
-
-  data() {
-    return {
-      error: null,
-      favorites: [],
-      loading: false,
-      favoritesStore: null,
-      isLoading: false, // Spinner control for viewing recipe details
-      loadingColor: '#805ad5',
-      toast: useToast(),
-      updated: {
-        transition: "Vue-Toastification__fade",
-        maxToasts: 2,
-        filterToasts: toasts => {
-        // Keep track of existing types
-        const types = {};
-        return toasts.reduce((aggToasts, toast) => {
-          // Check if type was not seen before
-          if (!types[toast.type]) {
-            aggToasts.push(toast);
-            types[toast.type] = true;
+      recipes: {
+          type: Array,
+          required: true,
+          validator: (value) => {
+              return value.every(recipe => 
+                  recipe.id && 
+                  recipe.title && 
+                  recipe.image
+              );
           }
-          return aggToasts;
-        }, []);
-          }}
-    };
+      }
   },
-
+  emits: ['view-details', 'toggle-favorite'],
+  data() {
+      return {
+          error: null,
+          favorites: [],
+          loading: false,
+          favoritesStore: null,
+          isLoading: false,
+          loadingColor: '#805ad5',
+          toast: useToast(),
+          toastConfig: {
+              position: "top-right",
+              timeout: 2000,
+              closeOnClick: true,
+              pauseOnFocusLoss: true,
+              pauseOnHover: true,
+              draggable: true,
+              draggablePercent: 0.6,
+              showCloseButtonOnHover: true,
+              hideProgressBar: true,
+              closeButton: "button",
+              icon: true,
+              rtl: false
+          }
+      };
+  },
   created() {
-    // Initialize the store
-    this.favoritesStore = useFavoritesStore();
-    
-    // Sync the store's state with component data
-    this.favorites = this.favoritesStore.favorites;
-    this.loading = this.favoritesStore.loading;
+      this.favoritesStore = useFavoritesStore();
+      this.favorites = this.favoritesStore.favorites;
+      this.loading = this.favoritesStore.loading;
   },
-
   mounted() {
-    // Load favorites when component mounts and user is authenticated
-    const auth = getAuth();
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        this.loadFavorites();
-      }
-    });
-
-    // Watch store changes
-    this.watchStoreChanges();
-  },
-
-  methods: {
-    watchStoreChanges() {
-      // Manual store watching since we're not using storeToRefs
-      this.favoritesStore.$subscribe((mutation, state) => {
-        this.favorites = state.favorites;
-        this.loading = state.loading;
+      const auth = getAuth();
+      onAuthStateChanged(auth, (user) => {
+          if (user) this.loadFavorites();
       });
-    },
-
-    loadFavorites() {
-      this.favoritesStore.loadFavorites();
-    },
-
-    async viewRecipeDetails(recipe) {
-      this.isLoading = true; // Start spinner
-      this.toast.clear();
-      try {
-        await this.$router.push({ path: `/recipe/${recipe.id}` });
-      } 
-      catch (error) {
-        console.error('Error navigating to recipe details:', error);
-      } 
-      finally {
-        this.isLoading = false; // Stop spinner
-      }
-    },
-
-    async toggleFavorite(recipe) {
-      try {
-        const auth = getAuth();
-        if (!auth.currentUser) {
-          // Handle unauthenticated user - redirect to login
-          this.$router.push('/login');
-          return;
-        }
-
-        if (this.checkIsFavorite(recipe.id)) {
-          await this.favoritesStore.removeFromFavorites(recipe.id);
-          this.toast.error('Removed from Favourites!',{
-            closeButton: false,
-            hideProgressBar: true,
-            timeout: 2000,
-          });
-          this.toast.updateDefaults(this.updated);
-        } else {
-          await this.favoritesStore.addToFavorites(recipe);
-          this.toast.success('Added to Favourites!', {
-            closeButton: false,
-            hideProgressBar: true,
-            timeout: 2000
-          });
-          this.toast.updateDefaults(this.updated);
-        }
-      } catch (error) {
-        this.error = error.message;
-        console.error('Error toggling favorite:', error);
-      }
-    },
-
-    checkIsFavorite(recipeId) {
-      return this.favoritesStore.isFavorite(recipeId);
-    }
+      this.watchStoreChanges();
   },
+  methods: {
+      hasQuickInfo(recipe) {
+          return Boolean(recipe.readyInMinutes || recipe.servings);
+      },
+      watchStoreChanges() {
+          this.favoritesStore.$subscribe((mutation, state) => {
+              this.favorites = state.favorites;
+              this.loading = state.loading;
+          });
+      },
+      loadFavorites() {
+          this.favoritesStore.loadFavorites();
+      },
+      async viewRecipeDetails(recipe) {
+          if (this.isLoading) return;
+          
+          this.isLoading = true;
+          try {
+              await this.$router.push({ 
+                  path: `/recipe/${recipe.id}`,
+                  query: { source: 'card' }
+              });
+              this.$emit('view-details', recipe);
+          } catch (error) {
+              this.toast.error('Failed to load recipe details', this.toastConfig);
+              console.error('Navigation error:', error);
+          } finally {
+              this.isLoading = false;
+          }
+      },
+      async toggleFavorite(recipe) {
+          if (this.isLoading) return;
 
-  computed: {
-    isLoading() {
-      return this.loading;
-    }
+          const auth = getAuth();
+          if (!auth.currentUser) {
+              this.toast.info('Please log in to save favorites', this.toastConfig);
+              this.$router.push('/login');
+              return;
+          }
+
+          try {
+              if (this.checkIsFavorite(recipe.id)) {
+                  await this.favoritesStore.removeFromFavorites(recipe.id);
+                  this.toast.success('Removed from favorites', this.toastConfig);
+              } else {
+                  await this.favoritesStore.addToFavorites(recipe);
+                  this.toast.success('Added to favorites', this.toastConfig);
+              }
+              this.$emit('toggle-favorite', recipe);
+          } catch (error) {
+              this.toast.error('Failed to update favorites', this.toastConfig);
+              console.error('Favorite toggle error:', error);
+          }
+      },
+      checkIsFavorite(recipeId) {
+          return this.favoritesStore.isFavorite(recipeId);
+      }
   },
-
-  // Clean up subscriptions when component is destroyed
   beforeDestroy() {
-    if (this.favoritesStore.$subscribe) {
-      this.favoritesStore.$subscribe()();
-    }
+      if (this.favoritesStore.$subscribe) {
+          this.favoritesStore.$subscribe()();
+      }
   }
 };
 </script>
-
-<style scoped>
-/* Additional styles for button decorations */
-    button {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    }
-
-    button:hover img {
-    filter: brightness(1.2); /* Brighten the icon on hover */
-    }
-
-    button:hover {
-    transform: scale(1.05); /* Slightly enlarge the button on hover */
-    }
-
-    .line-clamp-2 {
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-    }
-</style>
