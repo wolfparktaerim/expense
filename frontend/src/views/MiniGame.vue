@@ -15,7 +15,7 @@
 
       <!-- Health Image (Fixed Width Container) -->
       <div class="flex items-center justify-center mr-14" > <!-- Fixed width for image container -->
-        <img :src="healthStageImage" alt="Health Stage" class="health-stage-image" style="width: 100%;max-width: 30px; height: auto;" />
+        <img :src="healthStageImage" alt="Health Stage" class="health-stage-image" style="height: 100%;max-height:60px;width: auto;" />
       </div>
 
       <!-- Score Display (Fixed Width Container) -->
