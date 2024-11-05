@@ -34,14 +34,14 @@
   
       <!-- Control Buttons below the game area -->
       <div class="controls mt-6 flex justify-center space-x-4">
-        <button @click="moveBasket('left')" :disabled="isPaused" class="px-4 py-2 bg-blue-500 text-white font-semibold rounded-lg hover:bg-blue-600">⬅️ Move Left</button>
+        <button @click="moveBasket('left')" :disabled="isPaused||!isGameStarted" class="px-4 py-2 bg-blue-500 text-white font-semibold rounded-lg hover:bg-blue-600 disabled:bg-gray-400 disabled:cursor-not-allowed" >⬅️ Move Left</button>
         
         <button @click="togglePause" class="px-4 py-2 bg-yellow-500 text-white font-semibold rounded-lg hover:bg-yellow-600 disabled:bg-gray-400 disabled:cursor-not-allowed"
         :disabled="!isGameStarted">
           {{ isPaused ? 'Resume' : 'Pause' }}
         </button>
         
-        <button @click="moveBasket('right')" :disabled="isPaused" class="px-4 py-2 bg-blue-500 text-white font-semibold rounded-lg hover:bg-blue-600">➡️ Move Right</button>
+        <button @click="moveBasket('right')" :disabled="isPaused||!isGameStarted" class="px-4 py-2 bg-blue-500 text-white font-semibold rounded-lg hover:bg-blue-600 disabled:bg-gray-400 disabled:cursor-not-allowed">➡️ Move Right</button>
     </div>
     </div>
   </template>
@@ -78,12 +78,15 @@
         foods: [],
         basketWidth: 50, // Adjusted basket width
         gameWidth: 500, // Width of the game area
+        dropSpeed : 5,
+
         healthyFoodSrc : [
             '/game/healthy/almond.png', '/game/healthy/apple.png', '/game/healthy/blueberry.png', '/game/healthy/brocolli.png', '/game/healthy/carrot.png', '/game/healthy/corn.png', '/game/healthy/egg.png', '/game/healthy/salmon.png', '/game/healthy/strawberry.png'
         ],
         unhealthyFoodSrc : [
             '/game/unhealthy/burger.png', '/game/unhealthy/candy.png', '/game/unhealthy/candy.png', '/game/unhealthy/cake-slice.png', '/game/unhealthy/chips.png', '/game/unhealthy/donut.png', '/game/unhealthy/french-fries.png', '/game/unhealthy/fried-chicken.png', '/game/unhealthy/pizza.png', '/game/unhealthy/sausages.png'
         ],
+
         isGameStarted: false,
         isPaused: false,
         foodGenerationInterval: null,
@@ -150,8 +153,7 @@
             return; 
         }
         this.foods.forEach((food, index) => {
-          food.y += 5; // Adjust for drop speed
-          // Check if food reached the bottom or collides with the basket
+          food.y += this.dropSpeed; 
           if (food.y >= 400) { // Set to bottom boundary of game area
             this.checkCollision(food, index);
           }
@@ -200,6 +202,7 @@
         this.health = 100;
         this.score = 0;
         this.foods = [];
+        this.dropSpeed = 5;
         this.isGameStarted = false; // Reset game state
         clearInterval(this.foodGenerationInterval);
         clearInterval(this.foodDropInterval);
@@ -283,7 +286,7 @@
     },
     mounted() {
         setInterval(this.generateFood, 1000); // Generate food every second
-        setInterval(this.dropFoods, 45); // Drop foods every 50ms
+        setInterval(this.dropFoods, 50); // Drop foods every 50ms
         window.addEventListener("keydown", this.handleKeyDown); // Add event listener for keydown
         this.bgm = new Audio('/game/sound/gameBGM.mp3');
         this.bgm.loop = true; 
