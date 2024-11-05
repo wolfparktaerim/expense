@@ -49,15 +49,15 @@ const routes = [
     meta: { requiresAuth: true }
   },
   {
+    path: '/minigame',
+    component: MiniGame,
+    meta: { requiresAuth: true }
+  },
+  {
     path: '/:catchAll(.*)',
     component: NotFoundView,
     meta: { requiresAuth: false }
   },
-  {
-    path: '/minigame',
-    component: MiniGame,
-    meta: { requiresAuth: true }
-  }
 ]
 
 const router = createRouter({
