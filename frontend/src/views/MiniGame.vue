@@ -45,12 +45,30 @@
   
   <script>
   import Navigation from '../components/Navigation.vue';
+  import { useToast } from 'vue-toastification';
+
   export default {
     components: {
       Navigation,
     },
     data() {
       return {
+        toast: useToast(),
+          toastConfig: {
+              position: "top-right",
+              timeout: 5000,
+              closeOnClick: true,
+              pauseOnFocusLoss: true,
+              pauseOnHover: true,
+              draggable: true,
+              draggablePercent: 0.6,
+              showCloseButtonOnHover: true,
+              hideProgressBar: true,
+              closeButton: "button",
+              icon: true,
+              rtl: false
+          },
+
         score: 0,
         health: 100, // Starting health
         basketPositionX: 200, // Initial basket position
@@ -145,7 +163,9 @@
         if (food.y >= 380 && food.x >= basketLeft && food.x <= basketRight) {
           // Collision detected, update score or health
           if (food.isHealthy) {
-            this.health += 2;
+            if(this.health <= 98){
+              this.health += 2;
+            }
             this.score += Math.floor(Math.random() * 10) + 5;
             this.playPointSound();
           } else {
@@ -163,7 +183,7 @@
   
       // End game function
       endGame() {
-        alert("Game Over! Your score: " + this.score);
+        this.toast.error("Game Over! Your score: " + this.score, this.toastConfig);
         this.resetGame();
       },
   
