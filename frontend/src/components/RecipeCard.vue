@@ -1,9 +1,8 @@
 <template>
-  <div v-for="recipe in recipes" 
-       :key="recipe.id" 
-       class="recipe-card bg-white shadow-lg rounded-lg overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 flex flex-col justify-between mx-auto relative gap"
-       :class="{ 'loading': isLoading }"
-       style="width: 280px; height: 400px;">
+    <div v-for="recipe in recipes" 
+     :key="recipe.id" 
+     class="recipe-card bg-white shadow-lg rounded-lg overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 flex flex-col justify-between mx-auto relative gap-4"
+     :class="{ 'loading': isLoading }">
       
       <!-- Recipe Image with Conditional Overlay -->
       <div class="relative overflow-hidden" style="padding-top: 75%;">
