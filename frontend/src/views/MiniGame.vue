@@ -1,12 +1,29 @@
-<template>
+<template class="game-session">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <Navigation></Navigation>
     <div class="game-container flex flex-col items-center min-h-screen bg-gray-100" >
-      <!-- Scoreboard above the game area -->
-      <div class="health-score flex items-center justify-between w-full max-w-lg p-4 bg-white rounded-lg shadow-md mt-1" >
-        <span class="text-lg font-semibold text-gray-800"><p>Health: {{ health }}</p></span>
-        <span><img :src="healthStageImage" alt="Health Stage" class="health-stage-image" style="position:relative;margin-right: 40px;"/></span>
-        <span class="text-lg font-semibold text-gray-800">Score: {{ score }}</span>
+
+    <!-- Scoreboard above the game area -->
+    <div class="health-score flex items-center justify-between w-full max-w-lg p-4 bg-white rounded-lg shadow-md mt-1">
+      <!-- Health bar -->
+      <div class="flex flex-col items-center">
+          <span class="text-sm font-medium text-gray-500">Health</span>
+          <div class="w-24 bg-gray-200 rounded-full h-3 mt-1">
+            <div class="rounded-full h-3" :class="healthColor"  :style="{ width: `${health}%` }"></div>
+          </div>
+        </div>
+
+      <!-- Health Image (Fixed Width Container) -->
+      <div class="flex items-center justify-center mr-5" > <!-- Fixed width for image container -->
+        <img :src="healthStageImage" alt="Health Stage" class="health-stage-image" style="width: 100%; max-width: 50px;" />
       </div>
+
+      <!-- Score Display (Fixed Width Container) -->
+      <div class="flex flex-col items-center">
+          <span class="text-sm font-medium text-gray-500">Score</span>
+          <span class="text-lg font-bold text-purple-600">{{ score }}</span>
+      </div>
+    </div>
   
       <div ref="gameArea" class="game-area relative w-full max-w-sm md:max-w-md lg:max-w-lg h-64 md:h-72 lg:h-80 bg-blue-200 border-4 border-gray-400 rounded-lg overflow-hidden shadow-lg">
          <!-- Show instructions if game not started -->
@@ -16,9 +33,7 @@
             <p class="text-gray-700">Use the left and right arrow keys or the buttons below to move the basket.</p><br>
             <p class="text-gray-700">You can press "P" or the button "Pause" to pause the game.</p><br>
             <p class="text-gray-700">Catch as many as healthy foods as possible to gain points and avoid unhealthy foods to maintain your health!</p><br>
-            <br>
-            <br>
-            <button @click="startGame" class="mt-4 px-4 py-2 bg-green-500 text-white font-semibold rounded-lg hover:bg-green-600">Start</button>
+            <button @click="startGame" class="mt-4 px-4 py-2 bg-green-500 text-white font-semibold rounded-lg hover:bg-green-600">Start!</button>
         </div>
 
         <!-- Basket -->
@@ -35,14 +50,14 @@
       <!-- Control Buttons below the game area -->
       <div class="controls mt-6 flex justify-center space-x-4">
         <button @click="moveBasket('left')" :disabled="isPaused||!isGameStarted" class="px-4 py-2 bg-blue-500 text-white font-semibold rounded-lg hover:bg-blue-600 disabled:bg-gray-400 disabled:cursor-not-allowed" >⬅️ Move Left</button>
-        
+
         <button @click="togglePause" class="px-4 py-2 bg-yellow-500 text-white font-semibold rounded-lg hover:bg-yellow-600 disabled:bg-gray-400 disabled:cursor-not-allowed"
         :disabled="!isGameStarted">
           {{ isPaused ? 'Resume' : 'Pause' }}
         </button>
-        
+    
         <button @click="moveBasket('right')" :disabled="isPaused||!isGameStarted" class="px-4 py-2 bg-blue-500 text-white font-semibold rounded-lg hover:bg-blue-600 disabled:bg-gray-400 disabled:cursor-not-allowed">➡️ Move Right</button>
-    </div>
+      </div>
     </div>
   </template>
   
@@ -74,7 +89,7 @@
 
         score: 0,
         health: 100, // Starting health
-        basketPositionX: 250, // Initial basket position
+        basketPositionX:50, // Initial basket position
         foods: [],
         basketWidth: 50, // Adjusted basket width
         gameWidth: 500, // Width of the game area
@@ -108,6 +123,16 @@
           return '/game/others/stage_3.png';
         }
       },
+
+      healthColor(){
+        if (this.health >= 60) {
+          return 'bg-green-500';
+        } else if (this.health >= 30) {
+          return 'bg-yellow-500';
+        } else {
+          return 'bg-red-500';
+        }
+      }
     },
     methods: {
       // Generate food with random x-position within the game boundary
@@ -131,7 +156,6 @@
           isHealthy,
         };
         this.foods.push(food);
-        console.log(food)
       },
   
       // Move the basket, with boundaries to keep it within game area
@@ -174,16 +198,16 @@
           // Collision detected, update score or health
           if (food.isHealthy) {
             if(this.health <= 98){
-              this.health += 2;
+              this.health += 2; // Regain some health after consuming some healthy food
             }
-            this.score += Math.floor(Math.random() * 10) + 5;
+            this.score += Math.floor(Math.random() * 10) + 5;  // Get a random score
             this.playPointSound();
           } else {
             this.health -= 10;
             this.playHurtSound();
             if (this.health <= 0) {
-              this.endGame();
-              this.playOverSound();
+              this.endGame(); 
+              this.playOverSound(); // Play Game Over sound effect
             }
           }
           // Remove food from array after collision
@@ -263,6 +287,15 @@
       togglePause() {
         this.isPaused = !this.isPaused;
       },
+      resizeGameArea() {
+        // Set the game width dynamically based on window width
+        if (window.innerWidth < 600) {
+          this.gameWidth = window.innerWidth * 0.9; // e.g., 90% of window width for small screens
+        } else {
+          this.gameWidth = 500; // Default width for larger screens
+        }
+      },
+
 
       cleanupGame() {
         // Stop all sounds
@@ -285,6 +318,7 @@
       },
     },
     mounted() {
+
         setInterval(this.generateFood, 1000); // Generate food every second
         setInterval(this.dropFoods, 50); // Drop foods every 50ms
         window.addEventListener("keydown", this.handleKeyDown); // Add event listener for keydown
@@ -294,10 +328,14 @@
         this.pointSound = new Audio('/game/sound/getHealthyFood.mp3');
         this.hurtSound = new Audio('/game/sound/getUnhealthyFood.mp3');
         this.overSound = new Audio('/game/sound/gameOver.mp3');
+
+        this.resizeGameArea(); // reset game size based on screen
+        window.addEventListener('resize', this.resizeGameArea); 
     },
     beforeRouteLeave(to, from, next) {
       // Call cleanup function to kill component processes before leaving
       this.cleanupGame();
+      window.removeEventListener('resize', this.resizeGameArea);
       next();
     },
     beforeDestroy() {
@@ -305,6 +343,7 @@
         clearInterval(this.foodGenerationInterval);
         clearInterval(this.foodDropInterval);
         this.cleanupGame();
+        window.removeEventListener('resize', this.resizeGameArea);
     },
   };
   </script>
@@ -323,8 +362,9 @@
   }
   
   .game-area {
-    width: 500px;
-    height: 500px; /* Increased height for the game area */
+    max-width: 500px;
+    width: 90%; 
+    height: 500px;
     background: lightblue;
     border: 2px solid #333;
     position: relative;
@@ -347,5 +387,18 @@
   .health-stage-image {
     height: 60px;
   }
+
+  @media (max-width: 600px) {
+    .basket-image{
+      width: 40px,
+    }
+    .basket {
+      width: 40px;
+    }
+    .food {
+      width : 40px;
+    }
+  }
+
 
   </style>
