@@ -141,7 +141,7 @@
                             <div class="flex flex-wrap mt-2 gap-4">
                                 <div v-for="equipment in step.equipment" :key="equipment.id" class="flex items-center my-2">
                                     <img :src="equipment.image" :alt="equipment.name" class="w-12 h-12 rounded-full mr-2">
-                                    <p class="text-gray-700">{{ equipment.name }}</p>
+                                    <p class="text-gray-700">{{ equipment.name.charAt(0).toUpperCase() + equipment.name.slice(1) }}</p>
                                 </div>
                             </div>
                         </div>
