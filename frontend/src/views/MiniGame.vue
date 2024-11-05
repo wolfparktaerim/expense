@@ -67,6 +67,11 @@
         isPaused: false,
         foodGenerationInterval: null,
         foodDropInterval: null,
+        bgm: null,
+        pointSound: null,
+        hurtSound: null,
+        startSound: null,
+        overSound: null,
       };
     },
     computed: {
@@ -142,10 +147,13 @@
           if (food.isHealthy) {
             this.health += 2;
             this.score += Math.floor(Math.random() * 10) + 5;
+            this.playPointSound();
           } else {
             this.health -= 10;
+            this.playHurtSound();
             if (this.health <= 0) {
               this.endGame();
+              this.playOverSound();
             }
           }
           // Remove food from array after collision
@@ -170,34 +178,66 @@
       },
   
        // Start the game
-        startGame() {
-            this.isGameStarted = true;
-            this.foodGenerationInterval = setInterval(this.generateFood, 1000); // Generate food every second
-            this.foodDropInterval = setInterval(this.dropFoods, 50); // Drop foods every 50ms
+      startGame() {
+          this.isGameStarted = true;
+          this.playStartSound();
+          this.playBGM();
+          this.foodGenerationInterval = setInterval(this.generateFood, 1000); // Generate food every second
+          this.foodDropInterval = setInterval(this.dropFoods, 50); // Drop foods every 50ms
+      },
+
+      playBGM() {
+        if (this.bgm) this.bgm.play();
+      },
+      pauseBGM() {
+        if (this.bgm) this.bgm.pause();
+      },
+      playPointSound() {
+        if (this.pointSound) this.pointSound.currentTime = 0; 
+        this.pointSound.play();
+      },
+      playHurtSound() {
+        if (this.hurtSound) this.hurtSound.currentTime = 0;
+        this.hurtSound.play();
+      },
+      playStartSound(){
+        if (this.startSound) this.startSound.currentTime = 0; 
+        this.startSound.play();
+      },
+      playOverSound(){
+        if (this.overSound) this.overSound.currentTime = 0; 
+        this.overSound.play();
+      },
+
+
+      // Handle keyboard events
+      handleKeyDown(event) {
+          if (event.key === "ArrowLeft" && !this.isPaused) {
+            this.moveBasket('left');
+          } 
+          else if (event.key === "ArrowRight" && !this.isPaused) {
+            this.moveBasket('right');
+          }
+          else if (event.key === "p" || event.key === "P"){
+            this.togglePause();
+          }
         },
 
-        // Handle keyboard events
-        handleKeyDown(event) {
-            if (event.key === "ArrowLeft" && !this.isPaused) {
-                this.moveBasket('left');
-            } 
-            else if (event.key === "ArrowRight" && !this.isPaused) {
-                this.moveBasket('right');
-            }
-            else if (event.key === "p" || event.key === "P"){
-                this.togglePause();
-            }
-        },
-
-        // Toggle pause state
-        togglePause() {
-            this.isPaused = !this.isPaused;
-        },
+      // Toggle pause state
+      togglePause() {
+        this.isPaused = !this.isPaused;
+      },
     },
     mounted() {
         setInterval(this.generateFood, 1000); // Generate food every second
         setInterval(this.dropFoods, 45); // Drop foods every 50ms
         window.addEventListener("keydown", this.handleKeyDown); // Add event listener for keydown
+        this.bgm = new Audio('/game/sound/gameBGM.mp3');
+        this.bgm.loop = true; 
+        this.startSound = new Audio('/game/sound/gameStart.mp3');
+        this.pointSound = new Audio('/game/sound/getHealthyFood.mp3');
+        this.hurtSound = new Audio('/game/sound/getUnhealthyFood.mp3');
+        this.overSound = new Audio('/game/sound/gameOver.mp3');
     },
     beforeDestroy() {
         window.removeEventListener("keydown", this.handleKeyDown); // Clean up the event listener
