@@ -98,11 +98,11 @@
             <!-- Buttons: Search Recipe & I'm Feeling Lucky -->
             <div class="flex justify-center space-x-4 mt-4">
                 <button class="bg-purple-600 text-white font-bold py-2 px-4 rounded hover:bg-purple-700 focus:ring-2 focus:ring-purple-600 disabled:bg-gray-400 disabled:cursor-not-allowed" 
-                    @click="searchRecipes" :disabled="ingredients.length === 0" title="Search recipes with the selected ingredients" style="max-width: 50%;max-height:10%;">
+                    @click="searchRecipes" :disabled="ingredients.length === 0" title="Search recipes with selected ingredients" style="max-width: 50%;max-height:10%;">
                     Search Recipes
                 </button>
                 <button class="bg-purple-600 text-white font-bold py-2 px-4 rounded hover:bg-purple-700 focus:ring-2 focus:ring-purple-600 max-w-xs" 
-                    @click="feelingLucky" title="Get a complete random recipe!" style="max-width: 50%;max-height:10%;">
+                    @click="feelingLucky" title="Get a completely random recipe!" style="max-width: 50%;max-height:10%;">
                     I'm Feeling Lucky
                 </button>
             </div>
