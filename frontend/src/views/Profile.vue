@@ -68,7 +68,7 @@
                 class="bg-gradient-to-r from-red-500 to-red-600 text-white px-6 py-2 rounded-lg hover:from-red-600 hover:to-red-700 transition-all duration-300 flex items-center space-x-2 shadow-md hover:shadow-lg transform hover:-translate-y-0.5"
               >
                 <LogOut class="w-5 h-5" />
-                <span>Logout</span>
+                <span>Log Out</span>
               </button>
             </div>
           </div>
@@ -119,7 +119,7 @@
                 </p>
                 <p class="text-sm text-gray-600 flex items-center group-hover:text-purple-600 transition-colors duration-300">
                   <Clock class="w-4 h-4 mr-2" />
-                  <span class="font-medium">Last Login:</span>
+                  <span class="font-medium">Last Log In:</span>
                   <span class="ml-2">{{ lastLogin }}</span>
                 </p>
               </div>
