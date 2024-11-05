@@ -278,7 +278,7 @@ export default {
       },
       async viewRecipeDetails(recipe) {
           if (this.isLoading) return;
-          
+          this.toast.clear();          
           this.isLoading = true;
           try {
               await this.$router.push({ 

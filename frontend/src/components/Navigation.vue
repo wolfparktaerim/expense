@@ -15,7 +15,7 @@
           to="/" 
           class="text-2xl font-bold text-purple-600 hover:text-purple-700 transition-colors duration-300"
         >
-          oBEATsity
+          DishGenie
         </RouterLink>
       </div>
 

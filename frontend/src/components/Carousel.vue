@@ -14,6 +14,8 @@
         :key="`${item.id}-${index}`"
         class="flex-shrink-0 w-[220px] px-2"
       >
+      <RouterLink
+      to="/search">
         <div class="card bg-white rounded-lg shadow-md overflow-hidden transition-all duration-300 ease-in-out hover:shadow-lg hover:-translate-y-1">
           <img :src="item.image" :alt="item.name" class="w-full h-40 object-cover" />
           <div class="p-4">
@@ -21,12 +23,15 @@
             <p class="text-sm text-gray-600">{{ item.cuisine }}</p>
           </div>
         </div>
+      </RouterLink>  
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import { RouterLink } from 'vue-router';
+
 export default {
   data() {
     return {

@@ -30,9 +30,21 @@ const app = createApp(App);
 const pinia = createPinia();
 
 app.use(Toast,{
-  transition: "Vue-Toastification__bounce",
-  maxToasts: 20,
-  newestOnTop: true
+  transition: "Vue-Toastification__fade",
+  maxToasts: 2,
+  newestOnTop: true,
+  filterToasts: toasts => {
+    // Keep track of existing types
+    const types = {};
+    return toasts.reduce((aggToasts, toast) => {
+      // Check if type was not seen before
+      if (!types[toast.type]) {
+        aggToasts.push(toast);
+        types[toast.type] = true;
+      }
+      return aggToasts;
+    }, []);
+  }
 });
 app.use(pinia);
 app.component('LoginModal', LoginModal);
