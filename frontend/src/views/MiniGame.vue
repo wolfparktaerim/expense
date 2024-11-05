@@ -227,6 +227,26 @@
       togglePause() {
         this.isPaused = !this.isPaused;
       },
+
+      cleanupGame() {
+        // Stop all sounds
+        if (this.bgm) this.bgm.pause();
+        if (this.pointSound) this.pointSound.pause();
+        if (this.hurtSound) this.hurtSound.pause();
+        if (this.startSound) this.startSound.pause();
+        if (this.overSound) this.overSound.pause();
+
+        // Clear all intervals
+        clearInterval(this.foodGenerationInterval);
+        clearInterval(this.foodDropInterval);
+        
+        // Nullify audio objects to ensure no memory leaks
+        this.bgm = null;
+        this.pointSound = null;
+        this.hurtSound = null;
+        this.startSound = null;
+        this.overSound = null;
+      },
     },
     mounted() {
         setInterval(this.generateFood, 1000); // Generate food every second
@@ -239,10 +259,16 @@
         this.hurtSound = new Audio('/game/sound/getUnhealthyFood.mp3');
         this.overSound = new Audio('/game/sound/gameOver.mp3');
     },
+    beforeRouteLeave(to, from, next) {
+      // Call cleanup function to kill component processes before leaving
+      this.cleanupGame();
+      next();
+    },
     beforeDestroy() {
         window.removeEventListener("keydown", this.handleKeyDown); // Clean up the event listener
         clearInterval(this.foodGenerationInterval);
         clearInterval(this.foodDropInterval);
+        this.cleanupGame();
     },
   };
   </script>
