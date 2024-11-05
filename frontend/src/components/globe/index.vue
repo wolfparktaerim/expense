@@ -12,7 +12,7 @@
         <input
           v-model="searchQuery"
           type="text"
-          placeholder="e.g., India, Tokyo Japan, New York USA"
+          placeholder="e.g. Tokyo, India, Asia"
           class="border rounded px-2 py-1 text-gray-700 flex-1"
           @keyup.enter="handleSearch"
         />
@@ -25,13 +25,13 @@
         </button>
       </div>
       <p class="text-xs text-gray-500 italic">
-          Search by country, city, or region
+          Search by city, province, country or region
         </p>
       <div class="info-card">
         <!-- Loading State -->
         <div v-if="isLoading">
           <ScaleLoader />
-          <p class="text-center text-gray-600">Preparing...</p>
+          <p class="text-center text-gray-600">Preparing dish...</p>
         </div>
         <!-- Content State -->
         <div v-else>
@@ -65,9 +65,9 @@
             </p>
           </div>
           <p v-else class="text-gray-600">
-            1. Click on the globe to pin a country and prepare its cuisine.<br />
-            2. Or search for a country by name.<br />
-            3. Hover over pinned countries to switch between them.
+            1. Click on the globe to pin a country and prepare its dish.<br />
+            2. Or search for a specific city, province, country or region by name.<br />
+            3. Hover over individual pins to switch between recipes.
           </p>
         </div>
       </div>
