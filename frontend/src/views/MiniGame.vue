@@ -11,7 +11,7 @@
       <div ref="gameArea" class="game-area relative overflow-hidden">
 
          <!-- Show instructions if game not started -->
-        <div v-if="!isGameStarted" class="instructions">
+        <div v-if="!isGameStarted" class="instructions" style="text-align: center;" >
             <h2>Instructions</h2>
             <p>Use the left and right arrow keys or the buttons below to move the basket.</p>
             <p>You can press "P" or the button "Pause" to pause the game.</p>
