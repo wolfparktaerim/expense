@@ -24,7 +24,7 @@
           Search
         </button>
       </div>
-      <p class="text-xs text-gray-500 italic">
+      <p class="text-xs text-gray-600 italic">
           Search by city, province, country or region
         </p>
       <div class="info-card">
