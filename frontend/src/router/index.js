@@ -10,7 +10,7 @@ import FoodTrivia from '../views/FoodTrivia.vue'
 import Saved from '../views/Saved.vue'
 import Profile from '../views/Profile.vue'
 import NotFoundView from '../views/NotFoundView.vue'
-import MiniGame from '../views/Minigame.vue'
+import MiniGame from '../views/MiniGame.vue'
 
 const routes = [
   { 
