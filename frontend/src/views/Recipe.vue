@@ -120,7 +120,7 @@
         <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mt-10">
 
             <!-- Column 1: Instructions Section -->
-            <div class="bg-white p-6 rounded-lg shadow-md">
+            <div class="bg-white p-6 rounded-lg shadow-md order-last">
                 <h2 class="text-2xl font-bold mb-4 text-purple-600">Instructions</h2>
                 <ul class="space-y-4">
                     <li v-for="step in recipe.instructions" :key="step.number" class="p-4 bg-gray-100 rounded-lg shadow">
@@ -150,7 +150,7 @@
             </div>
 
             <!-- Column 2: Ingredients & Nutrition Information -->
-            <div class="space-y-8">
+            <div class="space-y-8 order-first">
                 <!-- Ingredients Used -->
                 <div class="bg-white p-6 rounded-lg shadow-md">
                     <h2 class="text-2xl font-bold mb-4 text-purple-600">Ingredients Used</h2>
