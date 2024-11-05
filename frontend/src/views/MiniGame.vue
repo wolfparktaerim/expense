@@ -1,19 +1,18 @@
 <template>
     <Navigation></Navigation>
-    
-    <div class="game-container flex flex-col items-center min-h-screen bg-gray-100">
+    <div class="game-container flex flex-col items-center min-h-screen bg-gray-100" >
       <!-- Scoreboard above the game area -->
       <div class="health-score flex items-center justify-between w-full max-w-lg p-4 bg-white rounded-lg shadow-md mt-1" >
         <span class="text-lg font-semibold"><p>Health: {{ health }}</p></span>
-        <span><img :src="healthStageImage" alt="Health Stage" class="health-stage-image" style="position:relative"/></span>
+        <span><img :src="healthStageImage" alt="Health Stage" class="health-stage-image" style="position:relative;margin-right: 40px;"/></span>
         <span class="text-lg font-semibold">Score: {{ score }}</span>
       </div>
   
-      <div ref="gameArea" class="game-area relative w-80 sm:w-96 h-80 sm:h-96 bg-blue-200 border-4 border-gray-400 rounded-lg overflow-hidden shadow-lg">
+      <div ref="gameArea" class="game-area relative w-full max-w-sm md:max-w-md lg:max-w-lg h-64 md:h-72 lg:h-80 bg-blue-200 border-4 border-gray-400 rounded-lg overflow-hidden shadow-lg">
          <!-- Show instructions if game not started -->
-        <div v-if="!isGameStarted" class="instructions text-center p-6 text-gray-700" >
-            <h1 class="text-2xl font-bold mb-4">NutriCatch</h1>
-            <h2 class="text-2xl font-bold mb-4">Instructions</h2>
+        <div v-if="!isGameStarted" class="instructions text-center p-6 text-gray-700 mx-3 " >
+            <h1 class="text-2xl font-bold mb-4 text-purple-600 mr-4">NutriCatch</h1>
+            <h2 class="text-xl font-bold mb-4">Instructions</h2>
             <p>Use the left and right arrow keys or the buttons below to move the basket.</p><br>
             <p>You can press "P" or the button "Pause" to pause the game.</p><br>
             <p>Catch as many as healthy foods as possible to gain points and avoid unhealthy foods to maintain your health!</p><br>
@@ -345,4 +344,5 @@
   .health-stage-image {
     height: 60px;
   }
+
   </style>
