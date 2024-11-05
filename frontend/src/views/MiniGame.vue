@@ -14,7 +14,7 @@
         </div>
 
       <!-- Health Image (Fixed Width Container) -->
-      <div class="flex items-center justify-center mr-5" > <!-- Fixed width for image container -->
+      <div class="flex items-center justify-center mr-14" > <!-- Fixed width for image container -->
         <img :src="healthStageImage" alt="Health Stage" class="health-stage-image" style="width: 100%; max-width: 50px;" />
       </div>
 
