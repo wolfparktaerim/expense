@@ -29,7 +29,7 @@
               <span class="badge-tooltip">Healthy Choice!</span>
           </div>
           
-          <!-- Vegetarian Badge -->
+          <!-- Vegan Badge -->
           <div v-if="recipe.vegan" 
                class="badge-container group">
               <div class="bg-white rounded-full p-2 shadow-md border border-gray-300">
@@ -39,7 +39,7 @@
           </div>
 
           <!-- Popular Badge -->
-          <div v-if="recipe.popular" 
+          <div v-if="recipe.veryPopular" 
                class="badge-container group">
               <div class="bg-white rounded-full p-2 shadow-md border border-gray-300">
                 <img src="/icon/popular.png" width="24" height="24" alt="Popular">

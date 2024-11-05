@@ -4,7 +4,7 @@
       <!-- Scoreboard above the game area -->
       <div class="health-score flex items-center justify-between w-full max-w-md p-4 mb-4 bg-white rounded-lg shadow-md">
         <span class="text-lg font-semibold"><p>Health: {{ health }}</p></span>
-        <span><img :src="healthStageImage" alt="Health Stage" class="health-stage-image w-12 h-12" /></span>
+        <span><img :src="healthStageImage" alt="Health Stage" class="health-stage-image" /></span>
         <span class="text-lg font-semibold">Score: {{ score }}</span>
       </div>
   
