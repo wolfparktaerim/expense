@@ -306,7 +306,7 @@ export default {
           try {
               if (this.checkIsFavorite(recipe.id)) {
                   await this.favoritesStore.removeFromFavorites(recipe.id);
-                  this.toast.success('Removed from favorites', this.toastConfig);
+                  this.toast.info('Removed from favorites', this.toastConfig);
               } else {
                   await this.favoritesStore.addToFavorites(recipe);
                   this.toast.success('Added to favorites', this.toastConfig);
