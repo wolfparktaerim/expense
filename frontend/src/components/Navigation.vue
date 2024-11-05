@@ -55,12 +55,6 @@
             <span>Discover</span>
           </RouterLink>
           <RouterLink 
-            to="/foodtrivia"
-            class="text-gray-600 hover:text-purple-600 transition-all duration-300 ease-in-out hover:font-bold"
-          >
-            Food Trivia
-          </RouterLink>
-          <RouterLink 
             to="/saved"
             class="text-gray-600 hover:text-purple-600 transition-all duration-300 ease-in-out hover:font-bold"
           >
