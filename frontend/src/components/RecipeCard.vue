@@ -1,16 +1,15 @@
 <template>
     <div v-for="recipe in recipes" 
-     :key="recipe.id" 
-     class="recipe-card bg-white shadow-lg rounded-lg overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 flex flex-col justify-between mx-auto relative gap-4"
-     :class="{ 'loading': isLoading }">
+         :key="recipe.id" 
+         class="recipe-card bg-white shadow-lg rounded-lg overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 flex flex-col mx-auto relative">
       
-      <!-- Recipe Image with Conditional Overlay -->
-      <div class="relative overflow-hidden" style="padding-top: 75%;">
+      <!-- Recipe Image Container -->
+      <div class="recipe-image-container">
           <img :src="recipe.image" 
                :alt="recipe.title" 
-               class="absolute top-0 left-0 w-full h-full object-cover transition-transform duration-300 hover:scale-110">
+               class="w-full h-full object-cover transition-transform duration-300 hover:scale-110">
           
-          <!-- Image Overlay only shown if recipe has time or servings info -->
+          <!-- Image Overlay -->
           <div v-if="hasQuickInfo(recipe)"
                class="absolute inset-0 bg-black bg-opacity-0 hover:bg-opacity-40 transition-opacity duration-300 flex items-center justify-center opacity-0 hover:opacity-100">
               <div class="text-white text-center p-4">
@@ -22,7 +21,6 @@
 
       <!-- Badges Section -->
       <div class="absolute top-3 right-3 flex flex-col gap-2">
-          <!-- Healthy Badge -->
           <div v-if="recipe.veryHealthy" 
                class="badge-container group">
               <div class="bg-green-500 rounded-full p-2 shadow-md">
@@ -31,7 +29,6 @@
               <span class="badge-tooltip">Healthy Choice!</span>
           </div>
           
-          <!-- Vegetarian Badge -->
           <div v-if="recipe.vegetarian" 
                class="badge-container group">
               <div class="bg-green-400 rounded-full p-2 shadow-md">
@@ -42,20 +39,19 @@
       </div>
 
       <!-- Content Section -->
-      <div class="p-4 flex-1">
+      <div class="recipe-content p-4">
           <h3 class="text-lg font-bold text-purple-600 line-clamp-2 mb-2 hover:text-purple-700 cursor-pointer"
               @click="viewRecipeDetails(recipe)">
               {{ recipe.title }}
           </h3>
           <p v-if="recipe.cuisines && recipe.cuisines.length" 
-             class="text-sm text-gray-600 mb-2">
+             class="text-sm text-gray-600 mb-2 line-clamp-1">
               {{ recipe.cuisines.join(', ') }}
           </p>
       </div>
 
       <!-- Action Buttons -->
-      <div class="p-4 flex justify-between items-center border-t border-gray-100">
-          <!-- Favorite Button with Animation -->
+      <div class="recipe-actions p-4 flex justify-between items-center border-t border-gray-100">
           <button @click="toggleFavorite(recipe)"
                   class="favorite-btn"
                   :class="{ 'is-favorite': checkIsFavorite(recipe.id) }"
@@ -67,7 +63,6 @@
                    class="transition-transform duration-200">
           </button>
 
-          <!-- View Details Button -->
           <button @click="viewRecipeDetails(recipe)"
                   class="view-recipe-btn bg-purple-600 text-white py-2 px-4 rounded-lg flex-grow ml-4 hover:bg-purple-700 transition-colors duration-200"
                   :disabled="isLoading">
@@ -75,17 +70,35 @@
               <PulseLoader v-else :color="'#ffffff'" :size="'8px'" />
           </button>
       </div>
-  </div>
+    </div>
 </template>
 
 <style scoped>
 .recipe-card {
+  width: 320px;
+  height: 480px;
   backface-visibility: hidden;
 }
 
 .recipe-card.loading {
   pointer-events: none;
   opacity: 0.7;
+}
+
+.recipe-image-container {
+  position: relative;
+  width: 100%;
+  height: 200px;
+  overflow: hidden;
+}
+
+.recipe-content {
+  height: 200px;
+  overflow: hidden;
+}
+
+.recipe-actions {
+  height: 80px;
 }
 
 .badge-container {
@@ -136,6 +149,13 @@
 
 .favorite-btn.is-favorite img {
   filter: drop-shadow(0 0 2px rgba(168, 85, 247, 0.5));
+}
+
+.line-clamp-1 {
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 .line-clamp-2 {
