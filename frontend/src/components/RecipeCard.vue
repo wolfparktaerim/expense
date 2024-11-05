@@ -94,7 +94,8 @@
 
 <style scoped>
 .recipe-card {
-  width: 320px;
+  width: 100%; /* Instead of fixed 320px */
+  max-width: 320px; /* Maintain maximum width */
   height: 480px;
   backface-visibility: hidden;
 }
