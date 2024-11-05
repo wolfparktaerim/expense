@@ -3,19 +3,19 @@
     <div class="game-container flex flex-col items-center min-h-screen bg-gray-100" >
       <!-- Scoreboard above the game area -->
       <div class="health-score flex items-center justify-between w-full max-w-lg p-4 bg-white rounded-lg shadow-md mt-1" >
-        <span class="text-lg font-semibold"><p>Health: {{ health }}</p></span>
+        <span class="text-lg font-semibold text-gray-800"><p>Health: {{ health }}</p></span>
         <span><img :src="healthStageImage" alt="Health Stage" class="health-stage-image" style="position:relative;margin-right: 40px;"/></span>
-        <span class="text-lg font-semibold">Score: {{ score }}</span>
+        <span class="text-lg font-semibold text-gray-800">Score: {{ score }}</span>
       </div>
   
       <div ref="gameArea" class="game-area relative w-full max-w-sm md:max-w-md lg:max-w-lg h-64 md:h-72 lg:h-80 bg-blue-200 border-4 border-gray-400 rounded-lg overflow-hidden shadow-lg">
          <!-- Show instructions if game not started -->
         <div v-if="!isGameStarted" class="instructions text-center p-6 text-gray-700 mx-3 " >
-            <h1 class="text-2xl font-bold mb-4 text-purple-600 mr-4">NutriCatch</h1>
-            <h2 class="text-xl font-bold mb-4">Instructions</h2>
-            <p>Use the left and right arrow keys or the buttons below to move the basket.</p><br>
-            <p>You can press "P" or the button "Pause" to pause the game.</p><br>
-            <p>Catch as many as healthy foods as possible to gain points and avoid unhealthy foods to maintain your health!</p><br>
+            <h1 class="text-2xl font-bold mb-4 text-purple-600">NutriCatch</h1>
+            <h2 class="text-xl font-bold mb-4 text-gray-800">Instructions</h2>
+            <p class="text-gray-700">Use the left and right arrow keys or the buttons below to move the basket.</p><br>
+            <p class="text-gray-700">You can press "P" or the button "Pause" to pause the game.</p><br>
+            <p class="text-gray-700">Catch as many as healthy foods as possible to gain points and avoid unhealthy foods to maintain your health!</p><br>
             <br>
             <br>
             <button @click="startGame" class="mt-4 px-4 py-2 bg-green-500 text-white font-semibold rounded-lg hover:bg-green-600">Start</button>
@@ -34,14 +34,14 @@
   
       <!-- Control Buttons below the game area -->
       <div class="controls mt-6 flex justify-center space-x-4">
-        <button @click="moveBasket('left')" :disabled="isPaused" class="px-4 py-2 bg-blue-500 text-white font-semibold rounded-lg hover:bg-blue-600">⬅️ Move Left</button>
+        <button @click="moveBasket('left')" :disabled="isPaused||!isGameStarted" class="px-4 py-2 bg-blue-500 text-white font-semibold rounded-lg hover:bg-blue-600 disabled:bg-gray-400 disabled:cursor-not-allowed" >⬅️ Move Left</button>
         
         <button @click="togglePause" class="px-4 py-2 bg-yellow-500 text-white font-semibold rounded-lg hover:bg-yellow-600 disabled:bg-gray-400 disabled:cursor-not-allowed"
         :disabled="!isGameStarted">
           {{ isPaused ? 'Resume' : 'Pause' }}
         </button>
         
-        <button @click="moveBasket('right')" :disabled="isPaused" class="px-4 py-2 bg-blue-500 text-white font-semibold rounded-lg hover:bg-blue-600">➡️ Move Right</button>
+        <button @click="moveBasket('right')" :disabled="isPaused||!isGameStarted" class="px-4 py-2 bg-blue-500 text-white font-semibold rounded-lg hover:bg-blue-600 disabled:bg-gray-400 disabled:cursor-not-allowed">➡️ Move Right</button>
     </div>
     </div>
   </template>
@@ -78,12 +78,15 @@
         foods: [],
         basketWidth: 50, // Adjusted basket width
         gameWidth: 500, // Width of the game area
+        dropSpeed : 5,
+
         healthyFoodSrc : [
             '/game/healthy/almond.png', '/game/healthy/apple.png', '/game/healthy/blueberry.png', '/game/healthy/brocolli.png', '/game/healthy/carrot.png', '/game/healthy/corn.png', '/game/healthy/egg.png', '/game/healthy/salmon.png', '/game/healthy/strawberry.png'
         ],
         unhealthyFoodSrc : [
             '/game/unhealthy/burger.png', '/game/unhealthy/candy.png', '/game/unhealthy/candy.png', '/game/unhealthy/cake-slice.png', '/game/unhealthy/chips.png', '/game/unhealthy/donut.png', '/game/unhealthy/french-fries.png', '/game/unhealthy/fried-chicken.png', '/game/unhealthy/pizza.png', '/game/unhealthy/sausages.png'
         ],
+
         isGameStarted: false,
         isPaused: false,
         foodGenerationInterval: null,
@@ -150,8 +153,7 @@
             return; 
         }
         this.foods.forEach((food, index) => {
-          food.y += 5; // Adjust for drop speed
-          // Check if food reached the bottom or collides with the basket
+          food.y += this.dropSpeed; 
           if (food.y >= 400) { // Set to bottom boundary of game area
             this.checkCollision(food, index);
           }
@@ -200,6 +202,7 @@
         this.health = 100;
         this.score = 0;
         this.foods = [];
+        this.dropSpeed = 5;
         this.isGameStarted = false; // Reset game state
         clearInterval(this.foodGenerationInterval);
         clearInterval(this.foodDropInterval);
@@ -283,7 +286,7 @@
     },
     mounted() {
         setInterval(this.generateFood, 1000); // Generate food every second
-        setInterval(this.dropFoods, 45); // Drop foods every 50ms
+        setInterval(this.dropFoods, 50); // Drop foods every 50ms
         window.addEventListener("keydown", this.handleKeyDown); // Add event listener for keydown
         this.bgm = new Audio('/game/sound/gameBGM.mp3');
         this.bgm.loop = true; 

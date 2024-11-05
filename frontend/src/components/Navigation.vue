@@ -55,16 +55,16 @@
             <span>Discover</span>
           </RouterLink>
           <RouterLink 
-            to="/saved"
-            class="flex items-center space-x-1 text-gray-600 hover:text-purple-600 transition-all duration-300 ease-in-out hover:font-bold">
-          <Bookmark class="w-4 h-4" />
-            <span>Saved</span>
-          </RouterLink>
-          <RouterLink 
             to="/minigame"
             class="flex items-center space-x-1 text-gray-600 hover:text-purple-600 transition-all duration-300 ease-in-out hover:font-bold">
             <Gamepad2 class="w-4 h-4"/>
             <span>Mini Game</span>
+          </RouterLink>
+          <RouterLink 
+            to="/saved"
+            class="flex items-center space-x-1 text-gray-600 hover:text-purple-600 transition-all duration-300 ease-in-out hover:font-bold">
+          <Bookmark class="w-4 h-4" />
+            <span>Saved</span>
           </RouterLink>
           
           <!-- Profile Dropdown -->
@@ -86,13 +86,13 @@
             >
               <RouterLink
                 to="/profile"
-                class="block px-4 py-2 text-sm text-gray-700 hover:bg-purple-50 hover:text-purple-600"
+                class="block px-4 py-2 text-sm text-gray-600 hover:bg-purple-50 hover:text-purple-600"
               >
                 Your Profile
               </RouterLink>
               <button
                 @click="confirmLogout"
-                class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-purple-50 hover:text-purple-600"
+                class="w-full text-left px-4 py-2 text-sm text-gray-600 hover:bg-purple-50 hover:text-purple-600"
               >
                 Log Out
               </button>
@@ -165,21 +165,21 @@
           </RouterLink>
 
           <RouterLink 
-          to="/saved"
-          class="flex items-center space-x-2 py-2 text-gray-600 hover:text-purple-600"
-          @click="mobileMenuOpen = false"
-          >
-            <Bookmark class="w-4 h-4" />
-            <span>Saved</span>
-          </RouterLink>
-
-          <RouterLink 
           to="/minigame"
           class="flex items-center space-x-2 py-2 text-gray-600 hover:text-purple-600"
           @click="mobileMenuOpen = false"
           >
             <Gamepad2 class="w-4 h-4" />
             <span>Mini Game</span>
+          </RouterLink>
+
+          <RouterLink 
+          to="/saved"
+          class="flex items-center space-x-2 py-2 text-gray-600 hover:text-purple-600"
+          @click="mobileMenuOpen = false"
+          >
+            <Bookmark class="w-4 h-4" />
+            <span>Saved</span>
           </RouterLink>
 
           <RouterLink

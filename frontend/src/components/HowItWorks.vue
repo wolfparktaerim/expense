@@ -26,7 +26,7 @@
 
       <!-- Interactive Image Section -->
       <div class="my-16 flex flex-col items-center justify-center mx-auto max-w-5xl px-4 md:px-8 relative">
-        <h4 class="text-2xl text-center text-stone-500 text-muted-foreground mb-8 max-w-3xl mx-auto">
+        <h4 class="text-2xl text-center text-gray-600 text-muted-foreground mb-8 max-w-3xl mx-auto">
           Endless Possibilities Await You...
         </h4>
         
