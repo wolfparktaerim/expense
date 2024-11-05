@@ -140,6 +140,7 @@
         if (food.y >= 380 && food.x >= basketLeft && food.x <= basketRight) {
           // Collision detected, update score or health
           if (food.isHealthy) {
+            this.health += 2;
             this.score += Math.floor(Math.random() * 10) + 5;
           } else {
             this.health -= 10;
