@@ -4,6 +4,7 @@
     <button
       @click="isChatOpen = !isChatOpen"
       class="fixed bottom-6 right-6 p-4 bg-gradient-to-r from-purple-600 to-indigo-600 rounded-full shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 z-50"
+      title="Recipe Assistant"
     >
       <MessageCircle v-if="!isChatOpen" class="w-6 h-6 text-white" />
       <X v-else class="w-6 h-6 text-white" />
