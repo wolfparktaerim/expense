@@ -23,18 +23,37 @@
       <div class="absolute top-3 right-3 flex flex-col gap-2">
           <div v-if="recipe.veryHealthy" 
                class="badge-container group">
-              <div class="bg-green-500 rounded-full p-2 shadow-md">
+              <div class="bg-white rounded-full p-2 shadow-md border border-gray-300">
                   <img src="/icon/healthy.png" width="24" height="24" alt="Healthy">
               </div>
               <span class="badge-tooltip">Healthy Choice!</span>
           </div>
           
-          <div v-if="recipe.vegetarian" 
+          <!-- Vegetarian Badge -->
+          <div v-if="recipe.vegan" 
                class="badge-container group">
-              <div class="bg-green-400 rounded-full p-2 shadow-md">
-                  <span class="text-white text-xs">🥬</span>
+              <div class="bg-white rounded-full p-2 shadow-md border border-gray-300">
+                <img src="/icon/vegan.png" width="24" height="24" alt="Vegan">
               </div>
-              <span class="badge-tooltip">Vegetarian</span>
+              <span class="badge-tooltip">Vegan Dish</span>
+          </div>
+
+          <!-- Popular Badge -->
+          <div v-if="recipe.popular" 
+               class="badge-container group">
+              <div class="bg-white rounded-full p-2 shadow-md border border-gray-300">
+                <img src="/icon/popular.png" width="24" height="24" alt="Popular">
+              </div>
+              <span class="badge-tooltip">Popular Dish</span>
+          </div>
+
+          <!-- Cheap Badge -->
+          <div v-if="recipe.cheap" 
+               class="badge-container group">
+              <div class="bg-white rounded-full p-2 shadow-md border border-gray-300">
+                <img src="/icon/cheap.png" width="24" height="24" alt="Cheap">
+              </div>
+              <span class="badge-tooltip">Cheap to make</span>
           </div>
       </div>
 
@@ -75,7 +94,8 @@
 
 <style scoped>
 .recipe-card {
-  width: 320px;
+  width: 100%; /* Instead of fixed 320px */
+  max-width: 320px; /* Maintain maximum width */
   height: 480px;
   backface-visibility: hidden;
 }

@@ -12,7 +12,7 @@
         <input
           v-model="searchQuery"
           type="text"
-          placeholder="e.g. Tokyo, India, Asia"
+          placeholder="e.g. Tokyo, Sichuan, India, Asia"
           class="border rounded px-2 py-1 text-gray-700 flex-1"
           @keyup.enter="handleSearch"
         />
