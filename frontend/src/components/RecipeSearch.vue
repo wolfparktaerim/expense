@@ -240,7 +240,7 @@
                                 instructionsRequired: true,
 
                                 // change the number of expected results shown
-                                number : 5,
+                                number : 8,
                             }
                         })
                         .then(response => {
