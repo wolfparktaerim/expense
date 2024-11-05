@@ -60,6 +60,12 @@
           <Bookmark class="w-4 h-4" />
             <span>Saved</span>
           </RouterLink>
+          <RouterLink 
+            to="/minigame"
+            class="flex items-center space-x-1 text-gray-600 hover:text-purple-600 transition-all duration-300 ease-in-out hover:font-bold">
+            <Gamepad2 class="w-4 h-4"/>
+            <span>Mini Game</span>
+          </RouterLink>
           
           <!-- Profile Dropdown -->
           <div class="relative" v-click-outside="closeProfileMenu">
@@ -72,7 +78,7 @@
                 :class="['w-4 h-4 transition-transform duration-200', { 'rotate-180': profileMenuOpen }]"
               />
             </button>
-
+          
             <!-- Profile Dropdown Menu -->
             <div
               v-if="profileMenuOpen"
@@ -167,6 +173,15 @@
             <span>Saved</span>
           </RouterLink>
 
+          <RouterLink 
+          to="/minigame"
+          class="flex items-center space-x-2 py-2 text-gray-600 hover:text-purple-600"
+          @click="mobileMenuOpen = false"
+          >
+            <Gamepad2 class="w-4 h-4" />
+            <span>Mini Game</span>
+          </RouterLink>
+
           <RouterLink
             v-for="(item, index) in loggedInMenuItems"
             :key="index"
@@ -250,7 +265,7 @@ import { ref, onMounted, onBeforeUnmount } from 'vue'
 import { RouterLink, useRouter } from 'vue-router'
 import { storeToRefs } from 'pinia'
 import { useAuthStore } from '../stores/auth'
-import { Search, Globe, Bookmark, User, ChevronDown, Menu, X, LogOut } from 'lucide-vue-next'
+import { Search, Globe, Bookmark, User, ChevronDown, Menu, X, LogOut, Gamepad2 } from 'lucide-vue-next'
 import LoginModal from './LoginModal.vue'
 import { getAuth, signOut } from 'firebase/auth'
 import { Dialog, DialogPanel, DialogTitle, TransitionRoot, TransitionChild } from '@headlessui/vue'
