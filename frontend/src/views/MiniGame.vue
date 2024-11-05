@@ -1,21 +1,22 @@
 <template>
     <Navigation></Navigation>
-    <div class="game-container flex flex-col items-center justify-center min-h-screen bg-gray-100">
+    
+    <div class="game-container flex flex-col items-center min-h-screen bg-gray-100">
       <!-- Scoreboard above the game area -->
-      <div class="health-score flex items-center justify-between w-full max-w-md p-4 mb-4 bg-white rounded-lg shadow-md">
+      <div class="health-score flex items-center justify-between w-full max-w-lg p-4 bg-white rounded-lg shadow-md mt-1" >
         <span class="text-lg font-semibold"><p>Health: {{ health }}</p></span>
-        <span><img :src="healthStageImage" alt="Health Stage" class="health-stage-image" /></span>
+        <span><img :src="healthStageImage" alt="Health Stage" class="health-stage-image" style="position:relative"/></span>
         <span class="text-lg font-semibold">Score: {{ score }}</span>
       </div>
   
-      <div ref="gameArea" class="game-area relative w-80 h-80 sm:w-96 sm:h-96 bg-blue-200 border-4 border-gray-400 rounded-lg overflow-hidden shadow-lg">
-
+      <div ref="gameArea" class="game-area relative w-80 sm:w-96 h-80 sm:h-96 bg-blue-200 border-4 border-gray-400 rounded-lg overflow-hidden shadow-lg">
          <!-- Show instructions if game not started -->
         <div v-if="!isGameStarted" class="instructions text-center p-6 text-gray-700" >
+            <h1 class="text-2xl font-bold mb-4">NutriCatch</h1>
             <h2 class="text-2xl font-bold mb-4">Instructions</h2>
-            <p>Use the left and right arrow keys or the buttons below to move the basket.</p>
-            <p>You can press "P" or the button "Pause" to pause the game.</p>
-            <p>Catch as many as healthy foods to gain points and avoid unhealthy foods to maintain your health!</p>
+            <p>Use the left and right arrow keys or the buttons below to move the basket.</p><br>
+            <p>You can press "P" or the button "Pause" to pause the game.</p><br>
+            <p>Catch as many as healthy foods as possible to gain points and avoid unhealthy foods to maintain your health!</p><br>
             <br>
             <br>
             <button @click="startGame" class="mt-4 px-4 py-2 bg-green-500 text-white font-semibold rounded-lg hover:bg-green-600">Start</button>
@@ -33,13 +34,16 @@
       </div>
   
       <!-- Control Buttons below the game area -->
-      <div class="controls mt-6 space-x-4">
+      <div class="controls mt-6 flex justify-center space-x-4">
         <button @click="moveBasket('left')" :disabled="isPaused" class="px-4 py-2 bg-blue-500 text-white font-semibold rounded-lg hover:bg-blue-600">⬅️ Move Left</button>
-        &nbsp;&nbsp;&nbsp;&nbsp;
+        
+        <button @click="togglePause" class="px-4 py-2 bg-yellow-500 text-white font-semibold rounded-lg hover:bg-yellow-600 disabled:bg-gray-400 disabled:cursor-not-allowed"
+        :disabled="!isGameStarted">
+          {{ isPaused ? 'Resume' : 'Pause' }}
+        </button>
+        
         <button @click="moveBasket('right')" :disabled="isPaused" class="px-4 py-2 bg-blue-500 text-white font-semibold rounded-lg hover:bg-blue-600">➡️ Move Right</button>
-        <br>
-        <button @click="togglePause" class="px-4 py-2 bg-yellow-500 text-white font-semibold rounded-lg hover:bg-yellow-600 mt-4 block mx-auto">{{ isPaused ? 'Resume' : 'Pause' }}</button>
-      </div>
+    </div>
     </div>
   </template>
   
@@ -248,6 +252,9 @@
           else if (event.key === "p" || event.key === "P"){
             this.togglePause();
           }
+          else if (event.key === "Enter" && !this.isGameStarted){
+            this.startGame();
+          }
         },
 
       // Toggle pause state
@@ -310,7 +317,7 @@
   
   .health-score {
     font-weight: bold;
-    margin-bottom: 10px; /* Space between scoreboard and game area */
+    margin-bottom: 5px; /* Space between scoreboard and game area */
   }
   
   .game-area {
