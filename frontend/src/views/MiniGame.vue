@@ -4,7 +4,7 @@
     <div class="game-container flex flex-col items-center min-h-screen bg-gray-100" >
 
     <!-- Scoreboard above the game area -->
-    <div class="health-score flex items-center justify-between w-full max-w-lg p-4 bg-white rounded-lg shadow-md mt-1">
+    <div class="health-score flex items-center justify-between w-full max-w-lg p-2 bg-white rounded-lg shadow-md mt-1">
       <!-- Health bar -->
       <div class="flex flex-col items-center">
           <span class="text-sm font-medium text-gray-500">Health</span>
@@ -15,7 +15,7 @@
 
       <!-- Health Image (Fixed Width Container) -->
       <div class="flex items-center justify-center mr-14" > <!-- Fixed width for image container -->
-        <img :src="healthStageImage" alt="Health Stage" class="health-stage-image" style="width: 100%; max-width: 50px;" />
+        <img :src="healthStageImage" alt="Health Stage" class="health-stage-image" style="width: 100%;max-width: 30px; height: auto;" />
       </div>
 
       <!-- Score Display (Fixed Width Container) -->
