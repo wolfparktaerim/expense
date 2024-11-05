@@ -138,8 +138,8 @@
                         <!-- Equipment used in each step -->
                         <div v-if="step.equipment.length > 0" class="mt-4">
                             <h4 class="font-semibold text-gray-800">Equipment:</h4>
-                            <div class="flex space-x-4">
-                                <div v-for="equipment in step.equipment" :key="equipment.id" class="flex items-center">
+                            <div class="flex flex-wrap mt-2 gap-4">
+                                <div v-for="equipment in step.equipment" :key="equipment.id" class="flex items-center my-2">
                                     <img :src="equipment.image" :alt="equipment.name" class="w-12 h-12 rounded-full mr-2">
                                     <p class="text-gray-700">{{ equipment.name }}</p>
                                 </div>
