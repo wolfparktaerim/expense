@@ -96,7 +96,7 @@
 .recipe-card {
   width: 100%; /* Instead of fixed 320px */
   max-width: 320px; /* Maintain maximum width */
-  height: 480px;
+  height: 380px;
   backface-visibility: hidden;
 }
 
@@ -113,7 +113,7 @@
 }
 
 .recipe-content {
-  height: 200px;
+  height: 100px;
   overflow: hidden;
 }
 
