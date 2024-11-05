@@ -150,8 +150,8 @@ export default {
   data() {
     return {
       loginMethod: true,
-      title: 'Choose login method',
-      description: `Don't have an account? Sign up below`,
+      title: 'Choose log in method',
+      description: `Don't have an account? Register below`,
       emailLogin: false,
       isModalVisible: true,
       selectedMethod: null,
@@ -284,7 +284,7 @@ export default {
         this.showPasswordField = true;
       } catch (error) {
         console.error('Error checking email:', error);
-        this.emailError = 'An error occurred while checking the email. Please try again.';
+        this.emailError = 'An error occurred while checking the email. Please try again';
       } finally {
         this.isLoading = false;
       }
@@ -357,10 +357,10 @@ export default {
       try {
         await sendPasswordResetEmail(auth, this.email);
         console.log('Password reset email sent');
-        this.description = 'Password reset email sent. Please check your inbox.';
+        this.description = 'Password reset email sent. Please check your inbox';
       } catch (error) {
         console.error('Error sending password reset email:', error);
-        this.emailError = 'Failed to send password reset email. Please try again.';
+        this.emailError = 'Failed to send password reset email. Please try again';
       } finally {
         this.isLoading = false;
       }

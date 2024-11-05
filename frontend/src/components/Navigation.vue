@@ -42,7 +42,7 @@
             @click="login"
             class="bg-purple-600 text-white px-6 py-2 rounded-full hover:bg-purple-700 transition-all duration-300 transform hover:scale-105 active:scale-95"
           >
-            Login
+            Log In
           </button>
         </template>
 
@@ -88,7 +88,7 @@
                 @click="confirmLogout"
                 class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-purple-50 hover:text-purple-600"
               >
-                Logout
+                Log Out
               </button>
             </div>
           </div>
@@ -143,7 +143,7 @@
             @click="login"
             class="w-full mt-2 bg-purple-600 text-white px-4 py-2 rounded-full hover:bg-purple-700 transition duration-300"
           >
-            Login
+            Log In
           </button>
         </template>
 
@@ -180,7 +180,7 @@
             @click="confirmLogout"
             class="w-full mt-2 bg-purple-600 text-white px-4 py-2 rounded-full hover:bg-purple-700 transition duration-300"
           >
-            Logout
+            Log Out
           </button>
         </template>
       </div>
@@ -216,7 +216,7 @@
             <DialogPanel class="bg-white p-6 rounded-xl shadow-xl max-w-md mx-4">
               <DialogTitle class="text-xl font-semibold mb-4 text-gray-800 flex items-center">
                 <LogOut class="w-5 h-5 text-purple-600 mr-2" />
-                Confirm Logout
+                Confirm Log Out
               </DialogTitle>
               <p class="text-gray-600 mb-6">
                 Are you sure you want to log out of your account?
@@ -234,7 +234,7 @@
                   class="px-4 py-2 bg-gradient-to-r from-purple-500 to-purple-600 text-white rounded-lg hover:from-purple-600 hover:to-purple-700 transform hover:-translate-y-0.5 transition-all duration-300 flex items-center justify-center"
                 >
                   <LogOut class="w-4 h-4 mr-2" />
-                  Logout
+                  Log Out
                 </button>
               </div>
             </DialogPanel>
@@ -302,14 +302,14 @@ const handleLogout = async () => {
     const auth = getAuth()
     await signOut(auth)
     router.push('/')
-    toast.success('Signed Out Successfully', {
+    toast.success('Logged out successfully', {
       closeButton: false,
       hideProgressBar: true,
       timeout: 2000
     })
   } catch (error) {
     console.error('Error signing out:', error)
-    toast.error('Failed to sign out. Please try again.', {
+    toast.error('Failed to log out. Please try again', {
       closeButton: false,
       hideProgressBar: true,
       timeout: 2000
