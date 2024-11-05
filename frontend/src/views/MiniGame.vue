@@ -71,7 +71,7 @@
 
         score: 0,
         health: 100, // Starting health
-        basketPositionX: 200, // Initial basket position
+        basketPositionX: 250, // Initial basket position
         foods: [],
         basketWidth: 50, // Adjusted basket width
         gameWidth: 500, // Width of the game area
@@ -157,10 +157,15 @@
   
       // Check if food collides with the basket
       checkCollision(food, index) {
-        const basketLeft = this.basketPositionX;
-        const basketRight = this.basketPositionX + this.basketWidth;
+        const basketLeft = this.basketPositionX - this.basketWidth;
+        const basketRight = this.basketPositionX;
   
-        if (food.y >= 380 && food.x >= basketLeft && food.x <= basketRight) {
+        if (
+          food.y < 440 &&
+          food.y >= 380 && 
+          food.x >= basketLeft && 
+          food.x <= basketRight
+        ) {
           // Collision detected, update score or health
           if (food.isHealthy) {
             if(this.health <= 98){
