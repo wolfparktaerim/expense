@@ -34,14 +34,14 @@
   
       <!-- Control Buttons below the game area -->
       <div class="controls mt-6 flex justify-center space-x-4">
-        <button @click="moveBasket('left')" :disabled="isPaused" class="px-4 py-2 bg-blue-500 text-white font-semibold rounded-lg hover:bg-blue-600">⬅️ Move Left</button>
+        <button @click="moveBasket('left')" :disabled="isPaused||!isGameStarted" class="px-4 py-2 bg-blue-500 text-white font-semibold rounded-lg hover:bg-blue-600 disabled:bg-gray-400 disabled:cursor-not-allowed" >⬅️ Move Left</button>
         
         <button @click="togglePause" class="px-4 py-2 bg-yellow-500 text-white font-semibold rounded-lg hover:bg-yellow-600 disabled:bg-gray-400 disabled:cursor-not-allowed"
         :disabled="!isGameStarted">
           {{ isPaused ? 'Resume' : 'Pause' }}
         </button>
         
-        <button @click="moveBasket('right')" :disabled="isPaused" class="px-4 py-2 bg-blue-500 text-white font-semibold rounded-lg hover:bg-blue-600">➡️ Move Right</button>
+        <button @click="moveBasket('right')" :disabled="isPaused||!isGameStarted" class="px-4 py-2 bg-blue-500 text-white font-semibold rounded-lg hover:bg-blue-600 disabled:bg-gray-400 disabled:cursor-not-allowed">➡️ Move Right</button>
     </div>
     </div>
   </template>
