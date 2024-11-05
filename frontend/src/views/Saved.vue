@@ -27,7 +27,7 @@
               to="/search" 
               class="inline-block bg-purple-600 text-white py-2 px-6 rounded-lg hover:bg-purple-700 transition-colors duration-200"
             >
-              Discover Recipes
+              Search Recipes
             </router-link>
           </div>
       
