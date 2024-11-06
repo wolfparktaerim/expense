@@ -114,12 +114,12 @@
             
             <div v-else>
                 <!-- Show "No Results Found" if no data retrieved from the API -->
-                <div v-if="searchTriggered && (searchNum == 5151 || searchNum == 0) && recipes===[]" class="flex justify-center items-center h-64 mt-3">
+                <div v-if="searchTriggered && (recipes.length == 0 || searchNum == 5151 )" class="flex justify-center items-center h-64 mt-3">
                     <p class="text-lg font-bold text-purple-600 ">No Results Found</p>
                 </div>
 
                 <!-- Display Recipe Results using cards -->
-                <div v-else class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 mt-8">
+                <div v-if="recipes.length > 0 && searchNum != 5151" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 mt-8">
                     <RecipeCard :recipes="recipes"/>
                 </div>
             </div>
@@ -166,6 +166,9 @@
                     // tags for random recipe
                     includeTags : "",
 
+                    // alter the maximum output here
+                    maxNumberOutput : 8,
+
                     // has user search anything yet?
                     searchTriggered : false,
                     isLoading: false,
@@ -189,6 +192,7 @@
                 window.addEventListener('beforeunload', this.clearSessionStorage);
             },
             computed : {
+                // Computed data to be added below
             },
             methods: {
                 // Add ingredient when pressing Enter or comma
@@ -240,7 +244,7 @@
                                 instructionsRequired: true,
 
                                 // change the number of expected results shown
-                                number : 8,
+                                number : this.maxNumberOutput,
                             }
                         })
                         .then(response => {
@@ -253,9 +257,10 @@
                             this.searchNum = response.data.totalResults;
 
                             // store the search results
-                            sessionStorage.setItem('lastSearchResults', JSON.stringify(this.recipes));
-                            sessionStorage.setItem('searchTriggered', JSON.stringify(this.searchTriggered));
-                        
+                            if(this.searchNum < 2000){
+                                sessionStorage.setItem('lastSearchResults', JSON.stringify(this.recipes));
+                                sessionStorage.setItem('searchTriggered', JSON.stringify(this.searchTriggered));
+                            }
                         })
                         .catch(error => {
                             console.error(error);
@@ -283,8 +288,10 @@
                         this.searchTriggered = true;
                         this.searchNum = 1;
                         // store the search result
-                        sessionStorage.setItem('lastSearchResults', JSON.stringify(this.recipes));
-                        sessionStorage.setItem('searchTriggered', JSON.stringify(this.searchTriggered));
+                        if(this.searchNum < 2000){
+                            sessionStorage.setItem('lastSearchResults', JSON.stringify(this.recipes));
+                            sessionStorage.setItem('searchTriggered', JSON.stringify(this.searchTriggered));
+                        }
                     })
                     .catch(error => {
                         console.error(error);

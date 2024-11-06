@@ -318,9 +318,6 @@
       },
     },
     mounted() {
-
-        setInterval(this.generateFood, 1000); // Generate food every second
-        setInterval(this.dropFoods, 50); // Drop foods every 50ms
         window.addEventListener("keydown", this.handleKeyDown); // Add event listener for keydown
         this.bgm = new Audio('/game/sound/gameBGM.mp3');
         this.bgm.loop = true; 
