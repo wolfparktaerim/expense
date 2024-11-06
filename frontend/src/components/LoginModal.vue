@@ -330,8 +330,20 @@ export default {
         console.log("success google login");
         this.closeModal();
         // this.$router.push('/search');
+            // Add toast notification
+        this.toast.success('Logged in successfully', {
+        closeButton: false,
+        hideProgressBar: true,
+        timeout: 2000
+      });
+    this.toast.updateDefaults(this.updated);
       } catch (error) {
         console.error('Google sign-in error:', error);
+        this.toast.error('Failed to login with Google.', {
+          closeButton: false,
+          hideProgressBar: true,
+          timeout: 2000
+        });
       } finally {
         this.isLoading = false;
       }
