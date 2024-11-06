@@ -1,157 +1,262 @@
 <template>
-  <div>
-    <div v-if="isModalVisible" class="fixed inset-0 z-50 flex items-center justify-center">
-      <div 
-        class="absolute inset-0 bg-black bg-opacity-50 backdrop-blur-sm" 
-        @click="handleBackdropClick"
-      ></div>
-      <div class="relative bg-white rounded-lg shadow-xl w-full max-w-md mx-4 sm:mx-auto" @click.stop>
-        <div class="p-6">
-          <div class="flex justify-between items-center mb-6">
-            <h2 class="mx-auto text-4xl font-bold">{{ title }}</h2>
-            <button 
-              v-if="dismissible" 
-              @click="closeModal" 
-              class="text-gray-500 hover:text-gray-700 text-3xl"
-            >&times;</button>
-          </div>
-          
-          <p class="mb-4">{{ description }}</p>
+  <TransitionRoot appear :show="isModalVisible" as="template">
+    <Dialog as="div" class="relative z-50" @close="handleBackdropClick">
+      <TransitionChild
+        as="template"
+        enter="duration-300 ease-out"
+        enter-from="opacity-0"
+        enter-to="opacity-100"
+        leave="duration-200 ease-in"
+        leave-from="opacity-100"
+        leave-to="opacity-0"
+      >
+        <div class="fixed inset-0 bg-black/50 backdrop-blur-sm" />
+      </TransitionChild>
 
-          <div v-if="loginMethod" class="space-y-4">
-            <button 
-              @click="selectMethod('email')" 
-              class="w-full py-2 px-4 bg-indigo-500 text-white rounded hover:bg-indigo-600 transition duration-200"
-              :disabled="isLoading"
-            >
-              Email
-            </button>
-            <button 
-              @click="selectMethod('google')" 
-              class="w-full py-2 px-4 bg-white text-gray-700 rounded border border-gray-300 hover:bg-gray-100 transition duration-200 flex items-center justify-center"
-              :disabled="isLoading"
-            >
-              <img src="../assets/google.svg" alt="Google logo" class="w-5 h-5 mr-2">
-              Sign in with Google
-            </button>
-          </div>
+      <div class="fixed inset-0 overflow-y-auto">
+        <div class="flex min-h-full items-center justify-center p-4">
+          <TransitionChild
+            as="template"
+            enter="duration-300 ease-out"
+            enter-from="opacity-0 scale-95"
+            enter-to="opacity-100 scale-100"
+            leave="duration-200 ease-in"
+            leave-from="opacity-100 scale-100"
+            leave-to="opacity-0 scale-95"
+          >
+            <DialogPanel class="relative bg-white rounded-xl shadow-xl w-full max-w-md mx-4 sm:mx-auto">
+              <div class="p-6">
+                <div class="flex justify-between items-center mb-6">
+                  <DialogTitle as="h2" class="mx-auto text-2xl font-semibold">
+                    {{ title }}
+                  </DialogTitle>
+                  <button 
+                    v-if="dismissible" 
+                    @click="closeModal" 
+                    class="absolute right-4 top-4 text-gray-400 hover:text-gray-600 transition-colors"
+                  >
+                    <X class="w-5 h-5" />
+                  </button>
+                </div>
 
-          <div class='space-y-4' v-if="emailLogin">
-            <form @submit.prevent="!showPasswordField ? checkEmail() : handleSubmit()">
-              <p>Email</p>
-              <input 
-                ref="emailInput"
-                v-model="email"
-                @blur="validateEmail"
-                @input="resetValidation"
-                placeholder='Bob@mail.com' 
-                :class="['w-full px-4 py-2 text-gray-700 border rounded transition duration-200 outline-none', 
-                        emailError ? 'border-red-500' : 'border-purple-500']"
-                type="email"
-                :disabled="isLoading || showPasswordField"
-                required
-              >
-              <p v-if="emailError" class="text-red-500 text-sm mt-1">{{ emailError }}</p>
-              
-              <div v-if="showPasswordField" class="space-y-4 mt-4">
-                <div>
-                  <p>Password</p>
-                  <input 
-                    v-model="password"
-                    type="password" 
-                    placeholder="Enter your password"
-                    :class="['w-full px-4 py-2 text-gray-700 border rounded transition duration-200 outline-none', 
-                          passwordErrors.length > 0 ? 'border-red-500' : 'border-purple-500']"
+                <p class="text-gray-600 text-center mb-8">{{ description }}</p>
+
+                <div v-if="loginMethod" class="space-y-4">
+                  <button 
+                    @click="selectMethod('email')" 
+                    class="w-full py-3 px-4 bg-indigo-500 text-white rounded-lg hover:bg-indigo-600 transition-colors duration-200 flex items-center justify-center gap-2"
                     :disabled="isLoading"
-                    required
                   >
-                </div>
-                
-                <div v-if="isNewUser" class="mt-4">
-                  <p>Confirm Password</p>
-                  <input 
-                    v-model="confirmPassword"
-                    type="password" 
-                    placeholder="Confirm your password"
-                    :class="['w-full px-4 py-2 text-gray-700 border rounded transition duration-200 outline-none', 
-                            passwordErrors.length > 0 ? 'border-red-500' : 'border-purple-500']"
+                    <Mail class="w-5 h-5" />
+                    Continue with Email
+                  </button>
+                  <button 
+                    @click="selectMethod('google')" 
+                    class="w-full py-3 px-4 bg-white text-gray-700 rounded-lg border border-gray-300 hover:bg-gray-50 transition-colors duration-200 flex items-center justify-center gap-2"
                     :disabled="isLoading"
-                    required
                   >
+                    <img src="../assets/google.svg" alt="Google logo" class="w-5 h-5">
+                    Continue with Google
+                  </button>
                 </div>
-                
-                <div v-if="passwordErrors.length > 0" class="mt-2">
-                  <p v-for="error in passwordErrors" :key="error" class="text-red-500 text-sm">{{ error }}</p>
-                </div>
-                
-                <a 
-                  v-if="!isNewUser" 
-                  href="#" 
-                  @click.prevent="forgotPassword" 
-                  class="text-indigo-600 hover:text-indigo-800 text-sm block"
-                  :class="{ 'pointer-events-none opacity-50': isLoading }"
+
+                <TransitionRoot
+                  appear
+                  :show="emailLogin"
+                  as="template"
+                  enter="transform transition duration-300"
+                  enter-from="opacity-0 translate-y-4"
+                  enter-to="opacity-100 translate-y-0"
+                  leave="transform transition duration-200"
+                  leave-from="opacity-100 translate-y-0"
+                  leave-to="opacity-0 translate-y-4"
                 >
-                  Forgot your password?
-                </a>
+                  <div v-if="emailLogin" class="space-y-4">
+                    <form @submit.prevent="!showPasswordField ? checkEmail() : handleSubmit()">
+                      <div class="space-y-4">
+                        <div>
+                          <label class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                          <div class="relative">
+                            <input 
+                              ref="emailInput"
+                              v-model="email"
+                              @blur="validateEmail"
+                              @input="resetValidation"
+                              placeholder="you@example.com"
+                              :class="[
+                                'w-full px-4 py-2 text-gray-700 border rounded-lg transition-colors duration-200 outline-none',
+                                'focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500',
+                                emailError ? 'border-red-500' : 'border-gray-300'
+                              ]"
+                              type="email"
+                              :disabled="isLoading || showPasswordField"
+                              required
+                            >
+                            <Mail class="absolute right-3 top-2.5 h-5 w-5 text-gray-400" />
+                          </div>
+                          <p v-if="emailError" class="mt-1 text-sm text-red-500 flex items-center gap-1">
+                            <AlertCircle class="w-4 h-4" />
+                            {{ emailError }}
+                          </p>
+                        </div>
+
+                        <TransitionRoot
+                          appear
+                          :show="showPasswordField"
+                          as="template"
+                          enter="transform transition duration-300"
+                          enter-from="opacity-0 translate-y-4"
+                          enter-to="opacity-100 translate-y-0"
+                          leave="transform transition duration-200"
+                          leave-from="opacity-100 translate-y-0"
+                          leave-to="opacity-0 translate-y-4"
+                        >
+                          <div v-if="showPasswordField" class="space-y-4">
+                            <div>
+                              <label class="block text-sm font-medium text-gray-700 mb-1">Password</label>
+                              <div class="relative">
+                                <input 
+                                  v-model="password"
+                                  type="password" 
+                                  placeholder="Enter your password"
+                                  :class="[
+                                    'w-full px-4 py-2 text-gray-700 border rounded-lg transition-colors duration-200 outline-none',
+                                    'focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500',
+                                    passwordErrors.length > 0 ? 'border-red-500' : 'border-gray-300'
+                                  ]"
+                                  :disabled="isLoading"
+                                  required
+                                >
+                                <Lock class="absolute right-3 top-2.5 h-5 w-5 text-gray-400" />
+                              </div>
+                            </div>
+
+                            <div v-if="isNewUser">
+                              <label class="block text-sm font-medium text-gray-700 mb-1">Confirm Password</label>
+                              <div class="relative">
+                                <input 
+                                  v-model="confirmPassword"
+                                  type="password" 
+                                  placeholder="Confirm your password"
+                                  :class="[
+                                    'w-full px-4 py-2 text-gray-700 border rounded-lg transition-colors duration-200 outline-none',
+                                    'focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500',
+                                    passwordErrors.length > 0 ? 'border-red-500' : 'border-gray-300'
+                                  ]"
+                                  :disabled="isLoading"
+                                  required
+                                >
+                                <Lock class="absolute right-3 top-2.5 h-5 w-5 text-gray-400" />
+                              </div>
+                            </div>
+
+                            <div v-if="passwordErrors.length > 0" class="space-y-1">
+                              <p v-for="error in passwordErrors" :key="error" class="text-sm text-red-500 flex items-center gap-1">
+                                <AlertCircle class="w-4 h-4" />
+                                {{ error }}
+                              </p>
+                            </div>
+
+                            <a 
+                              v-if="!isNewUser" 
+                              href="#" 
+                              @click.prevent="forgotPassword" 
+                              class="text-sm text-indigo-600 hover:text-indigo-800 transition-colors block"
+                              :class="{ 'pointer-events-none opacity-50': isLoading }"
+                            >
+                              Forgot your password?
+                            </a>
+                          </div>
+                        </TransitionRoot>
+
+                        <button 
+                          type="submit"
+                          class="w-full py-3 px-4 bg-indigo-500 text-white rounded-lg hover:bg-indigo-600 transition-colors duration-200 flex items-center justify-center gap-2"
+                          :disabled="isLoading"
+                        >
+                          <span v-if="!isLoading" class="flex items-center gap-2">
+                            {{ !showPasswordField ? 'Continue' : (isNewUser ? 'Create Account' : 'Login') }}
+                            <ArrowRight v-if="!showPasswordField" class="w-5 h-5" />
+                            <UserPlus v-if="showPasswordField && isNewUser" class="w-5 h-5" />
+                            <LogIn v-if="showPasswordField && !isNewUser" class="w-5 h-5" />
+                          </span>
+                          <Loader2 v-else class="w-5 h-5 animate-spin" />
+                        </button>
+                      </div>
+                    </form>
+                  </div>
+                </TransitionRoot>
               </div>
-
-              <button 
-                type="submit"
-                class="w-full py-2 px-4 bg-indigo-500 text-white rounded hover:bg-indigo-600 transition duration-200 flex items-center justify-center mt-4"
-                :disabled="isLoading"
-              >
-                <span v-if="!isLoading">
-                  {{ !showPasswordField ? 'Continue' : (isNewUser ? 'Create Account' : 'Login') }}
-                </span>
-                <div v-else class="spinner"></div>
-              </button>
-            </form>
-          </div>
-
+            </DialogPanel>
+          </TransitionChild>
         </div>
       </div>
-    </div>
-  </div>
+    </Dialog>
+  </TransitionRoot>
 </template>
 
 <script>
-import { ref, onMounted } from 'vue';
 import { useAuthStore } from '../stores/auth';
-import router from '../router';
-import { 
-  getAuth, 
-  signInWithPopup, 
-  GoogleAuthProvider, 
-  createUserWithEmailAndPassword, 
-  signInWithEmailAndPassword, 
-  sendPasswordResetEmail, 
-  fetchSignInMethodsForEmail 
-} from 'firebase/auth';
 import { useRouter } from 'vue-router';
 import { useToast } from 'vue-toastification';
+import {
+  Dialog,
+  DialogPanel,
+  DialogTitle,
+  TransitionRoot,
+  TransitionChild,
+} from '@headlessui/vue';
+import {
+  Mail,
+  Lock,
+  X,
+  AlertCircle,
+  ArrowRight,
+  UserPlus,
+  LogIn,
+  Loader2,
+} from 'lucide-vue-next';
+import {
+  getAuth,
+  signInWithPopup,
+  GoogleAuthProvider,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  sendPasswordResetEmail,
+  fetchSignInMethodsForEmail,
+} from 'firebase/auth';
 
 export default {
   name: 'LoginModal',
+  
+  components: {
+    Dialog,
+    DialogPanel,
+    DialogTitle,
+    TransitionRoot,
+    TransitionChild,
+    Mail,
+    Lock,
+    X,
+    AlertCircle,
+    ArrowRight,
+    UserPlus,
+    LogIn,
+    Loader2
+  },
+  
   props: {
     dismissible: {
       type: Boolean,
       default: true
     }
   },
-  setup(props) {
-    const authStore = useAuthStore();
-    const router = useRouter();
 
-    return {
-      authStore,
-      router
-    };
-  },
   data() {
     return {
       loginMethod: true,
       title: 'Choose log in method',
-      description: `Don't have an account? Register below`,
+      description: `Enter your email to log in or register`,
       emailLogin: false,
       isModalVisible: true,
       selectedMethod: null,
@@ -168,46 +273,45 @@ export default {
         transition: "Vue-Toastification__fade",
         maxToasts: 2,
         filterToasts: toasts => {
-        // Keep track of existing types
-        const types = {};
-        return toasts.reduce((aggToasts, toast) => {
-          // Check if type was not seen before
-          if (!types[toast.type]) {
-            aggToasts.push(toast);
-            types[toast.type] = true;
-          }
-          return aggToasts;
-        }, []);
-          }}
-    }
-  },
-  methods: {
-    handleBackdropClick() {
-    if (this.dismissible) {
-      this.handleModalClose();
-    }
+          const types = {};
+          return toasts.reduce((aggToasts, toast) => {
+            if (!types[toast.type]) {
+              aggToasts.push(toast);
+              types[toast.type] = true;
+            }
+            return aggToasts;
+          }, []);
+        }
+      }
+    };
   },
 
-  handleModalClose() {
-    if (!this.dismissible && !this.authStore.isAuthenticated) {
-      return;
-    }
-    
-    const wasVisible = this.isModalVisible;
-    this.isModalVisible = false;
-    this.selectedMethod = null;
-    this.$emit('close');
-    
-    // Clear auth store state
-    this.authStore.showLoginModal = false;
-    
-    // If we came from home and modal was visible, go back
-    if (wasVisible && this.router.currentRoute.value.path !== '/') {
-      this.router.push('/');
-    }
-    
-    this.authStore.pendingRoute = null;
-  },
+  methods: {
+    handleBackdropClick() {
+      if (this.dismissible) {
+        this.handleModalClose();
+      }
+    },
+
+    handleModalClose() {
+      if (!this.dismissible && !this.authStore.isAuthenticated) {
+        return;
+      }
+      
+      const wasVisible = this.isModalVisible;
+      this.isModalVisible = false;
+      this.selectedMethod = null;
+      this.$emit('close');
+      
+      this.authStore.showLoginModal = false;
+      
+      if (wasVisible && this.$router.currentRoute.value.path !== '/') {
+        this.$router.push('/');
+      }
+      
+      this.authStore.pendingRoute = null;
+    },
+
     closeModal() {
       if (!this.dismissible && !this.authStore.isAuthenticated) {
         return;
@@ -216,6 +320,7 @@ export default {
       this.selectedMethod = null;
       this.$emit('close');
     },
+
     async signInWithGoogle() {
       this.isLoading = true;
       const auth = getAuth();
@@ -224,16 +329,17 @@ export default {
         await signInWithPopup(auth, provider);
         console.log("success google login");
         this.closeModal();
-        this.router.push('/search');
+        // this.$router.push('/search');
       } catch (error) {
         console.error('Google sign-in error:', error);
       } finally {
         this.isLoading = false;
       }
     },
+
     selectMethod(method) {
       this.selectedMethod = method;
-      if(this.selectedMethod === 'email') {
+      if (this.selectedMethod === 'email') {
         this.emailLogin = true;
         this.loginMethod = false;
         this.title = 'Log in or register';
@@ -244,6 +350,7 @@ export default {
         this.signInWithGoogle();
       }
     },
+
     validateEmail() {
       if (!this.email) {
         this.emailError = 'Required';
@@ -256,14 +363,17 @@ export default {
       this.emailError = '';
       return true;
     },
+
     resetValidation() {
       this.emailError = '';
       this.passwordErrors = [];
     },
+
     isValidEmail(email) {
       const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       return re.test(email);
     },
+
     async checkEmail() {
       if (!this.validateEmail()) {
         return;
@@ -289,6 +399,7 @@ export default {
         this.isLoading = false;
       }
     },
+
     validatePassword() {
       this.passwordErrors = [];
       if (this.password.length < 6) {
@@ -299,54 +410,53 @@ export default {
       }
       return this.passwordErrors.length === 0;
     },
-    async handleSubmit() {
-    if (!this.validatePassword()) {
-      return;
-    }
 
-    this.isLoading = true;
-    const auth = getAuth();
-    try {
-      if (this.isNewUser) {
-        await createUserWithEmailAndPassword(auth, this.email, this.password);
-        this.toast.success('Account created successfully', {
+    async handleSubmit() {
+      if (!this.validatePassword()) {
+        return;
+      }
+
+      this.isLoading = true;
+      const auth = getAuth();
+      try {
+        if (this.isNewUser) {
+          await createUserWithEmailAndPassword(auth, this.email, this.password);
+          this.toast.success('Account created successfully', {
             closeButton: false,
             hideProgressBar: true,
             timeout: 2000
           });
           this.toast.updateDefaults(this.updated);
-        console.log('User created successfully');
-      } else {
-        await signInWithEmailAndPassword(auth, this.email, this.password);
-        this.toast.success('Logged in successfully', {
+        } else {
+          await signInWithEmailAndPassword(auth, this.email, this.password);
+          this.toast.success('Logged in successfully', {
             closeButton: false,
             hideProgressBar: true,
             timeout: 2000
           });
           this.toast.updateDefaults(this.updated);
-        console.log('User logged in successfully');
+        }
+        
+        this.closeModal();
+        
+        if (this.authStore.pendingRoute) {
+          this.$router.push(this.authStore.pendingRoute);
+          this.authStore.pendingRoute = null;
+        } else {
+          // this.$router.push('/search');
+        }
+      } catch (error) {
+        console.error('Authentication error:', error);
+        this.passwordErrors.push(
+          error.code === 'auth/wrong-password' 
+            ? 'Invalid password' 
+            : error.message
+        );
+      } finally {
+        this.isLoading = false;
       }
-      
-      // Handle successful authentication
-      this.closeModal();
-      
-      // Navigate to pending route if exists
-      if (this.authStore.pendingRoute) {
-        this.router.push(this.authStore.pendingRoute);
-        this.authStore.pendingRoute = null;
-      }
-    } catch (error) {
-      console.error('Authentication error:', error);
-      this.passwordErrors.push(
-        error.code === 'auth/wrong-password' 
-          ? 'Invalid password' 
-          : error.message
-      );
-    } finally {
-      this.isLoading = false;
-    }
-  }
-},
+    },
+
     async forgotPassword() {
       if (!this.validateEmail()) {
         return;
@@ -356,30 +466,61 @@ export default {
       const auth = getAuth();
       try {
         await sendPasswordResetEmail(auth, this.email);
-        console.log('Password reset email sent');
+        this.toast.success('Password reset email sent', {
+          closeButton: false,
+          hideProgressBar: true,
+          timeout: 2000
+        });
         this.description = 'Password reset email sent. Please check your inbox';
       } catch (error) {
         console.error('Error sending password reset email:', error);
-        this.emailError = 'Failed to send password reset email. Please try again';
+        this.toast.error('Failed to send password reset email', {
+          closeButton: false,
+          hideProgressBar: true,
+          timeout: 2000
+        });
       } finally {
         this.isLoading = false;
       }
     }
-  };
+  },
+
+  setup() {
+    const authStore = useAuthStore();
+    const router = useRouter();
+
+    return {
+      authStore,
+      router
+    };
+  },
+
+  mounted() {
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && this.dismissible) {
+        this.handleModalClose();
+      }
+    });
+  },
+
+  beforeUnmount() {
+    document.removeEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && this.dismissible) {
+        this.handleModalClose();
+      }
+    });
+  }
+};
 </script>
 
-<style scoped>
-.spinner {
-  border: 3px solid rgba(255, 255, 255, 0.3);
-  border-radius: 50%;
-  border-top: 3px solid #ffffff;
-  width: 24px;
-  height: 24px;
-  animation: spin 1s linear infinite;
+<style>
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.3s ease;
 }
 
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
 }
 </style>
