@@ -227,7 +227,7 @@
   
       // End game function
       endGame() {
-        this.toast.error("Game Over! Your score: " + this.score, this.toastConfig);
+        this.toast.error("Game Over! Your Score: " + this.score, this.toastConfig);
         this.resetGame();
       },
   

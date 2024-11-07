@@ -98,33 +98,17 @@
             </div>
           </div>
   
-          <!-- Buttons: Search Recipe & I'm Feeling Lucky -->
-          <div class="flex flex-col sm:flex-row justify-center gap-4 mt-8">
-            <button
-              @click="searchRecipes"
-              :disabled="ingredients.length === 0"
-              :class="[
-                'flex-1 max-w-xs mx-auto text-white font-bold py-3 px-6 rounded-lg focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 transition-colors',
-                ingredients.length === 0
-                  ? 'bg-gray-400 cursor-not-allowed'
-                  : 'bg-purple-600 hover:bg-purple-700',
-              ]"
-              :aria-label="
-                ingredients.length === 0
-                  ? 'Add ingredients to search'
-                  : 'Search recipes'
-              "
-            >
-              Search Recipes
+        <!-- Buttons: Search Recipe & I'm Feeling Lucky -->
+        <div class="flex justify-center space-x-4 mt-4">
+            <button class="bg-purple-600 text-white font-bold py-2 px-4 rounded hover:bg-purple-700 focus:ring-2 focus:ring-purple-600 disabled:bg-gray-400 disabled:cursor-not-allowed" 
+                @click="searchRecipes" :disabled="ingredients.length === 0" title="Search recipes with selected ingredients" style="max-width: 50%;max-height:10%;">
+                Search Recipes
             </button>
-            <button
-              @click="feelingLucky"
-              class="flex-1 max-w-xs mx-auto bg-purple-600 text-white font-bold py-3 px-6 rounded-lg hover:bg-purple-700 focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 transition-colors"
-              aria-label="Get random recipe"
-            >
-              I'm Feeling Lucky
+            <button class="bg-purple-600 text-white font-bold py-2 px-4 rounded hover:bg-purple-700 focus:ring-2 focus:ring-purple-600 max-w-xs" 
+                @click="feelingLucky" title="Get a completely random recipe!" style="max-width: 50%;max-height:10%;">
+                I'm Feeling Lucky
             </button>
-          </div>
+        </div>
         </section>
   
         <!-- Loading State -->
