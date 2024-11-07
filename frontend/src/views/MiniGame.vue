@@ -1,5 +1,7 @@
 <template>
   <Navigation />
+
+
   <div class="game-container min-h-screen bg-gradient-to-b from-blue-50 to-purple-50 py-6">
     
     <!-- Game Header -->
@@ -548,6 +550,13 @@ export default {
 .game-container {
   user-select: none;
   touch-action: manipulation;
+  background-image: url('/public/game/others/foodgame_background.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .basket {
