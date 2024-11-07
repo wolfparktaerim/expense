@@ -161,7 +161,7 @@
 
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue'
-import { SearchIcon, CookingPotIcon, BookmarkIcon, ScaleIcon } from 'lucide-vue-next'
+import { SearchIcon, CookingPotIcon, BookmarkIcon, PencilIcon } from 'lucide-vue-next'
 import NumberCounter from './NumberCounter.vue'
 
 // Steps data
@@ -169,8 +169,8 @@ const activeStep = ref(null)
 const steps = ref([
   {
     icon: SearchIcon,
-    title: 'Create Recipes',
-    description: 'Generate personalized recommendations based on your health goals, dietary requirements and culinary preferences.',
+    title: 'Search New Recipes',
+    description: 'Generate healthy recipe recommendations based on your dietary requirements, ingredients and culinary preferences.',
     isVisible: false
   },
   {
@@ -180,15 +180,15 @@ const steps = ref([
     isVisible: false
   },
   {
-    icon: ScaleIcon,
+    icon: PencilIcon,
     title: 'Customize and Modify',
-    description: 'Adjust ingredients, modify nutritional content, or get substitute recommendations to perfectly match your preferences.',
+    description: 'Adjust ingredient list based on your health goals, or get substitute recommendations to perfectly match your taste.',
     isVisible: false
   },
   {
     icon: BookmarkIcon,
     title: 'Save Your Favorites',
-    description: 'Once you\'re happy with a recipe, save it to your collection for easy access in the future.',
+    description: 'Once you\'re happy with a recipe, save it to your collection to create a personalized recipe book for easy reference in the future.',
     isVisible: false
   },
   
