@@ -161,7 +161,7 @@
 
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue'
-import { SearchIcon, CookingPotIcon, BookmarkIcon, PencilIcon } from 'lucide-vue-next'
+import { SearchIcon, ScrollTextIcon, BookmarkIcon, PencilIcon } from 'lucide-vue-next'
 import NumberCounter from './NumberCounter.vue'
 
 // Steps data
@@ -174,7 +174,7 @@ const steps = ref([
     isVisible: false
   },
   {
-    icon: CookingPotIcon,
+    icon: ScrollTextIcon,
     title: 'View Recipe Details',
     description: 'Get a complete breakdown of time taken, ingredients, cooking steps, and nutritional information for your chosen recipe.',
     isVisible: false
