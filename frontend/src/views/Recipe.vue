@@ -307,7 +307,11 @@
 
                     </div>
                     <!-- Nutrition information ends  -->
-                    <div v-else>Unfortunately, the Nutrition Label for this recipe is unavailable.</div>
+                    <div v-else>
+                        <div class='text-2xl font-bold mb-4 text-purple-600 text-center'>
+                            Unfortunately, the Nutrition Label for this recipe is unavailable.
+                        </div>
+                    </div>
                 </div>
             </div>
 

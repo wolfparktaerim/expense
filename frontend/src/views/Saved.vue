@@ -2,7 +2,7 @@
   <div class="min-h-screen bg-gradient-to-br from-gray-50 to-purple-50">
         <Navigation />
         <!-- Header Section -->
-        <div class="container mx-auto py-8 px-4">
+        <div class="container mx-auto py-8 px-4 favorites-container">
           <div class="mt-8 mb-8 text-center">
             <h1 class="text-4xl font-bold text-purple-600 mb-2">Saved Recipes</h1>
             <p class="text-gray-600">Your favorite recipes all in one place</p>
@@ -151,3 +151,18 @@
     }
   };
   </script>
+
+  <style scoped>
+  .favorites-container {
+    user-select: none;
+    touch-action: manipulation;
+    background-image: url('/public/food/favorites_background.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  }
+
+  </style>
