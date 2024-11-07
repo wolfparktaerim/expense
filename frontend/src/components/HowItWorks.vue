@@ -19,7 +19,7 @@
           <h4 class="text-xl text-center font-semibold mb-4 text-gray-800">{{ step.title }}</h4>
           <p class="text-gray-600 text-center flex-grow">{{ step.description }}</p>
           <div class="mt-2 flex items-center justify-center">
-            <span class="text-3xl font-bold text-purple-600 mr-2">{{ index + 1 }}</span>
+            <span class="text-3xl font-bold text-purple-600 mr-2"></span>
           </div>
         </div>
       </div>
@@ -161,7 +161,7 @@
 
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue'
-import { SearchIcon, CookingPotIcon, BookmarkIcon } from 'lucide-vue-next'
+import { SearchIcon, CookingPotIcon, BookmarkIcon, ScaleIcon } from 'lucide-vue-next'
 import NumberCounter from './NumberCounter.vue'
 
 // Steps data
@@ -180,11 +180,18 @@ const steps = ref([
     isVisible: false
   },
   {
+    icon: ScaleIcon,
+    title: 'Customize and Modify',
+    description: 'Adjust ingredients, modify nutritional content, or get substitute recommendations to perfectly match your preferences.',
+    isVisible: false
+  },
+  {
     icon: BookmarkIcon,
     title: 'Save Your Favorites',
     description: 'Once you\'re happy with a recipe, save it to your collection for easy access in the future.',
     isVisible: false
-  }
+  },
+  
 ])
 
 // Interactive image section
