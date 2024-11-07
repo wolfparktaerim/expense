@@ -73,7 +73,7 @@
         <ul class="text-center mb-6 space-y-2">
           <li>🏃‍♂️ Use arrow keys or buttons to move</li>
           <li>🥗 Catch healthy foods for points</li>
-          <li>🍔 Avoid junk food to stay healthy</li>
+          <li>🍔 Avoid junk foods to stay healthy</li>
           <li>⏸️ Press 'P' to pause anytime</li>
         </ul>
         <button 
