@@ -2,7 +2,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <Navigation></Navigation>
     <div class="game-container flex flex-col items-center min-h-screen bg-gray-100" >
-
+      
     <!-- Scoreboard above the game area -->
     <div class="health-score flex items-center justify-between w-full max-w-lg p-2 bg-white rounded-lg shadow-md mt-1">
       <!-- Health bar -->
@@ -27,14 +27,24 @@
   
       <div ref="gameArea" class="game-area relative w-full max-w-sm md:max-w-md lg:max-w-lg h-64 md:h-72 lg:h-80 bg-blue-200 border-4 border-gray-400 rounded-lg overflow-hidden shadow-lg">
          <!-- Show instructions if game not started -->
-        <div v-if="!isGameStarted" class="instructions text-center p-6 text-gray-700 mx-3 " >
-            <h1 class="text-2xl font-bold mb-4 text-purple-600">NutriCatch</h1>
-            <h2 class="text-xl font-bold mb-4 text-gray-800">Instructions</h2>
-            <p class="text-gray-700">Use the left and right arrow keys or the buttons below to move the basket.</p><br>
-            <p class="text-gray-700">You can press "P" or the button "Pause" to pause the game.</p><br>
-            <p class="text-gray-700">Catch as many as healthy foods as possible to gain points and avoid unhealthy foods to maintain your health!</p><br>
-            <button @click="startGame" class="mt-4 px-4 py-2 bg-green-500 text-white font-semibold rounded-lg hover:bg-green-600">Start!</button>
-        </div>
+        <!-- Start Screen -->
+      <div v-if="!isGameStarted" 
+        class="absolute inset-0 flex flex-col items-center justify-center bg-black bg-opacity-50 text-white p-6">
+        <h1 class="text-2xl font-bold mb-4">NutriCatch</h1>
+        <h2 class="text-2xl font-bold mb-4">Ready to Eat Healthy?</h2>
+        <ul class="text-center mb-6 space-y-2">
+          <li>🏃‍♂️ Use arrow keys or buttons to move</li>
+          <li>🥗 Catch healthy foods for points</li>
+          <li>🍔 Avoid junk food to stay healthy</li>
+          <li>⏸️ Press 'P' to pause anytime</li>
+        </ul>
+        <button 
+          @click="startGame"
+          class="px-6 py-3 bg-green-500 hover:bg-green-600 rounded-lg font-bold shadow-lg transform hover:scale-105 transition-all"
+        >
+          Start Game!
+        </button>
+      </div>
 
         <!-- Basket -->
         <div v-if="isGameStarted"  class="basket absolute bottom-0 left-1/2 transform -translate-x-1/2" :style="{ left: basketPositionX + 'px' }">
