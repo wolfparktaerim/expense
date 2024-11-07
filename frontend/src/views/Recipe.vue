@@ -6,341 +6,337 @@
     <div v-if="!isLoading">
         <Chat/>
     </div>
-    
+
     <!-- Loading + Did you know section -->
     <div v-if="isLoading">
-        <div class="text-center flex flex-col justify-center items-center mt-3">
-            <h2 class="text-4xl text-gray-800 font-bold my-8">Did You Know?</h2>
-            <p v-if="trivia" class="text-center text-purple-600 columns-lg my-8" style="max-width: 50%">{{ trivia }}</p>
-            <p v-else class="text-center text-gray-500 my-8">Fetching a fun food trivia...</p>
-            <SquareLoader :color="loadingColor" class="mt-3" />
+        <div class="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-purple-100 to-indigo-100">
+            <h2 class="text-5xl font-bold text-purple-800 my-4 animate-bounce">Did You Know?</h2>
+            <p v-if="trivia" class="text-center text-purple-600 text-lg font-medium max-w-lg mx-4 p-4 bg-white rounded-lg shadow-lg" style="max-width: 50%">{{ trivia }}</p>
+            <p v-else class="text-gray-500 my-4 text-lg font-medium">Fetching a fun food trivia...</p>
+            <SquareLoader :color="loadingColor" class="mt-4" />
         </div>
     </div>
 
     <!-- Recipe Full Information -->
-    <div v-else class="container mx-auto p-6 bg-gray-50 shadow-lg rounded-lg">
+    <div v-else class="container mx-auto p-8 bg-white shadow-xl rounded-lg content-background">
+        <div class="content-overlay">
 
-        <!-- Title and Favorite Icon Row -->
-        <div class="flex items-center justify-center mb-8">
-            <h1 class="text-4xl font-bold text-purple-600 mr-4">{{ recipe.title }}</h1>
-            
-            <!-- HAVE BUG NOW !!! DISABLED FOR NOW-->
-            <!-- Favorite Icon -->
-            <!-- <img
-                @click="toggleFavorite(recipe)"
-                :src="checkIsFavorite(recipe.id) ? '/icon/remove_favorite.png' : '/icon/add_favorite.png'"
-                width="35"
-                height="auto"
-                alt="Favorite Icon"
-                class="cursor-pointer transition-transform duration-200 hover:scale-110"
-                :title="checkIsFavorite(recipe.id) ? 'Remove from Favorites' : 'Add to Favorites'"
-            /> -->
-        </div>
-
-        <!-- Row 1: Image & Description -->
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-
-            <!-- Column 1: Recipe Image -->
-            <div class="flex justify-center">
-                <img :src="recipe.image" alt="Recipe Image" class="w-full h-auto max-w-sm rounded-lg shadow-lg" />
+            <!-- Title and Favorite Icon Row -->
+            <div class="flex items-center justify-center mb-8">
+                <h1 class="text-4xl font-bold text-purple-600 mr-4 border-b-2 border-purple-600 pb-2">{{ recipe.title }}</h1>
             </div>
 
-            <!-- Column 2: Short Description and Icons -->
-            <div class="bg-white p-6 rounded-lg shadow-md flex flex-col justify-center space-y-6">
-                <!-- Serving Size -->
-                <div class="text-lg">
-                    <span class="text-gray-800">Serving Size:</span> <span class="text-gray-700">{{ recipe.servings }}</span>
+            <!-- Row 1: Image & Description -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+
+                <!-- Column 1: Recipe Image -->
+                <div class="flex justify-center">
+                    <img :src="recipe.image" alt="Recipe Image" class="w-full h-auto max-w-sm rounded-lg shadow-lg border-2 border-purple-200" />
                 </div>
-                <!-- Preparation Time -->
-                <div v-if="recipe.preparationMinutes!=null">
-                    <span class="text-lg text-gray-800">Preparation Time (minutes):</span> <span class="text-lg text-gray-700">{{ recipe.preparationMinutes }}</span>
-                </div>
-                <!-- Health Score -->
-                <div class="text-lg">
-                    <span class="text-gray-800">Health Score:</span> <span class="text-gray-700">{{ recipe.healthScore }}</span>
-                </div>
-                <!-- Meal types -->
-                <div class="mb-4">
-                    <span class="text-lg text-gray-800">Dish Type: </span>
-                    <div class="flex flex-wrap mt-2">
-                        <span
-                            v-for="(dishType, index) in recipe.dishTypes"
-                            :key="index"
-                            class="bg-purple-100 text-purple-700 px-3 py-1 rounded-full m-1 text-sm inline-flex items-center"
-                        >
-                            {{ dishType }}
-                        </span>
+
+                <!-- Column 2: Short Description and Icons -->
+                <div class="p-6 bg-purple-50 rounded-lg shadow-md space-y-6">
+                    <!-- Serving Size -->
+                    <div class="text-lg font-semibold text-gray-700">
+                        <span>Serving Size:</span> <span>{{ recipe.servings }}</span>
                     </div>
-                </div>
-
-                <!-- Icons for vegan, popularity, etc. -->
-                <div class="flex space-x-4">
-
-                    <!-- Vegan icon for vegan recipes -->
-                    <div v-if="recipe.vegan" class="flex items-center space-x-2 relative group">
-                        <img src="/icon/vegan.png" alt="Vegan Icon" class="w-8 h-8">
-                        <!-- Hidden text, shown on hover -->
-                        <div class="absolute left-1/2 transform -translate-x-1/2 top-10 bg-green-600 text-white text-xs font-bold py-1 px-2 rounded opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
-                            100% Vegan!
+                    <!-- Preparation Time -->
+                    <div v-if="recipe.preparationMinutes" class="text-lg font-semibold text-gray-700">
+                        <span>Preparation Time:</span> <span>{{ recipe.preparationMinutes }} min</span>
+                    </div>
+                    <!-- Health Score -->
+                    <div class="text-lg font-semibold text-gray-700">
+                        <span>Health Score:</span> <span>{{ recipe.healthScore }}</span>
+                    </div>
+                    <!-- Meal types -->
+                    <div class="text-lg font-semibold text-gray-700">
+                        <span>Dish Type:</span>
+                        <div class="flex flex-wrap gap-2 mt-2">
+                            <span v-for="(dishType, index) in recipe.dishTypes" :key="index" class="bg-purple-200 text-purple-800 px-3 py-1 rounded-full text-sm">{{ dishType }}</span>
                         </div>
                     </div>
 
-                    <!-- Popular icon for very popular recipes -->
-                    <div v-if="recipe.veryPopular" class="flex items-center space-x-2 relative group">
-                        <img src="/icon/popular.png" alt="Popular Icon" class="w-8 h-8">
-                        <!-- Hidden text, shown on hover -->
-                        <div class="absolute left-1/2 transform -translate-x-1/2 top-10 bg-red-600 text-white text-xs font-bold py-1 px-2 rounded opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
-                            Very popular!
-                        </div>
-                    </div>
+                    <!-- Icons for vegan, popularity, etc. -->
+                    <div class="flex space-x-4">
 
-                    <!-- Cheap icon for cheap recipes -->
-                    <div v-if="recipe.isCheap" class="flex items-center space-x-2 relative group">
-                        <img src="/icon/cheap.png" alt="Cheap Icon" class="w-8 h-8">
-                        <!-- Hidden text, shown on hover -->
-                        <div class="absolute left-1/2 transform -translate-x-1/2 top-10 bg-yellow-600 text-white text-xs font-bold py-1 px-2 rounded opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
-                            Very cheap!
-                        </div>
-                    </div>
-
-                    <!-- Healthy icon for healthy recipes -->
-                    <div v-if="recipe.veryHealthy" class="flex items-center space-x-2 relative group">
-                        <img src="/icon/healthy.png" alt="Healthy Icon" class="w-8 h-8">
-                        <!-- Hidden text, shown on hover -->
-                        <div class="absolute left-1/2 transform -translate-x-1/2 top-10 bg-green-600 text-white text-xs font-bold py-1 px-2 rounded opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
-                            Healthy Choice!
-                        </div>
-                    </div>
-                </div>
-                <!-- Icons end -->
-            </div>
-        </div>
-
-        <!-- Row 2: Instructions, Ingredients, and Nutrition -->
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mt-10">
-
-            <!-- Column 1: Instructions Section -->
-            <div class="bg-white p-6 rounded-lg shadow-md order-last">
-                <h2 class="text-2xl font-bold mb-4 text-purple-600">Instructions</h2>
-                <ul class="space-y-4">
-                    <li v-for="step in recipe.instructions" :key="step.number" class="p-4 bg-gray-100 rounded-lg shadow">
-                        <p class="text-lg font-semibold text-gray-800">Step {{ step.number }}:</p>
-                        <p class="text-gray-700">{{ step.step }}</p>
-
-                        <!-- Ingredients used in each step -->
-                        <div v-if="step.ingredients.length > 0" class="mt-4">
-                            <h4 class="font-semibold text-gray-800">Ingredients:</h4>
-                            <ul class="list-disc pl-6 text-gray-700">
-                                <li v-for="ingredient in step.ingredients" :key="ingredient.id">{{ ingredient.name }}</li>
-                            </ul>
-                        </div>
-
-                        <!-- Equipment used in each step -->
-                        <div v-if="step.equipment.length > 0" class="mt-4">
-                            <h4 class="font-semibold text-gray-800">Equipment:</h4>
-                            <div class="flex flex-wrap mt-2 gap-4">
-                                <div v-for="equipment in step.equipment" :key="equipment.id" class="flex items-center my-2">
-                                    <img :src="equipment.image" :alt="equipment.name" class="w-12 h-12 rounded-full mr-2">
-                                    <p class="text-gray-700">{{ equipment.name.charAt(0).toUpperCase() + equipment.name.slice(1) }}</p>
-                                </div>
+                        <!-- Vegan icon for vegan recipes -->
+                        <div v-if="recipe.vegan" class="flex items-center space-x-2 relative group">
+                            <img src="/icon/vegan.png" alt="Vegan Icon" class="w-8 h-8">
+                            <!-- Hidden text, shown on hover -->
+                            <div class="absolute left-1/2 transform -translate-x-1/2 top-10 bg-green-600 text-white text-xs font-bold py-1 px-2 rounded opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
+                                100% Vegan!
                             </div>
                         </div>
-                    </li>
-                </ul>
+
+                        <!-- Popular icon for very popular recipes -->
+                        <div v-if="recipe.veryPopular" class="flex items-center space-x-2 relative group">
+                            <img src="/icon/popular.png" alt="Popular Icon" class="w-8 h-8">
+                            <!-- Hidden text, shown on hover -->
+                            <div class="absolute left-1/2 transform -translate-x-1/2 top-10 bg-red-600 text-white text-xs font-bold py-1 px-2 rounded opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
+                                Very popular!
+                            </div>
+                        </div>
+
+                        <!-- Cheap icon for cheap recipes -->
+                        <div v-if="recipe.isCheap" class="flex items-center space-x-2 relative group">
+                            <img src="/icon/cheap.png" alt="Cheap Icon" class="w-8 h-8">
+                            <!-- Hidden text, shown on hover -->
+                            <div class="absolute left-1/2 transform -translate-x-1/2 top-10 bg-yellow-600 text-white text-xs font-bold py-1 px-2 rounded opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
+                                Very cheap!
+                            </div>
+                        </div>
+
+                        <!-- Healthy icon for healthy recipes -->
+                        <div v-if="recipe.veryHealthy" class="flex items-center space-x-2 relative group">
+                            <img src="/icon/healthy.png" alt="Healthy Icon" class="w-8 h-8">
+                            <!-- Hidden text, shown on hover -->
+                            <div class="absolute left-1/2 transform -translate-x-1/2 top-10 bg-green-600 text-white text-xs font-bold py-1 px-2 rounded opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
+                                Healthy Choice!
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Icons end -->
+                </div>
             </div>
 
-            <!-- Column 2: Ingredients & Nutrition Information -->
-            <div class="space-y-8 order-first">
-                <!-- Ingredients Used -->
-                <div class="bg-white p-6 rounded-lg shadow-md">
-                    <h2 class="text-2xl font-bold mb-4 text-purple-600">Ingredients Used</h2>
-                    <ul class="list-disc pl-6 space-y-2 text-gray-700">
-                        <li v-for="ingredient in recipe.extendedIngredients" :key="ingredient.id">
-                            {{ ingredient.name.charAt(0).toUpperCase() + ingredient.name.slice(1) }} - {{ (ingredient.amount).toFixed(1) }} {{ ingredient.unit }}
+            <!-- Row 2: Instructions, Ingredients, and Nutrition -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-10 mt-12">
+
+                <!-- Column 1: Instructions Section -->
+                <div class="p-6 bg-purple-50 rounded-lg shadow-md">
+                    <h2 class="text-2xl font-bold text-purple-700 mb-4">Instructions</h2>
+                    <ul class="space-y-4">
+                        <li v-for="step in recipe.instructions" :key="step.number" class="p-4 bg-white rounded-lg shadow text-gray-700">
+                            <p class="font-semibold">Step {{ step.number }}:</p>
+                            <p>{{ step.step }}</p>
+
+                            <!-- Ingredients used in each step -->
+                            <div v-if="step.ingredients.length > 0" class="mt-4">
+                                <h4 class="font-semibold text-gray-800">Ingredients:</h4>
+                                <ul class="list-disc pl-6 text-gray-700">
+                                    <li v-for="ingredient in step.ingredients" :key="ingredient.id">{{ ingredient.name }}</li>
+                                </ul>
+                            </div>
+
+                            <!-- Equipment used in each step -->
+                            <div v-if="step.equipment.length > 0" class="mt-4">
+                                <h4 class="font-semibold text-gray-800">Equipment:</h4>
+                                <div class="flex flex-wrap mt-2 gap-4">
+                                    <div v-for="equipment in step.equipment" :key="equipment.id" class="flex items-center my-2">
+                                        <img :src="equipment.image" :alt="equipment.name" class="w-12 h-12 rounded-full mr-2">
+                                        <p class="text-gray-700">{{ equipment.name.charAt(0).toUpperCase() + equipment.name.slice(1) }}</p>
+                                    </div>
+                                </div>
+                            </div>
                         </li>
                     </ul>
                 </div>
 
-                <!-- Nutrition Information -->
-                <div class="bg-white p-6 rounded-lg shadow-md text-gray-800" v-if="recipeNutrition!==null">
+                <!-- Column 2: Ingredients & Nutrition Information -->
+                <div class="space-y-8 order-first">
+                    <!-- Ingredients Used -->
+                    <div class="p-6 bg-purple-50 rounded-lg shadow-md space-y-6">
+                        <h2 class="text-2xl font-bold mb-4 text-purple-600">Ingredients Used</h2>
+                        <ul class="list-disc pl-6 space-y-2 text-gray-700">
+                            <li v-for="ingredient in recipe.extendedIngredients" :key="ingredient.id">
+                                {{ ingredient.name.charAt(0).toUpperCase() + ingredient.name.slice(1) }} - {{ (ingredient.amount).toFixed(1) }} {{ ingredient.unit }}
+                            </li>
+                        </ul>
+                    </div>
 
-                    <!-- Title -->
-                    <h2 class="text-2xl font-bold mb-4 text-purple-600">Nutrition Label</h2>
+                    <!-- Nutrition Information -->
+                    <div class="bg-white p-6 rounded-lg shadow-md text-gray-800" v-if="recipeNutrition!==null">
 
-                    <!-- Amount Per Serving -->
-                    <p class="text-lg font-bold mb-2">Amount Per Serving</p>
+                        <!-- Title -->
+                        <h2 class="text-2xl font-bold mb-4 text-purple-600">Nutrition Label</h2>
 
-                    <!-- Calories per Serving -->
-                    <p class="flex justify-between text-lg font-semibold border-b pb-2 mb-2">
-                        <span>Calories</span>
-                        <span>{{ (recipeNutrition.calories / recipe.servings).toFixed(0) }}</span>
-                    </p>
+                        <!-- Amount Per Serving -->
+                        <p class="text-lg font-bold mb-2">Amount Per Serving</p>
 
-                     <!-- % Daily Value* Header -->
-                    <p class="text-sm text-gray-800 mb-2 font-bold text-right">% Daily Value*</p>
+                        <!-- Calories per Serving -->
+                        <p class="flex justify-between text-lg font-semibold border-b pb-2 mb-2">
+                            <span>Calories</span>
+                            <span>{{ (recipeNutrition.calories / recipe.servings).toFixed(0) }}</span>
+                        </p>
 
-                    <!-- Total Fat -->
-                    <div class="flex justify-between text-sm py-1 border-t">
-                        <div class="flex">
-                            <span class="font-bold">Total Fat</span>
-                            <span class="ml-1">{{ (recipeNutrition.totalNutrients.FAT.quantity / recipe.servings).toFixed(1) }}g</span>
+                        <!-- % Daily Value* Header -->
+                        <p class="text-sm text-gray-800 mb-2 font-bold text-right">% Daily Value*</p>
+
+                        <!-- Total Fat -->
+                        <div class="flex justify-between text-sm py-1 border-t">
+                            <div class="flex">
+                                <span class="font-bold">Total Fat</span>
+                                <span class="ml-1">{{ (recipeNutrition.totalNutrients.FAT.quantity / recipe.servings).toFixed(1) }}g</span>
+                            </div>
+                            <span class="font-bold">{{ (recipeNutrition.totalDaily.FAT.quantity / recipe.servings).toFixed(1) }}%</span>
                         </div>
-                        <span class="font-bold">{{ (recipeNutrition.totalDaily.FAT.quantity / recipe.servings).toFixed(1) }}%</span>
-                    </div>
 
-                    <!-- Saturated Fat -->
-                    <div class="flex justify-between text-sm py-1 ml-5">
-                        <span>Saturated Fat {{ (recipeNutrition.totalNutrients.FASAT.quantity / recipe.servings).toFixed(1) }}g</span>
-                        <span>{{ (recipeNutrition.totalDaily.FASAT.quantity / recipe.servings).toFixed(1)}}%</span>
-                    </div>
-
-                    <!-- Trans Fat (No Daily Value) -->
-                    <div class="flex justify-between text-sm py-1 ml-5">
-                        <span>Trans Fat {{ (recipeNutrition.totalNutrients.FATRN.quantity / recipe.servings).toFixed(1) }}g</span>
-                        <span></span>
-                    </div>
-
-                    <!-- Cholesterol -->
-                    <div class="flex justify-between text-sm py-1 border-t">
-                        <div class="flex">
-                            <span class="font-bold">Cholesterol</span>
-                            <span class="ml-1">{{ (recipeNutrition.totalNutrients.CHOLE.quantity / recipe.servings).toFixed(1) }}mg</span>
+                        <!-- Saturated Fat -->
+                        <div class="flex justify-between text-sm py-1 ml-5">
+                            <span>Saturated Fat {{ (recipeNutrition.totalNutrients.FASAT.quantity / recipe.servings).toFixed(1) }}g</span>
+                            <span>{{ (recipeNutrition.totalDaily.FASAT.quantity / recipe.servings).toFixed(1)}}%</span>
                         </div>
-                        <span class="font-bold">{{ (recipeNutrition.totalDaily.CHOLE.quantity / recipe.servings).toFixed(1) }}%</span>
-                    </div>
 
-                    <!-- Sodium -->
-                    <div class="flex justify-between text-sm py-1 border-t">
-                        <div class="flex">
-                            <span class="font-bold">Sodium</span>
-                            <span class="ml-1">{{ (recipeNutrition.totalNutrients.NA.quantity / recipe.servings).toFixed(1) }}mg</span>
+                        <!-- Trans Fat (No Daily Value) -->
+                        <div class="flex justify-between text-sm py-1 ml-5">
+                            <span>Trans Fat {{ (recipeNutrition.totalNutrients.FATRN.quantity / recipe.servings).toFixed(1) }}g</span>
+                            <span></span>
                         </div>
-                        <span class="font-bold">{{ (recipeNutrition.totalDaily.NA.quantity / recipe.servings).toFixed(1) }}%</span>
-                    </div>
 
-                    <!-- Total Carbohydrate -->
-                    <div class="flex justify-between text-sm py-1 border-t">
-                        <div class="flex">
-                            <span class="font-bold">Total Carbohydrate</span>
-                            <span class="ml-1"> {{ (recipeNutrition.totalNutrients.CHOCDF.quantity / recipe.servings).toFixed(1) }}g</span>
+                        <!-- Cholesterol -->
+                        <div class="flex justify-between text-sm py-1 border-t">
+                            <div class="flex">
+                                <span class="font-bold">Cholesterol</span>
+                                <span class="ml-1">{{ (recipeNutrition.totalNutrients.CHOLE.quantity / recipe.servings).toFixed(1) }}mg</span>
+                            </div>
+                            <span class="font-bold">{{ (recipeNutrition.totalDaily.CHOLE.quantity / recipe.servings).toFixed(1) }}%</span>
                         </div>
-                        <span class="font-bold">{{ (recipeNutrition.totalDaily.CHOCDF.quantity / recipe.servings).toFixed(1) }}%</span>
-                    </div>
 
-                    <!-- Dietary Fiber -->
-                    <div class="flex justify-between text-sm py-1 ml-5">
-                        <span>Dietary Fiber {{ (recipeNutrition.totalNutrients.FIBTG.quantity / recipe.servings).toFixed(1) }}g</span>
-                        <span>{{ (recipeNutrition.totalDaily.FIBTG.quantity / recipe.servings).toFixed(1) }}%</span>
-                    </div>
-
-                    <!-- Total Sugars -->
-                    <div class="flex justify-between text-sm py-1 ml-5">
-                        <span>Total Sugars {{ (recipeNutrition.totalNutrients.SUGAR.quantity / recipe.servings).toFixed(1) }}g</span>
-                        <span></span>
-                    </div>
-
-                    <!-- Protein -->
-                    <div class="flex justify-between text-sm py-1 border-t">
-                        <div class="flex">
-                            <span class="font-bold">Protein</span>
-                            <span class="ml-1">{{ (recipeNutrition.totalNutrients.PROCNT.quantity / recipe.servings).toFixed(1) }}g</span>
+                        <!-- Sodium -->
+                        <div class="flex justify-between text-sm py-1 border-t">
+                            <div class="flex">
+                                <span class="font-bold">Sodium</span>
+                                <span class="ml-1">{{ (recipeNutrition.totalNutrients.NA.quantity / recipe.servings).toFixed(1) }}mg</span>
+                            </div>
+                            <span class="font-bold">{{ (recipeNutrition.totalDaily.NA.quantity / recipe.servings).toFixed(1) }}%</span>
                         </div>
-                        <span class="font-bold">{{ (recipeNutrition.totalDaily.PROCNT.quantity / recipe.servings).toFixed(1) }}%</span>
-                    </div>
 
-                    <!-- Vitamin D -->
-                    <div class="flex justify-between text-sm py-1 border-t">
-                        <span>Vitamin D {{ (recipeNutrition.totalNutrients.VITD.quantity / recipe.servings).toFixed(1) }}µg</span>
-                        <span>{{ (recipeNutrition.totalDaily.VITD.quantity / recipe.servings).toFixed(1) }}%</span>
-                    </div>
+                        <!-- Total Carbohydrate -->
+                        <div class="flex justify-between text-sm py-1 border-t">
+                            <div class="flex">
+                                <span class="font-bold">Total Carbohydrate</span>
+                                <span class="ml-1"> {{ (recipeNutrition.totalNutrients.CHOCDF.quantity / recipe.servings).toFixed(1) }}g</span>
+                            </div>
+                            <span class="font-bold">{{ (recipeNutrition.totalDaily.CHOCDF.quantity / recipe.servings).toFixed(1) }}%</span>
+                        </div>
 
-                    <!-- Calcium -->
-                    <div class="flex justify-between text-sm py-1 border-t">
-                        <span>Calcium {{ (recipeNutrition.totalNutrients.CA.quantity / recipe.servings).toFixed(1) }}mg</span>
-                        <span>{{ (recipeNutrition.totalDaily.CA.quantity / recipe.servings).toFixed(1) }}%</span>
-                    </div>
+                        <!-- Dietary Fiber -->
+                        <div class="flex justify-between text-sm py-1 ml-5">
+                            <span>Dietary Fiber {{ (recipeNutrition.totalNutrients.FIBTG.quantity / recipe.servings).toFixed(1) }}g</span>
+                            <span>{{ (recipeNutrition.totalDaily.FIBTG.quantity / recipe.servings).toFixed(1) }}%</span>
+                        </div>
 
-                    <!-- Iron -->
-                    <div class="flex justify-between text-sm py-1 border-t">
-                        <span>Iron {{ (recipeNutrition.totalNutrients.FE.quantity / recipe.servings).toFixed(1) }}mg</span>
-                        <span>{{ (recipeNutrition.totalDaily.FE.quantity / recipe.servings).toFixed(1) }}%</span>
-                    </div>
-
-                    <!-- Potassium -->
-                    <div class="flex justify-between text-sm py-1 border-b border-t">
-                        <span>Potassium {{ (recipeNutrition.totalNutrients.K.quantity / recipe.servings).toFixed(1) }}mg</span>
-                        <span>{{ (recipeNutrition.totalDaily.K.quantity / recipe.servings).toFixed(1) }}%</span>
-                    </div>
-
-                    <!-- note -->
-                    <div class="flex justify-between text-sm py-1">
-                        *The % Daily Value tells you how much a nutrient in a serving of food contributes to a daily diet. 2,000 calories a day is used for general nutrition advice.
-                    </div>
-                
-
-                    <!-- Visual Representation of 3 main nutritions-->
-                    <p class="text-lg font-bold mb-4 mt-4">Macronutrient Breakdown</p>
-                    <div class="relative h-8 w-full bg-gray-200 rounded-full overflow-hidden">
-                        <!-- Carbohydrates -->
-                        <div
-                            class="absolute top-0 left-0 h-full bg-blue-500 text-white text-sm flex items-center justify-center"
-                            :style="{ width: carbPercentage + '%' }"
-                        >
-                            {{ carbPercentage.toFixed(0) }}%
+                        <!-- Total Sugars -->
+                        <div class="flex justify-between text-sm py-1 ml-5">
+                            <span>Total Sugars {{ (recipeNutrition.totalNutrients.SUGAR.quantity / recipe.servings).toFixed(1) }}g</span>
+                            <span></span>
                         </div>
 
                         <!-- Protein -->
-                        <div
-                            class="absolute top-0 h-full bg-green-500 text-white text-sm flex items-center justify-center"
-                            :style="{ width: proteinPercentage + '%', left: carbPercentage + '%' }"
-                        >
-                            {{ proteinPercentage.toFixed(0) }}%
+                        <div class="flex justify-between text-sm py-1 border-t">
+                            <div class="flex">
+                                <span class="font-bold">Protein</span>
+                                <span class="ml-1">{{ (recipeNutrition.totalNutrients.PROCNT.quantity / recipe.servings).toFixed(1) }}g</span>
+                            </div>
+                            <span class="font-bold">{{ (recipeNutrition.totalDaily.PROCNT.quantity / recipe.servings).toFixed(1) }}%</span>
                         </div>
 
-                        <!-- Fat -->
-                        <div
-                            class="absolute top-0 h-full bg-yellow-500 text-white text-sm flex items-center justify-center"
-                            :style="{ width: fatPercentage + '%', left: (carbPercentage + proteinPercentage) + '%' }"
-                        >
-                            {{ fatPercentage.toFixed(0) }}%
+                        <!-- Vitamin D -->
+                        <div class="flex justify-between text-sm py-1 border-t">
+                            <span>Vitamin D {{ (recipeNutrition.totalNutrients.VITD.quantity / recipe.servings).toFixed(1) }}µg</span>
+                            <span>{{ (recipeNutrition.totalDaily.VITD.quantity / recipe.servings).toFixed(1) }}%</span>
                         </div>
+
+                        <!-- Calcium -->
+                        <div class="flex justify-between text-sm py-1 border-t">
+                            <span>Calcium {{ (recipeNutrition.totalNutrients.CA.quantity / recipe.servings).toFixed(1) }}mg</span>
+                            <span>{{ (recipeNutrition.totalDaily.CA.quantity / recipe.servings).toFixed(1) }}%</span>
+                        </div>
+
+                        <!-- Iron -->
+                        <div class="flex justify-between text-sm py-1 border-t">
+                            <span>Iron {{ (recipeNutrition.totalNutrients.FE.quantity / recipe.servings).toFixed(1) }}mg</span>
+                            <span>{{ (recipeNutrition.totalDaily.FE.quantity / recipe.servings).toFixed(1) }}%</span>
+                        </div>
+
+                        <!-- Potassium -->
+                        <div class="flex justify-between text-sm py-1 border-b border-t">
+                            <span>Potassium {{ (recipeNutrition.totalNutrients.K.quantity / recipe.servings).toFixed(1) }}mg</span>
+                            <span>{{ (recipeNutrition.totalDaily.K.quantity / recipe.servings).toFixed(1) }}%</span>
+                        </div>
+
+                        <!-- note -->
+                        <div class="flex justify-between text-sm py-1">
+                            *The % Daily Value tells you how much a nutrient in a serving of food contributes to a daily diet. 2,000 calories a day is used for general nutrition advice.
+                        </div>
+                    
+
+                        <!-- Visual Representation of 3 main nutritions-->
+                        <p class="text-lg font-bold mb-4 mt-4">Macronutrient Breakdown</p>
+                        <div class="relative h-8 w-full bg-gray-200 rounded-full overflow-hidden">
+                            <!-- Carbohydrates -->
+                            <div
+                                class="absolute top-0 left-0 h-full bg-blue-500 text-white text-sm flex items-center justify-center"
+                                :style="{ width: carbPercentage + '%' }"
+                            >
+                                {{ carbPercentage.toFixed(0) }}%
+                            </div>
+
+                            <!-- Protein -->
+                            <div
+                                class="absolute top-0 h-full bg-green-500 text-white text-sm flex items-center justify-center"
+                                :style="{ width: proteinPercentage + '%', left: carbPercentage + '%' }"
+                            >
+                                {{ proteinPercentage.toFixed(0) }}%
+                            </div>
+
+                            <!-- Fat -->
+                            <div
+                                class="absolute top-0 h-full bg-yellow-500 text-white text-sm flex items-center justify-center"
+                                :style="{ width: fatPercentage + '%', left: (carbPercentage + proteinPercentage) + '%' }"
+                            >
+                                {{ fatPercentage.toFixed(0) }}%
+                            </div>
+                        </div>
+
+                        <!-- Legend for Macronutrient Colors -->
+                        <div class="flex justify-around text-sm mt-2">
+                            <div class="flex items-center space-x-2">
+                                <span class="h-4 w-4 bg-blue-500 inline-block rounded"></span>
+                                <span>Carbohydrate</span>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <span class="h-4 w-4 bg-green-500 inline-block rounded"></span>
+                                <span>Protein</span>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <span class="h-4 w-4 bg-yellow-500 inline-block rounded"></span>
+                                <span>Fat</span>
+                            </div>
+                        </div>
+
                     </div>
-
-                    <!-- Legend for Macronutrient Colors -->
-                    <div class="flex justify-around text-sm mt-2">
-                        <div class="flex items-center space-x-2">
-                            <span class="h-4 w-4 bg-blue-500 inline-block rounded"></span>
-                            <span>Carbohydrate</span>
-                        </div>
-                        <div class="flex items-center space-x-2">
-                            <span class="h-4 w-4 bg-green-500 inline-block rounded"></span>
-                            <span>Protein</span>
-                        </div>
-                        <div class="flex items-center space-x-2">
-                            <span class="h-4 w-4 bg-yellow-500 inline-block rounded"></span>
-                            <span>Fat</span>
-                        </div>
-                    </div>
-
+                    <!-- Nutrition information ends  -->
+                    <div v-else>Unfortunately, the Nutrition Label for this recipe is unavailable.</div>
                 </div>
-                <!-- Nutrition information ends  -->
-                 <div v-else>Unfortunately, the Nutrition Label for this recipe is unavailable.</div>
             </div>
+
+            <!-- pass the ingredient info to chat -->
+            <Chat :ingredients="recipe.extendedIngredients" />
         </div>
-
-        <!-- pass the ingredient info to chat -->
-        <Chat :ingredients="recipe.extendedIngredients" />
     </div>
-
-    <!-- temp console log button for debugging-->
-    <!-- <hr>
-    <br><br>
-    <button @click="consoleButton">Console Log</button> -->
-
-
-
 </template>
-  
+
+<style scoped>
+    .content-background {
+        background-image: url('/public/food/recipe_background.jpg');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        border-radius: 8px;
+        padding: 20px;
+        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .content-overlay {
+        background-color: rgba(255, 255, 255, 0.85);
+        border-radius: 8px;
+        padding: 20px;
+    }
+
+</style>
+
+
 <script>
     import Navigation from "../components/Navigation.vue";
     import axios from 'axios';
@@ -605,4 +601,4 @@
             }
         }
     };
-</script>
+    </script>

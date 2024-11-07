@@ -367,6 +367,7 @@ export default {
                   Based on the given recipe ingredients: 
                   ${ingredientsList}. 
                   Prompt: ${prompt}.
+                  If it is about substitution for recipe/ingredient, make sure you tell me the decrease in calories.
                   Return the output in this format:
                   (If ask for ingredients) Ingredients Used:
                   - [Ingredient 1] - [Ingredient Quantity][in metric]
