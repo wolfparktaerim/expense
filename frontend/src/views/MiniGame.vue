@@ -71,7 +71,7 @@
         class="absolute inset-0 flex flex-col items-center justify-center bg-black bg-opacity-50 text-white p-6">
         <h2 class="text-2xl font-bold mb-4">Ready to Eat Healthy?</h2>
         <ul class="text-center mb-6 space-y-2">
-          <li>🏃‍♂️ Use arrow keys or buttons to move</li>
+          <li>🧺 Use arrow keys or buttons to move the basket</li>
           <li>🥗 Catch healthy food for points</li>
           <li>🍔 Avoid junk food to stay healthy</li>
           <li>⏸️ Press 'P' to pause anytime</li>
@@ -338,7 +338,7 @@ export default {
       const basketRight = this.basketPositionX + this.basketWidth;
       
       if (
-        food.y + 48 >= this.gameHeight - 64 &&
+        food.y + 48 >= this.gameHeight - 50 &&
         food.x + 48 >= basketLeft &&
         food.x <= basketRight
       ) {
