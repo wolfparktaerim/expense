@@ -367,7 +367,8 @@ export default {
                   Based on the given recipe ingredients: 
                   ${ingredientsList}. 
                   Prompt: ${prompt}.
-                  If it is about substitution for recipe/ingredient, make sure you tell me the decrease in calories.
+                  If the prompt is about asking for healthier recipe/ingredient substitution, you must state decrease in calories (in kcal).
+                  If the recipe is healthy enough/you cannot come up with a healthy recipe, response accordingly.
                   Return the output in this format:
                   (If ask for ingredients) Ingredients Used:
                   - [Ingredient 1] - [Ingredient Quantity][in metric]
@@ -379,7 +380,7 @@ export default {
                   - [Instruction 2 including ingredients and equipment]
                   - [Instruction 3 including ingredients and equipment]
                   ...
-                  Do not include any markdown, make it as concise as possible. Answer to 'prompt' only, do not add anything unnecessary
+                  Do not include any markdown, make it as concise as possible.
                   `,
               },
             ],
