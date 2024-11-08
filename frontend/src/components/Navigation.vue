@@ -36,7 +36,8 @@
             href="#HowItWorks"
             class="text-gray-600 hover:text-purple-600 transition-all duration-300 ease-in-out hover:font-bold"
           >
-            How It Works
+            <Info class="w-4 h-4" />
+            <span>How It Works</span>
           </a>
           <button
             @click="login"
