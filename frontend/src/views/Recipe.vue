@@ -323,7 +323,7 @@
 
 <style scoped>
     .content-background {
-        background-image: url('/public/food/recipe_background.jpg');
+        background-image: url('/food/recipe_background.jpg');
         background-size: cover;
         background-position: center;
         background-repeat: no-repeat;

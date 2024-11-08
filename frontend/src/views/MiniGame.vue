@@ -550,7 +550,7 @@ export default {
 .game-container {
   user-select: none;
   touch-action: manipulation;
-  background-image: url('/public/game/others/foodgame_background.png');
+  background-image: url('/game/others/foodgame_background.png');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;

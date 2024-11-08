@@ -1,8 +1,9 @@
 <template>
-  <div class="min-h-screen bg-gradient-to-br from-gray-50 to-purple-50">
-        <Navigation />
+  <Navigation />
+
+  <div class="min-h-screen bg-gradient-to-br from-gray-50 to-purple-50 favorites-container">
         <!-- Header Section -->
-        <div class="container mx-auto py-8 px-4 favorites-container">
+        <div class="container mx-auto py-8 px-4 ">
           <div class="mt-8 mb-8 text-center">
             <h1 class="text-4xl font-bold text-purple-600 mb-2">Saved Recipes</h1>
             <p class="text-gray-600">Your favorite recipes all in one place</p>
@@ -20,7 +21,7 @@
       
           <!-- No Favorites State -->
           <div v-else-if="!savedRecipes.length" class="text-center py-12">
-            <img src="../../public/icon/remove_favorite.png" alt="No favorites" class="w-24 h-24 mx-auto mb-4">
+            <img src="/icon/remove_favorite.png" alt="No favorites" class="w-24 h-24 mx-auto mb-4">
             <h2 class="text-xl font-semibold text-gray-800 mb-2">No Saved Recipes Yet</h2>
             <p class="text-gray-600 mb-4">Start exploring and save your favorite recipes!</p>
             <router-link 
@@ -156,7 +157,7 @@
   .favorites-container {
     user-select: none;
     touch-action: manipulation;
-    background-image: url('/public/food/favorites_background.png');
+    background-image: url('/food/favorites_background.jpg');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
