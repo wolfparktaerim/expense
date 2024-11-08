@@ -188,7 +188,7 @@ const steps = ref([
   {
     icon: BookmarkIcon,
     title: 'Save Your Favorites',
-    description: 'Once you\'re happy with a recipe, save it to your collection to create a personalized recipe book for easy reference in the future.',
+    description: 'Once you\'re happy with a recipe, save it to your collection to create a personalized cookbook for easy reference in the future.',
     isVisible: false
   },
   
