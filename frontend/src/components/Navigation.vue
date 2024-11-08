@@ -34,7 +34,7 @@
         <template v-if="!isAuthenticated">
           <a 
             href="#HowItWorks"
-            class="text-gray-600 hover:text-purple-600 transition-all duration-300 ease-in-out hover:font-bold"
+            class="flex items-center space-x-1 text-gray-600 hover:text-purple-600 transition-all duration-300 ease-in-out hover:font-bold"
           >
             <Info class="w-4 h-4" />
             <span>How It Works</span>
