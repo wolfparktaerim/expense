@@ -141,7 +141,7 @@
         <template v-if="!isAuthenticated">
           <a
             href="#HowItWorks"
-            class="block py-2 text-gray-600 hover:text-purple-600"
+            class="flex items-center space-x-2 py-2 text-gray-600 hover:text-purple-600"
             @click="mobileMenuOpen = false"
           >
             <Info class="w-4 h-4" />
