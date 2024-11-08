@@ -16,7 +16,8 @@ RecipeAssistant is a web application that helps users to discover, tailor, and t
 - Vue.js 3
 - Vite
 - Tailwind CSS
-- Firebase
+- Firebase Realtime DB
+- Firebase Authentication
 - Google Maps API
 - ChatGPT API
 - Spoonacular API
