@@ -143,7 +143,8 @@
             class="block py-2 text-gray-600 hover:text-purple-600"
             @click="mobileMenuOpen = false"
           >
-            How It Works
+            <Info class="w-4 h-4" />
+            <span>How It Works</span>
           </a>
           <button
             @click="login"
@@ -265,7 +266,7 @@ import { ref, onMounted, onBeforeUnmount } from 'vue'
 import { RouterLink, useRouter } from 'vue-router'
 import { storeToRefs } from 'pinia'
 import { useAuthStore } from '../stores/auth'
-import { Search, Globe, Bookmark, User, ChevronDown, Menu, X, LogOut, Gamepad2 } from 'lucide-vue-next'
+import { Search, Globe, Bookmark, User, ChevronDown, Menu, X, LogOut, Gamepad2, Info } from 'lucide-vue-next'
 import LoginModal from './LoginModal.vue'
 import { getAuth, signOut } from 'firebase/auth'
 import { Dialog, DialogPanel, DialogTitle, TransitionRoot, TransitionChild } from '@headlessui/vue'

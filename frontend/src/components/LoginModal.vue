@@ -339,7 +339,7 @@ export default {
     this.toast.updateDefaults(this.updated);
       } catch (error) {
         console.error('Google sign-in error:', error);
-        this.toast.error('Failed to login with Google.', {
+        this.toast.error('Failed to login with Google', {
           closeButton: false,
           hideProgressBar: true,
           timeout: 2000
