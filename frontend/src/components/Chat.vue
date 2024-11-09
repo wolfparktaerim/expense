@@ -368,7 +368,7 @@ export default {
                   The current serving size for the ingredients used: ${servingSize}.
                   Prompt: ${prompt}.
                   If the prompt is 'Make this recipe healthier'/'Suggest substitutions', you must state decrease in calories (in kcal per serving, divide by serving size).
-                  If the prompt is 'What are the nutrition benefits', state the approximate nutrition amount for each ingredient, and do not suggest subsitutes.
+                  If the prompt is 'What are the nutrition benefits', state the approximate nutrition amount (fiber, vitamins, minerals, etc) for each ingredient, and do not suggest subsitutes.
                   If the recipe is healthy enough/you cannot come up with a healthier one, response accordingly.
                   Return the output in this format:
                   (If ask for ingredients) Ingredients Used:
