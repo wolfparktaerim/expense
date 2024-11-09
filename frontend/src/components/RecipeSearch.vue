@@ -357,7 +357,7 @@
         ],
         recipes: [],
         includeTags: "",
-        maxNumberOutput: 8,
+        maxNumberOutput: 16,
         searchTriggered: false,
         isLoading: false,
         loadingColor: "#805ad5",
