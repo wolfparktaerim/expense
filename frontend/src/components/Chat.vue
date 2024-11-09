@@ -176,8 +176,6 @@
   </div>
 </template>
 
-//breakkkkkkkkkkkkkkkkkkkk
-
 <script>
 import {
   MessageCircle,
@@ -354,6 +352,7 @@ export default {
             `${ingredient.amount} ${ingredient.unit} of ${ingredient.name}`
         )
         .join(", ");
+      const servingSize = this.servingsize;
 
       try {
         const response = await axios.post(
@@ -366,19 +365,19 @@ export default {
                 content: `
                   Based on the given recipe ingredients: 
                   ${ingredientsList}. 
+                  The current serving size for the ingredients used: ${servingSize}.
                   Prompt: ${prompt}.
-                  If the prompt is about asking for healthier recipe/ingredient substitution, you must state decrease in calories (in kcal).
-                  If the recipe is healthy enough/you cannot come up with a healthy recipe, response accordingly.
+                  If the prompt is 'Make this recipe healthier'/'Suggest substitutions', you must state decrease in calories (in kcal per serving, divide by serving size).
+                  If the prompt is 'What are the nutrition benefits', state the approximate nutrition amount for each ingredient, and do not suggest subsitutes.
+                  If the recipe is healthy enough/you cannot come up with a healthier one, response accordingly.
                   Return the output in this format:
                   (If ask for ingredients) Ingredients Used:
                   - [Ingredient 1] - [Ingredient Quantity][in metric]
                   - [Ingredient 2] - [Ingredient Quantity][in metric]
-                  - [Ingredient 3] - [Ingredient Quantity][in metric]
                   ...
                   (If ask for instructions) Instructions:
                   - [Instruction 1 including ingredients and equipment]
                   - [Instruction 2 including ingredients and equipment]
-                  - [Instruction 3 including ingredients and equipment]
                   ...
                   Do not include any markdown, make it as concise as possible.
                   `,
@@ -393,7 +392,7 @@ export default {
             },
           }
         );
-        console.log(response.data.choices[0].message.content);
+        // console.log(response.data.choices[0].message.content);
         return response.data.choices[0].message.content;
       } catch (error) {
         throw error;
