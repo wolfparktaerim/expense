@@ -1,15 +1,19 @@
-# RecipeAssistant
+# DishGenie
 
-RecipeAssistant is a web application that helps users to discover, tailor, and track recipes aligned with their unique dietary requirements and wellness objectives, while also providing intelligent substitutions for ingredients to suit individual needs.
+DishGenie is a web application that helps users discover, tailor, and track recipes aligned with their unique dietary requirements and wellness objectives, while also providing intelligent substitutions for ingredients to suit individual needs.
+
+Visit our deployed website using the following URL:
+https://dishgenie.vercel.app/ 
 
 ## Features
 
 - Recipe discovery based on dietary preferences
+- Famous global recipe discovery
 - Intelligent ingredient substitutions
-- Meal planning and tracking
 - Integration with multiple recipe APIs
 - Interactive map for finding local ingredients
 - Recipe assistance
+- Minigame
 
 ## Technologies Used
 
@@ -68,14 +72,22 @@ Before you begin, ensure you have the following installed:
 
 6. Open your browser and visit `http://localhost:5173/` (or the port specified in the console output)
 
+## Username and Password
+
+To log into our website, you may want to use your own Google account or use the following test account:
+Email: a@b.com
+Password: 123456
+
 ## API Keys Setup
 
-To use all features of RecipeAssistant, you'll need to obtain API keys from:
+To use all features of RecipeAssistant, you'll need to obtain API keys** from:
 - [Google Maps Platform](https://cloud.google.com/maps-platform/)
 - [OpenAI (ChatGPT)](https://platform.openai.com/)
 - [Firebase](https://firebase.google.com/)
 - [Spoonacular](https://spoonacular.com/food-api)
 - [Edamam](https://developer.edamam.com/)
+
+**For this project submission, we have included our API keys in an environment file ".env" in the zipped file. Hence there is no need to obtain those API keys.
 
 ## Project Structure
 
