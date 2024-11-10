@@ -65,7 +65,7 @@ export default {
     return {
       showLogin: false,
       showVideo: false,
-      videoId: 'fnnBJupnwrE',
+      videoId: 'zw8Ao6VfDog',
       components: { // Register components here for use with <component :is="">
         LoginModal,
         VideoModal
