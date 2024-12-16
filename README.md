@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # DishGenie
 
 DishGenie is a web application that helps users discover, tailor, and track recipes aligned with their unique dietary requirements and wellness objectives, while also providing intelligent substitutions for ingredients to suit individual needs.
@@ -108,3 +109,6 @@ frontend/
 └── vite.config.js
 ```
 
+=======
+# expense
+>>>>>>> c2292be83be2ad5d55ddab72cc9c7e1d0dc7cd12
