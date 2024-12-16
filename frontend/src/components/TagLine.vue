@@ -1,17 +1,17 @@
 <!-- TagLine.vue -->
 <template>
   <section
-    class="relative overflow-hidden bg-gradient-to-b from-purple-50 to-white py-20"
+    class="relative overflow-hidden to-white py-20"
   >
     <!-- Background decoration -->
-    <div class="absolute inset-0 overflow-hidden">
+    <!-- <div class="absolute inset-0 overflow-hidden">
       <div
         class="absolute -right-10 top-1/4 h-64 w-64 rounded-full bg-purple-100/50"
       ></div>
       <div
         class="absolute -left-10 top-1/3 h-48 w-48 rounded-full bg-purple-100/30"
       ></div>
-    </div>
+    </div> -->
 
     <!-- Main content -->
     <div class="relative mx-auto max-w-7xl px-4">
@@ -21,20 +21,18 @@
           <span
             class="block text-4xl font-bold leading-tight tracking-tight text-gray-900 md:text-6xl"
           >
-            <span class="gradient">Discover Healthy Recipes</span>
+            <span class="gradient">Track Your Spending,</span>
           </span>
           <span
             class="mt-2 block text-3xl font-bold leading-tight tracking-tight text-gray-900 md:text-5xl"
           >
-            <span class="gradient">For a Healthier Tomorrow</span>
+            <span class="gradient">Shape Your Financial Future!</span>
           </span>
         </h1>
 
         <!-- Subheading -->
         <p class="mb-12 max-w-2xl text-center text-lg text-gray-600 md:text-xl">
-          Explore simple, delicious, and nutritious meals crafted for your
-          wellness journey. Join thousands of food lovers making healthier
-          choices every day.
+          Easily manage your expenses and income to stay on top of your financial goals. Join us in taking control of your money every day.
         </p>
 
         <!-- CTA Buttons -->
@@ -43,11 +41,11 @@
         >
           <button
             @click="handleGetStarted"
-            class="button-primary inline-flex items-center justify-center rounded-xl bg-purple-600 px-8 py-4 text-lg font-semibold text-white shadow-lg transition-all duration-300 hover:bg-purple-700 hover:shadow-purple-200 hover:-translate-y-1 focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 relative overflow-hidden group"
+            class="button-primary inline-flex items-center justify-center rounded-xl bg-green-600 px-8 py-4 text-lg font-semibold text-white shadow-lg transition-all duration-300 hover:bg-green-800 hover:shadow-green-200 hover:-translate-y-1 focus:ring-2 focus:ring-green-500 focus:ring-offset-2 relative overflow-hidden group"
           >
-            <span class="relative z-10">Get Started for Free</span>
+            <span class="relative z-10">Get Started Now!</span>
             <div
-              class="absolute inset-0 bg-gradient-to-r from-purple-500 to-purple-700 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+              class="absolute inset-0 bg-gradient-to-r from-green-500 to-green-700 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
             ></div>
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -62,27 +60,7 @@
               />
             </svg>
           </button>
-          <button
-            @click="$emit('show-video')"
-            class="inline-flex items-center justify-center rounded-xl border-2 border-purple-200 bg-white px-8 py-4 text-lg font-semibold text-purple-600 transition-all hover:bg-purple-50 hover:shadow-lg focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 relative overflow-hidden group hover:-translate-y-1"
-          >
-            <span class="relative z-10">Watch Demo</span>
-            <div
-              class="absolute inset-0 bg-gradient-to-r from-purple-100 to-purple-200 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-            ></div>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              class="ml-2 h-5 w-5 relative z-10 transition-transform duration-300 group-hover:scale-125"
-              viewBox="0 0 20 20"
-              fill="currentColor"
-            >
-              <path
-                fill-rule="evenodd"
-                d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z"
-                clip-rule="evenodd"
-              />
-            </svg>
-          </button>
+        
         </div>
 
         <!-- Social Proof section remains the same -->
@@ -118,7 +96,7 @@ export default {
   methods: {
     handleGetStarted() {
       if (this.isAuthenticated) {
-        this.$router.push("/search");
+        this.$router.push("/track");
       } else {
         this.$emit("show-login");
       }
@@ -128,7 +106,7 @@ export default {
 </script>
 <style scoped>
 .gradient {
-  background: linear-gradient(to right, #d8b4fe, #8b5cf6);
+  background: linear-gradient(to right, #65f56cd4, #32b234);
   background-size: 200% 100%;
   -webkit-background-clip: text;
   background-clip: text;

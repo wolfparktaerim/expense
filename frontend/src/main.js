@@ -6,17 +6,19 @@ import LoginModal from './components/LoginModal.vue'
 import router from './router'
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
+import { getDatabase } from 'firebase/database';
 import Toast from 'vue-toastification';
 import 'vue-toastification/dist/index.css';
 
 // Your web app's Firebase configuration
+
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
-  authDomain: "wad2-81802.firebaseapp.com",
-  databaseURL: "https://wad2-81802-default-rtdb.asia-southeast1.firebasedatabase.app",
-  projectId: "wad2-81802",
-  storageBucket: "wad2-81802.appspot.com",
-  messagingSenderId: "371929127417",
+  authDomain: "expense-38776.firebaseapp.com",
+  projectId: "expense-38776",
+  storageBucket: "expense-38776.firebasestorage.app",
+  messagingSenderId: "976334222204",
+  databaseURL: "https://expense-38776-default-rtdb.asia-southeast1.firebasedatabase.app",
   appId: import.meta.env.VITE_FIREBASE_APP_ID,
   measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID,
 };

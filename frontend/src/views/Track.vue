@@ -1,21 +1,21 @@
 <template>
-  <div class='min-h-screen bg-gradient-to-br from-gray-50 to-purple-50'>
+  <div class='min-h-screen '>
 
     <Navigation />
-    <RecipeSearch />
+    <TransactionForms/>
   </div>
 </template>
   
   <script>
   import Navigation from "../components/Navigation.vue";
-  import RecipeSearch from "../components/RecipeSearch.vue";
+  import TransactionForms from "../components/TransactionForms.vue";
   
   export default {
     name: 'SearchPage', 
     //  Local Component Registration
     components: {
       Navigation,
-      RecipeSearch,
+      TransactionForms
     },
   }
   </script>

@@ -2,15 +2,14 @@
 import { createWebHistory, createRouter } from 'vue-router'
 import { getAuth } from 'firebase/auth'
 import { useAuthStore } from '../stores/auth'
+
+
 import Home from '../views/Home.vue'
-import Search from '../views/Search.vue'
-import Recipe from '../views/Recipe.vue'
-import Globe from '../views/Globe.vue'
-import FoodTrivia from '../views/FoodTrivia.vue'
-import Saved from '../views/Saved.vue'
+import Track from '../views/Track.vue'
+import Dashboard from '../views/Dashboard.vue'
 import Profile from '../views/Profile.vue'
 import NotFoundView from '../views/NotFoundView.vue'
-import MiniGame from '../views/MiniGame.vue'
+import Report from '../views/GenerateReport.vue'
 
 const routes = [
   { 
@@ -19,28 +18,13 @@ const routes = [
     meta: { requiresAuth: false }
   },
   { 
-    path: '/search', 
-    component: Search,
+    path: '/track', 
+    component: Track,
     meta: { requiresAuth: true }
   },
   { 
-    path: '/recipe/:id', 
-    component: Recipe,
-    meta: { requiresAuth: true }
-  },
-  { 
-    path: '/discover', 
-    component: Globe,
-    meta: { requiresAuth: true }
-  },
-  {
-    path: '/foodtrivia',
-    component: FoodTrivia,
-    meta : { requiresAuth: true }
-  },
-  {
-    path: '/saved',
-    component: Saved,
+    path: '/dashboard', 
+    component: Dashboard,
     meta: { requiresAuth: true }
   },
   {
@@ -49,8 +33,8 @@ const routes = [
     meta: { requiresAuth: true }
   },
   {
-    path: '/minigame',
-    component: MiniGame,
+    path: '/report',
+    component: Report,
     meta: { requiresAuth: true }
   },
   {

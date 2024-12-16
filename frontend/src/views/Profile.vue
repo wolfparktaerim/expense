@@ -1,7 +1,7 @@
 <template>
     <div class="min-h-screen bg-gradient-to-br from-gray-50 to-purple-50">
       <Navigation />
-      
+      <h1 class="text-bold text-xxl mt-6">This Page is Currently Under Construction!</h1>
       <!-- Loading State -->
       <div class="mx-auto px-4 py-8 max-w-7xl">
         <div v-if="loading" class="flex flex-col items-center justify-center h-64 space-y-4">
@@ -263,7 +263,6 @@
 import { getAuth, signOut } from "firebase/auth";
 import PulseLoader from "vue-spinner/src/PulseLoader.vue";
 import Navigation from "../components/Navigation.vue";
-import { useFavoritesStore } from "../stores/favorites";
 import { mapState, mapActions } from "pinia";
 import { 
   UserCircle, 
@@ -347,11 +346,11 @@ export default {
   },
 
   computed: {
-    ...mapState(useFavoritesStore, ["favorites"]),
+    // ...mapState(useFavoritesStore, ["favorites"]),
 
-    savedRecipesCount() {
-      return this.favorites?.length || 0;
-    },
+    // savedRecipesCount() {
+    //   return this.favorites?.length || 0;
+    // },
 
     getUserInitials() {
       if (!this.user?.email) return "";
@@ -370,7 +369,7 @@ export default {
   },
 
   methods: {
-    ...mapActions(useFavoritesStore, ["loadFavorites"]),
+    // ...mapActions(useFavoritesStore, ["loadFavorites"]),
 
     async fetchUserData() {
       try {
@@ -444,25 +443,6 @@ export default {
         this.showDeleteConfirm = false;
       }
     },
-    // async handleDeleteAccount() {
-    //     try {
-    //         const auth = getAuth();
-    //         const user = auth.currentUser;
-                
-    //         await user.delete();
-    //         await signOut(auth); // Ensure proper cleanup
-    //         this.$router.push("/");
-    //     } catch (error) {
-    //         console.error("Error deleting account:", error);
-    //         if (error.code === 'auth/requires-recent-login') {
-    //         this.error = "Please log out and log back in before deleting your account.";
-    //         } else {
-    //         this.error = "Failed to delete account. Please try again.";
-    //         }
-    //     } finally {
-    //         this.showDeleteConfirm = false;
-    //     }
-    //     },
 
     toggleAvatarAnimation() {
       this.isAvatarAnimating = true;

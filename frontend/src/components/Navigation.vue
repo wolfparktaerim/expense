@@ -13,9 +13,9 @@
       <div class="flex items-center">
         <RouterLink 
           to="/" 
-          class="text-2xl font-bold text-purple-600 hover:text-purple-700 transition-colors duration-300"
+          class="text-2xl font-bold text-green-700 hover:text-green-800 transition-colors duration-300 font-sans"
         >
-          DishGenie
+          Muneh Thracker
         </RouterLink>
       </div>
 
@@ -23,25 +23,18 @@
       <div class="hidden md:flex items-center space-x-6">
         <!-- Search is available for both logged-in and logged-out users -->
         <RouterLink 
-          to="/search"
-          class="flex items-center space-x-1 text-gray-600 hover:text-purple-600 transition-all duration-300 ease-in-out hover:font-bold"
+          to="/track"
+          class="flex items-center space-x-1 text-gray-600 hover:text-green-700 transition-all duration-300 ease-in-out hover:font-bold"
         >
-          <Search class="w-4 h-4" />
-          <span>Search</span>
+          <ListPlus class="w-5 h-5" />
+          <span>Track</span>
         </RouterLink>
 
         <!-- Logged out navigation -->
         <template v-if="!isAuthenticated">
-          <a 
-            href="#HowItWorks"
-            class="flex items-center space-x-1 text-gray-600 hover:text-purple-600 transition-all duration-300 ease-in-out hover:font-bold"
-          >
-            <Info class="w-4 h-4" />
-            <span>How It Works</span>
-          </a>
           <button
             @click="login"
-            class="bg-purple-600 text-white px-6 py-2 rounded-full hover:bg-purple-700 transition-all duration-300 transform hover:scale-105 active:scale-95"
+            class="bg-green-700 text-white px-6 py-2 rounded-full hover:bg-green-800 transition-all duration-300 transform hover:scale-105 active:scale-95"
           >
             Log In
           </button>
@@ -50,29 +43,23 @@
         <!-- Logged in navigation -->
         <template v-else>
           <RouterLink 
-            to="/discover"
-            class="flex items-center space-x-1 text-gray-600 hover:text-purple-600 transition-all duration-300 ease-in-out hover:font-bold">
-          <Globe class="w-4 h-4" />
-            <span>Discover</span>
+            to="/dashboard"
+            class="flex items-center space-x-1 text-gray-600 hover:text-green-700 transition-all duration-300 ease-in-out hover:font-bold">
+          <Presentation class="w-5 h-5" />
+            <span>Dashboard</span>
           </RouterLink>
           <RouterLink 
-            to="/minigame"
-            class="flex items-center space-x-1 text-gray-600 hover:text-purple-600 transition-all duration-300 ease-in-out hover:font-bold">
-            <Gamepad2 class="w-4 h-4"/>
-            <span>Mini Game</span>
-          </RouterLink>
-          <RouterLink 
-            to="/saved"
-            class="flex items-center space-x-1 text-gray-600 hover:text-purple-600 transition-all duration-300 ease-in-out hover:font-bold">
-          <Bookmark class="w-4 h-4" />
-            <span>Saved</span>
+            to="/report"
+            class="flex items-center space-x-1 text-gray-600 hover:text-green-700 transition-all duration-300 ease-in-out hover:font-bold">
+            <ClipboardMinus class="w-5 h-5"/>
+            <span>Generate Report</span>
           </RouterLink>
           
           <!-- Profile Dropdown -->
           <div class="relative" v-click-outside="closeProfileMenu">
             <button
               @click="toggleProfileMenu"
-              class="flex items-center space-x-1 text-gray-600 hover:text-purple-600 focus:outline-none"
+              class="flex items-center space-x-1 text-gray-600 hover:text-green-700 focus:outline-none"
             >
               <User class="w-6 h-6" />
               <ChevronDown 
@@ -87,13 +74,13 @@
             >
               <RouterLink
                 to="/profile"
-                class="block px-4 py-2 text-sm text-gray-600 hover:bg-purple-50 hover:text-purple-600"
+                class="block px-4 py-2 text-sm text-gray-600 hover:bg-green-50 hover:text-green-600"
               >
                 Your Profile
               </RouterLink>
               <button
                 @click="confirmLogout"
-                class="w-full text-left px-4 py-2 text-sm text-gray-600 hover:bg-purple-50 hover:text-purple-600"
+                class="w-full text-left px-4 py-2 text-sm text-gray-600 hover:bg-green-50 hover:text-green-600"
               >
                 Log Out
               </button>
@@ -106,7 +93,7 @@
       <div class="md:hidden">
         <button
           @click="toggleMobileMenu"
-          class="text-gray-600 hover:text-purple-600 focus:outline-none"
+          class="text-gray-600 hover:text-green-700 focus:outline-none"
           aria-label="Toggle mobile menu"
         >
           <Menu v-if="!mobileMenuOpen" class="w-6 h-6" />
@@ -129,24 +116,16 @@
         class="md:hidden bg-white px-4 py-2 shadow-md"
       >
         <RouterLink
-          to="/search"
-          class="flex items-center space-x-2 py-2 text-gray-600 hover:text-purple-600"
+          to="/track"
+          class="flex items-center space-x-2 py-2 text-gray-600 hover:text-green-700"
           @click="mobileMenuOpen = false"
         >
-          <Search class="w-4 h-4" />
-          <span>Search</span>
+          <ListPlus class="w-4 h-4" />
+          <span>Track</span>
         </RouterLink>
 
         <!-- Logged out mobile navigation -->
         <template v-if="!isAuthenticated">
-          <a
-            href="#HowItWorks"
-            class="flex items-center space-x-2 py-2 text-gray-600 hover:text-purple-600"
-            @click="mobileMenuOpen = false"
-          >
-            <Info class="w-4 h-4" />
-            <span>How It Works</span>
-          </a>
           <button
             @click="login"
             class="w-full mt-2 bg-purple-600 text-white px-4 py-2 rounded-full hover:bg-purple-700 transition duration-300"
@@ -158,44 +137,35 @@
         <!-- Logged in mobile navigation -->
         <template v-else>
           <RouterLink 
-          to="/discover"
-          class="flex items-center space-x-2 py-2 text-gray-600 hover:text-purple-600"
+          to="/dashboard"
+          class="flex items-center space-x-2 py-2 text-gray-600 hover:text-green-700"
           @click="mobileMenuOpen = false"
           >
-            <Globe class="w-4 h-4" />
-            <span>Discover</span>
+            <Presentation class="w-4 h-4" />
+            <span>Dashboard</span>
           </RouterLink>
 
           <RouterLink 
-          to="/minigame"
-          class="flex items-center space-x-2 py-2 text-gray-600 hover:text-purple-600"
+          to="/report"
+          class="flex items-center space-x-2 py-2 text-gray-600 hover:text-green-700"
           @click="mobileMenuOpen = false"
           >
-            <Gamepad2 class="w-4 h-4" />
-            <span>Mini Game</span>
-          </RouterLink>
-
-          <RouterLink 
-          to="/saved"
-          class="flex items-center space-x-2 py-2 text-gray-600 hover:text-purple-600"
-          @click="mobileMenuOpen = false"
-          >
-            <Bookmark class="w-4 h-4" />
-            <span>Saved</span>
+            <ClipboardMinus class="w-4 h-4" />
+            <span>Generate Report</span>
           </RouterLink>
 
           <RouterLink
             v-for="(item, index) in loggedInMenuItems"
             :key="index"
             :to="item.path"
-            class="block py-2 text-gray-600 hover:text-purple-600"
+            class="block py-2 text-gray-600 hover:text-green-700"
             @click="mobileMenuOpen = false"
           >
             {{ item.name }}
           </RouterLink>
           <button
             @click="confirmLogout"
-            class="w-full mt-2 bg-purple-600 text-white px-4 py-2 rounded-full hover:bg-purple-700 transition duration-300"
+            class="w-full mt-2 bg-green-700 text-white px-4 py-2 rounded-full hover:bg-green-800 transition duration-300"
           >
             Log Out
           </button>
@@ -232,7 +202,7 @@
           >
             <DialogPanel class="bg-white p-6 rounded-xl shadow-xl max-w-md mx-4">
               <DialogTitle class="text-xl font-semibold mb-4 text-gray-800 flex items-center">
-                <LogOut class="w-5 h-5 text-purple-600 mr-2" />
+                <LogOut class="w-5 h-5 text-green-700 mr-2" />
                 Confirm Log Out
               </DialogTitle>
               <p class="text-gray-600 mb-6">
@@ -248,7 +218,7 @@
                 </button>
                 <button
                   @click="handleLogout"
-                  class="px-4 py-2 bg-gradient-to-r from-purple-500 to-purple-600 text-white rounded-lg hover:from-purple-600 hover:to-purple-700 transform hover:-translate-y-0.5 transition-all duration-300 flex items-center justify-center"
+                  class="px-4 py-2 bg-gradient-to-r from-green-600 to-green-700 text-white rounded-lg hover:from-green-700 hover:to-green-800 transform hover:-translate-y-0.5 transition-all duration-300 flex items-center justify-center"
                 >
                   <LogOut class="w-4 h-4 mr-2" />
                   Log Out
@@ -267,7 +237,7 @@ import { ref, onMounted, onBeforeUnmount } from 'vue'
 import { RouterLink, useRouter } from 'vue-router'
 import { storeToRefs } from 'pinia'
 import { useAuthStore } from '../stores/auth'
-import { Search, Globe, Bookmark, User, ChevronDown, Menu, X, LogOut, Gamepad2, Info } from 'lucide-vue-next'
+import { Search, Globe, Bookmark, User, ChevronDown, Menu, X, LogOut, Gamepad2, Info, ClipboardMinus, ListPlus, Presentation } from 'lucide-vue-next'
 import LoginModal from './LoginModal.vue'
 import { getAuth, signOut } from 'firebase/auth'
 import { Dialog, DialogPanel, DialogTitle, TransitionRoot, TransitionChild } from '@headlessui/vue'

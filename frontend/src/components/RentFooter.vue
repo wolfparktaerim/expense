@@ -20,7 +20,7 @@
         </div>
       </div>
       <div class="mt-8 text-center text-gray-400">
-        <p>&copy; {{ currentYear }} DishGenie. All rights reserved.</p>
+        <p>&copy; {{ currentYear }} Muneh Thracker</p>
       </div>
     </div>
   </footer>

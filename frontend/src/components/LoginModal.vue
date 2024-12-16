@@ -42,14 +42,14 @@
                 <p class="text-gray-600 text-center mb-8">{{ description }}</p>
 
                 <div v-if="loginMethod" class="space-y-4">
-                  <button 
+                  <!-- <button 
                     @click="selectMethod('email')" 
                     class="w-full py-3 px-4 bg-indigo-500 text-white rounded-lg hover:bg-indigo-600 transition-colors duration-200 flex items-center justify-center gap-2"
                     :disabled="isLoading"
                   >
                     <Mail class="w-5 h-5" />
                     Continue with Email
-                  </button>
+                  </button> -->
                   <button 
                     @click="selectMethod('google')" 
                     class="w-full py-3 px-4 bg-white text-gray-700 rounded-lg border border-gray-300 hover:bg-gray-50 transition-colors duration-200 flex items-center justify-center gap-2"
@@ -256,7 +256,7 @@ export default {
     return {
       loginMethod: true,
       title: 'Choose log in method',
-      description: `Enter your email to log in or register`,
+      description: "Currently only Google is supported, sorry for the inconvenience caused :(",
       emailLogin: false,
       isModalVisible: true,
       selectedMethod: null,
@@ -395,7 +395,6 @@ export default {
       const auth = getAuth();
       try {
         const signInMethods = await fetchSignInMethodsForEmail(auth, this.email);
-
         if (signInMethods.length === 0) {
           this.isNewUser = true;
           this.title = 'Create an account';
