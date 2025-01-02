@@ -2,7 +2,6 @@
 <template>
   <Navigation />
   <YourDashboard />
-  <TransactionTable :transactions="transactions" :rowsPerPage="8" @transaction-deleted="handleTransactionDeleted" />
 
 </template>
 
@@ -47,27 +46,7 @@ export default {
       }
     };
   },
-  created() {
-    // Initialize the transaction store
-    this.transactionsStore = userTransactions();
-    this.transactionsStore.loadTransactions().then(() => {
-      console.log('Loaded Transactions:', this.transactionsStore.transactions);  // Debugging line
-      this.transactions = this.transactionsStore.transactions;
-      this.loading = this.transactionsStore.loading;
-    }).catch((error) => {
-      console.error('Error loading transactions:', error);
-    });
-
-    // Call inspectDatabaseStructure to check the database structure
-    this.transactionsStore.inspectDatabaseStructure();
-  },
-  methods: {
-    handleTransactionDeleted(transactionId) {
-      this.transactions = this.transactions.filter(
-        (transaction) => transaction.id !== transactionId
-      );
-    },
-  },
+  
 
 };
 </script>

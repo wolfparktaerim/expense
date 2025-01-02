@@ -11,8 +11,7 @@
   import TransactionForms from "../components/TransactionForms.vue";
   
   export default {
-    name: 'SearchPage', 
-    //  Local Component Registration
+
     components: {
       Navigation,
       TransactionForms

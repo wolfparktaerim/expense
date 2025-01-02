@@ -49,6 +49,12 @@
             <span>Dashboard</span>
           </RouterLink>
           <RouterLink 
+            to="/table"
+            class="flex items-center space-x-1 text-gray-600 hover:text-green-700 transition-all duration-300 ease-in-out hover:font-bold">
+          <CircleDollarSign class="w-5 h-5" />
+            <span>All Transactions</span>
+          </RouterLink>
+          <RouterLink 
             to="/report"
             class="flex items-center space-x-1 text-gray-600 hover:text-green-700 transition-all duration-300 ease-in-out hover:font-bold">
             <ClipboardMinus class="w-5 h-5"/>
@@ -146,6 +152,15 @@
           </RouterLink>
 
           <RouterLink 
+          to="/table"
+          class="flex items-center space-x-2 py-2 text-gray-600 hover:text-green-700"
+          @click="mobileMenuOpen = false"
+          >
+            <CircleDollarSign class="w-4 h-4" />
+            <span>All Transactions</span>
+          </RouterLink>
+
+          <RouterLink 
           to="/report"
           class="flex items-center space-x-2 py-2 text-gray-600 hover:text-green-700"
           @click="mobileMenuOpen = false"
@@ -237,7 +252,7 @@ import { ref, onMounted, onBeforeUnmount } from 'vue'
 import { RouterLink, useRouter } from 'vue-router'
 import { storeToRefs } from 'pinia'
 import { useAuthStore } from '../stores/auth'
-import { Search, Globe, Bookmark, User, ChevronDown, Menu, X, LogOut, Gamepad2, Info, ClipboardMinus, ListPlus, Presentation } from 'lucide-vue-next'
+import { Search, Globe, Bookmark, User, ChevronDown, Menu, X, LogOut, Gamepad2, Info, ClipboardMinus, ListPlus, Presentation, CircleDollarSign } from 'lucide-vue-next'
 import LoginModal from './LoginModal.vue'
 import { getAuth, signOut } from 'firebase/auth'
 import { Dialog, DialogPanel, DialogTitle, TransitionRoot, TransitionChild } from '@headlessui/vue'

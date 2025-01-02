@@ -1,5 +1,5 @@
 <template>
-  <footer class="bg-gray-800 text-white py-8 mt-auto">
+  <footer class="bg-gray-800 text-white py-4 mt-8">
     <div class="container mx-auto px-4">
       <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
         <div v-for="section in footerSections" :key="section.title">
@@ -20,7 +20,7 @@
         </div>
       </div>
       <div class="mt-8 text-center text-gray-400">
-        <p>&copy; {{ currentYear }} Muneh Thracker</p>
+        <p>&copy; {{ currentYear }} WolfPTL's Muneh Thracker. All rights reserved.</p>
       </div>
     </div>
   </footer>

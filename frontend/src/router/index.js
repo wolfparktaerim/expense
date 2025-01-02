@@ -10,6 +10,7 @@ import Dashboard from '../views/Dashboard.vue'
 import Profile from '../views/Profile.vue'
 import NotFoundView from '../views/NotFoundView.vue'
 import Report from '../views/GenerateReport.vue'
+import Table from '../views/AllTransactions.vue'
 
 const routes = [
   { 
@@ -41,6 +42,12 @@ const routes = [
     path: '/:catchAll(.*)',
     component: NotFoundView,
     meta: { requiresAuth: false }
+  },
+  {
+    path:'/table',
+    component:Table,
+    meta:{requiresAuth: true}
+
   },
 ]
 

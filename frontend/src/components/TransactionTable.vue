@@ -1,8 +1,10 @@
 <template>
-    <div class="p-6 rounded-lg shadow-md">
-        <h1 class="text-3xl font-extrabold mb-6 text-center text-gray-800 tracking-wide underline decoration-green-500">
-            Tran<span class='text-green-700'>$</span>action Table
-        </h1>
+    <div class="p-6 rounded-lg shadow-md table-container">
+        <!-- Header -->
+        <div class="p-6 bg-gradient-to-r from-green-400 to-blue-500 rounded-md shadow-lg mb-6">
+            <h1 class="text-4xl font-extrabold text-center text-white">All Tran<span
+                    class="text-green-700">$</span>actions</h1>
+        </div>
 
         <!-- Table -->
         <div v-if="transactions.length > 0" class="overflow-x-auto">
@@ -31,7 +33,7 @@
                             {{ transaction.amount < 0 ? transaction.amount.toFixed(2) : '+' +
                                 transaction.amount.toFixed(2) }} </td>
 
-                        <!-- Category -->
+                                <!-- Category -->
                         <td class="px-6 py-4">{{ transaction.category }}</td>
 
                         <!-- Date -->
@@ -44,8 +46,7 @@
                             <template v-if="editingPeriodicId === transaction.id">
                                 <!-- Dropdown for editing -->
                                 <div class="flex items-center space-x-2">
-                                    <select v-model="temporaryPeriodic"
-                                        class="border rounded px-2 py-1">
+                                    <select v-model="temporaryPeriodic" class="border rounded px-2 py-1">
                                         <option value="Daily">Daily</option>
                                         <option value="Weekly">Weekly</option>
                                         <option value="Bi-Weekly">Bi-Weekly</option>
@@ -69,7 +70,8 @@
                                 </div>
                             </template>
                             <template v-else>
-                                <span   v-if="transaction.periodic && transaction.period != ''"  @click="editPeriodic(transaction)"
+                                <span v-if="transaction.periodic && transaction.period != ''"
+                                    @click="editPeriodic(transaction)"
                                     class="cursor-pointer hover:underline text-blue-500">
                                     {{ transaction.periodic ? transaction.period : '-' }}
                                 </span>
@@ -113,43 +115,51 @@
         </div>
 
         <!-- Pagination Controls -->
-        <div class="flex items-center justify-between mt-4" v-if="transactions.length > rowsPerPage">
-            <div class="flex items-center space-x-2">
+        <div class="w-full overflow-x-auto">
+            <div class="flex flex-row items-center justify-center gap-2 sm:gap-4 mt-6 px-4 min-w-max"
+                v-if="transactions.length > rowsPerPage">
+                <!-- Navigation Buttons -->
                 <button @click="goToPage(1)" :disabled="currentPage === 1"
-                    class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 disabled:opacity-50"
+                    class="px-2 sm:px-3 py-1.5 text-sm font-medium bg-white border border-gray-300 rounded-md hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                     title="Go to first page">
-                    « First
+                    <span class="hidden sm:inline">« First</span>
+                    <span class="sm:hidden">«</span>
                 </button>
                 <button @click="goToPage(currentPage - 1)" :disabled="currentPage === 1"
-                    class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 disabled:opacity-50"
+                    class="px-2 sm:px-3 py-1.5 text-sm font-medium bg-white border border-gray-300 rounded-md hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                     title="Go to previous page">
-                    Prev </button>
-            </div>
+                    <span class="hidden sm:inline">Previous</span>
+                    <span class="sm:hidden">‹</span>
+                </button>
 
-            <div class="text-gray-700">
-                Page {{ currentPage }} of {{ totalPages }}
+                <!-- Current Page Info and Go to Page -->
+                <span class="text-sm text-gray-700 whitespace-nowrap">
+                    Page <span class="font-medium">{{ currentPage }}</span> of <span class="font-medium">{{ totalPages
+                        }}</span>
+                </span>
 
-                <!-- Go to Page -->
-                <span v-if="transactions.length > rowsPerPage" class="mt-4 flex items-center space-x-2">
-                    <input v-model.number="gotoPageInput" type="number" class="w-16 px-2 py-1 border rounded"
+                <div class="flex items-center gap-1 sm:gap-2">
+                    <input v-model.number="gotoPageInput" type="number" min="1" :max="totalPages"
+                        class="w-14 sm:w-16 px-2 py-1.5 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                         placeholder="Page" />
                     <button @click="goToPage(gotoPageInput)"
-                        class="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600">
+                        class="px-2 sm:px-3 py-1.5 text-sm font-medium text-white bg-blue-500 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1 transition-colors">
                         Go
                     </button>
-                </span>
-            </div>
+                </div>
 
-            <div class="flex items-center space-x-2">
+                <!-- Navigation Buttons -->
                 <button @click="goToPage(currentPage + 1)" :disabled="currentPage === totalPages"
-                    class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 disabled:opacity-50"
+                    class="px-2 sm:px-3 py-1.5 text-sm font-medium bg-white border border-gray-300 rounded-md hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                     title="Go to next page">
-                    Next
+                    <span class="hidden sm:inline">Next</span>
+                    <span class="sm:hidden">›</span>
                 </button>
                 <button @click="goToPage(totalPages)" :disabled="currentPage === totalPages"
-                    class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 disabled:opacity-50"
+                    class="px-2 sm:px-3 py-1.5 text-sm font-medium bg-white border border-gray-300 rounded-md hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                     title="Go to last page">
-                    Last »
+                    <span class="hidden sm:inline">Last »</span>
+                    <span class="sm:hidden">»</span>
                 </button>
             </div>
         </div>
@@ -305,5 +315,32 @@ export default {
     -webkit-box-orient: vertical;
     overflow: hidden;
     text-overflow: ellipsis;
+}
+
+.table-container {
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes popIn {
+    from {
+        transform: scale(0.95);
+    }
+
+    to {
+        transform: scale(1);
+    }
 }
 </style>

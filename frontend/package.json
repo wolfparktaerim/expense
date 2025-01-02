@@ -10,6 +10,8 @@
   },
   "dependencies": {
     "@headlessui/vue": "^1.7.23",
+    "chart.js": "^4.4.7",
+    "chartjs-adapter-date-fns": "^3.0.0",
     "firebase": "^10.14.1",
     "globe.gl": "^2.33.1",
     "lucide-vue-next": "^0.454.0",

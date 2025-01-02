@@ -1,23 +1,25 @@
 <template>
-  <div class="min-h-screen flex items-center justify-center px-4 sm:px-8">
+  <div class="min-h-screen flex items-center justify-center px-4 sm:px-8 track-container pb-12">
+
     <div class="text-center">
       <!-- Message to User -->
       <p class="text-4xl sm:text-5xl font-extrabold text-gray-800 mb-4">Manage Your Finances Today!</p>
-      <p class="text-lg sm:text-xl font-bold text-gray-800 mb-6">
-        Press the buttons below & fill up the form to add your <span class='text-red-500'>expense</span>/<span class='text-green-500'>income</span>!
+      <p class="text-lg sm:text-xl font-bold text-gray-800 mb-6 mx-4">
+        Press the buttons below & fill up the form to add your <span class='text-red-500'>expense</span>/<span
+          class='text-green-500'>income</span>!
       </p>
 
       <!-- Buttons to Add Expense or Income -->
-      <div class="flex flex-col sm:flex-row justify-center gap-4 sm:gap-6 mb-9">
+      <div class="flex justify-center gap-2 sm:gap-4 mb-9">
         <button
-          class="px-8 py-4 text-lg sm:text-xl bg-red-500 text-white font-bold rounded-full shadow-md hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-400"
+          class="px-4 py-2 text-sm sm:px-8 sm:py-4 sm:text-lg bg-red-500 text-white font-bold rounded-full shadow-md hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-400 whitespace-nowrap"
           @click="openForm('expense')">
-          Add Your Expense $--
+          Add Expense $--
         </button>
         <button
-          class="px-8 py-4 text-lg sm:text-xl bg-green-500 text-white font-bold rounded-full shadow-md hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-400"
+          class="px-4 py-2 text-sm sm:px-8 sm:py-4 sm:text-lg bg-green-500 text-white font-bold rounded-full shadow-md hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-400 whitespace-nowrap"
           @click="openForm('income')">
-          Add Your Income $++
+          Add Income $++
         </button>
       </div>
 
@@ -258,5 +260,32 @@ export default {
 
 ::-webkit-scrollbar-thumb:hover {
   background: #a0aec0;
+}
+
+.track-container {
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes popIn {
+  from {
+    transform: scale(0.95);
+  }
+
+  to {
+    transform: scale(1);
+  }
 }
 </style>
