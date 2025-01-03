@@ -5,6 +5,7 @@ import { getAuth, onAuthStateChanged } from 'firebase/auth';
 
 export const userTransactions = defineStore('transactions', {
   state: () => ({
+    lastTransaction: null,
     transactions: [],
     loading: false,
     error: null
@@ -99,7 +100,7 @@ export const userTransactions = defineStore('transactions', {
               timestamp: Date.now(),
               periodic: false, // Disable periodic flag for new transactions
               nextDueDate: null, // Not applicable for non-periodic transactions
-              description: "(Auto-added by the system due to periodic nature) "+ transaction.description ,
+              description: "(Auto-added by the system due to periodic nature) " + transaction.description,
             };
 
             await this.addTransaction(newTransaction);
@@ -268,6 +269,66 @@ export const userTransactions = defineStore('transactions', {
       } catch (error) {
         console.error('Comprehensive Load Error:', error);
         this.transactions = [];
+      } finally {
+        this.loading = false;
+      }
+    },
+
+    async loadLastTransaction() {
+      try {
+        this.loading = true;
+        const auth = getAuth();
+        const userId = auth.currentUser?.uid;
+
+        console.log('user ID:', userId);
+
+        if (!userId) {
+          console.error('No authenticated user');
+          this.loading = false;
+          return;
+        }
+
+        const db = getDatabase();
+        const transactionsRef = ref(db, `users/${userId}/transactions`);
+
+        try {
+          const snapshot = await get(transactionsRef);
+
+          console.log('Snapshot Details:', {
+            exists: snapshot.exists(),
+            value: snapshot.val()
+          });
+
+          if (snapshot.exists()) {
+            const transactionsData = snapshot.val();
+            console.log('Raw Transactions Data:', transactionsData);
+
+            // Check if transactionsData is an object before proceeding
+            if (typeof transactionsData === 'object' && transactionsData !== null) {
+              // Convert object to array
+              const transactionsArray = Object.values(transactionsData)
+                .filter(transaction => transaction !== null);
+
+              // Sort by timestamp and get the most recent transaction (first element)
+              this.lastTransaction = transactionsArray
+                .sort((a, b) => (b.timestamp || 0) - (a.timestamp || 0))[0];
+
+              console.log('Most Recent Transaction:', this.lastTransaction);
+            } else {
+              console.log('Transactions data is not in expected format');
+              this.lastTransaction = null;
+            }
+          } else {
+            console.log('No transactions found for this user.');
+            this.lastTransaction = null;
+          }
+        } catch (getError) {
+          console.error('Error during database get:', getError);
+          this.lastTransaction = null;
+        }
+      } catch (error) {
+        console.error('Comprehensive Load Error:', error);
+        this.lastTransaction = null;
       } finally {
         this.loading = false;
       }

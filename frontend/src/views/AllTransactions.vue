@@ -7,7 +7,6 @@
   
   <script>
   import Navigation from "../components/Navigation.vue";
-  import YourDashboard from "../components/YourDashboard.vue";
   import TransactionTable from "../components/TransactionTable.vue";
   import { userTransactions } from '../stores/transactions.js';
   import { useToast } from 'vue-toastification';
