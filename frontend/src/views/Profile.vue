@@ -96,7 +96,7 @@
           </div>
 
           <p class="text-green-700 group-hover:text-green-800 text-sm mt-2 flex items-center">
-            View all expenses
+            View all your expenses/income
             <ChevronRight class="w-4 h-4 ml-1 transform group-hover:translate-x-1 transition-transform duration-300" />
           </p>
           <div
