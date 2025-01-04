@@ -1,8 +1,6 @@
 <template>
     <Navigation />
     <ReportGeneration/>
-    <h1 class="text-bold text-xxl mt-6">This Page is Currently Under Construction!</h1>
-
 </template>
 
 

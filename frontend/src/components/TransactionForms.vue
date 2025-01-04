@@ -24,94 +24,112 @@
       </div>
 
       <!-- Transaction Form Modal -->
-      <div v-if="showForm" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+      <div v-if="showForm" class="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 z-50">
         <div
-          class="relative bg-white rounded-lg shadow-lg w-11/12 sm:w-11/12 md:w-1/2 lg:w-1/3 p-6 max-h-[75vh] overflow-y-auto">
+          class="relative bg-white rounded-xl shadow-2xl w-11/12 sm:w-11/12 md:w-1/2 lg:w-1/3 p-8 max-h-[80vh] overflow-y-auto">
           <!-- Close Button -->
-          <button class="absolute top-2 right-2 text-gray-400 hover:text-gray-800" @click="closeForm">
-            ✕
+          <button class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 transition-colors duration-200"
+            @click="closeForm">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+            </svg>
           </button>
 
-          <h2 class="text-xl font-bold text-gray-800 mb-4">
-            {{ formType === 'expense' ? 'Add Expense' : 'Add Income' }}
-          </h2>
+          <!-- Header -->
+          <div class="mb-6">
+            <h2 class="text-2xl font-bold text-gray-800">
+              {{ formType === 'expense' ? 'Add Expense' : 'Add Income' }}
+            </h2>
+            <p class="text-sm text-gray-500 mt-1">Fill in the details below. (Fields with <span
+                class="text-red-500">*</span> are required.)</p>
+          </div>
 
-          <form @submit.prevent="handleAddTransaction" class="space-y-4">
+          <form @submit.prevent="handleAddTransaction" class="space-y-6">
             <!-- Activity Input -->
-            <div>
-              <label for="activity" class="block text-sm font-medium text-gray-700 w-1/3 text-left">Activity*</label>
+            <div class="space-y-2">
+              <label for="activity" class="block text-sm font-semibold text-gray-700">Activity<span
+                  class="text-red-500">*</span></label>
               <input type="text" id="activity" v-model="transaction.activity"
-                class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                placeholder="Enter activity name (eg: Buy book, eat at hawker center, salary...)" required />
+                class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white/50 transition-colors duration-200"
+                placeholder="Enter activity name (eg: Buy books, buy coffee, etc)" required />
             </div>
 
             <!-- Category Input -->
-            <div>
-              <label for="category" class="block text-sm font-medium text-gray-700 w-1/3 text-left">Category*</label>
+            <div class="space-y-2">
+              <label for="category" class="block text-sm font-semibold text-gray-700">Category<span
+                  class="text-red-500">*</span></label>
               <select id="category" v-model="transaction.category"
-                class="mt-1 block w-2/3 border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white/50 transition-colors duration-200"
                 required>
                 <option disabled value="">Select category</option>
-                <option v-for="category in (formType === 'expense' ? expenseCats : incomeCats)" :key="category">{{
-                  category }}</option>
+                <option v-for="category in (formType === 'expense' ? expenseCats : incomeCats)" :key="category">
+                  {{ category }}
+                </option>
               </select>
             </div>
 
             <!-- Amount Input -->
-            <div>
-              <label for="amount" class="block text-sm font-medium text-gray-700 w-1/3 text-left">Amount*</label>
-              <input type="number" id="amount" v-model.number="transaction.amount" step="0.01"
-                class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                placeholder="Enter amount" required />
+            <div class="space-y-2">
+              <label for="amount" class="block text-sm font-semibold text-gray-700">Amount<span
+                  class="text-red-500">*</span></label>
+              <div class="relative">
+                <span class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500">$</span>
+                <input type="number" id="amount" v-model.number="transaction.amount" step="0.01"
+                  class="w-full pl-8 pr-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white/50 transition-colors duration-200"
+                  placeholder="0.00" required />
+              </div>
             </div>
 
             <!-- Date Input -->
-            <div>
-              <label for="date" class="block text-sm font-medium text-gray-700 w-1/3 text-left">Date*</label>
+            <div class="space-y-2">
+              <label for="date" class="block text-sm font-semibold text-gray-700">Date<span
+                  class="text-red-500">*</span></label>
               <input type="date" id="date" v-model="transaction.date"
-                class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white/50 transition-colors duration-200"
                 required />
             </div>
 
             <!-- Description Input -->
-            <div>
-              <label for="description"
-                class="block text-sm font-medium text-gray-700 w-1/3 text-left">Description</label>
-              <textarea id="description" v-model="transaction.description"
-                class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                placeholder="Add a brief description (this is optional)"></textarea>
+            <div class="space-y-2">
+              <label for="description" class="block text-sm font-semibold text-gray-700">Description</label>
+              <textarea id="description" v-model="transaction.description" rows="3"
+                class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white/50 transition-colors duration-200"
+                placeholder="Add a brief description (optional)"></textarea>
             </div>
 
             <!-- Periodic Checkbox and Frequency Options -->
-            <div>
-              <label class="flex items-center space-x-2">
+            <div class="space-y-3 p-4 bg-gray-50 rounded-lg">
+              <label class="flex items-center space-x-3 cursor-pointer">
                 <input type="checkbox" v-model="transaction.periodic"
-                  class="h-4 w-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500" />
+                  class="w-5 h-5 text-blue-600 border-gray-300 rounded focus:ring-blue-500 cursor-pointer" />
                 <span class="text-sm font-medium text-gray-700">Periodic Transaction</span>
               </label>
-              <div v-if="transaction.periodic" class="mt-2 space-y-2">
-                <label v-for="period in periods" :key="period" class="flex items-center space-x-2">
+              <div v-if="transaction.periodic" class="ml-8 space-y-2">
+                <label v-for="period in periods" :key="period"
+                  class="flex items-center space-x-3 cursor-pointer hover:bg-gray-100 p-2 rounded-md transition-colors duration-200">
                   <input type="radio" :value="period" v-model="transaction.period"
-                    class="h-4 w-4 text-indigo-600 border-gray-300 focus:ring-indigo-500" />
+                    class="w-4 h-4 text-blue-600 border-gray-300 focus:ring-blue-500 cursor-pointer" />
                   <span class="text-sm font-medium text-gray-700">{{ period }}</span>
                 </label>
               </div>
             </div>
 
             <!-- Form Buttons -->
-            <div class="flex justify-between items-center mt-4 space-x-2">
+            <div class="flex justify-end items-center gap-4 pt-4 border-t">
               <button type="button" @click="closeForm"
-                class="px-4 py-2 bg-red-500 text-white rounded-md shadow-md hover:bg-red-600 text-sm sm:text-base">
+                class="px-6 py-2.5 bg-white border border-gray-300 text-gray-700 rounded-lg shadow-sm hover:bg-gray-50 hover:border-gray-400 font-medium transition-colors duration-200">
                 Cancel
               </button>
               <button type="submit"
-                class="px-4 py-2 bg-blue-500 text-white rounded-md shadow-md hover:bg-blue-600 text-sm sm:text-base">
+                class="px-6 py-2.5 bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-lg shadow-md hover:from-blue-600 hover:to-blue-700 font-medium transform hover:-translate-y-0.5 active:translate-y-0 transition-all duration-200">
                 Submit
               </button>
             </div>
           </form>
         </div>
       </div>
+      <!-- Form Model ends here -->
+
     </div>
   </div>
 </template>

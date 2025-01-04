@@ -2,7 +2,6 @@
 <template>
   <Navigation />
   <YourDashboard />
-
 </template>
 
 <script>

@@ -1,5 +1,6 @@
 <template>
     <div class="dashboard-container p-6">
+
         <!-- Header -->
         <div class="p-6 bg-gradient-to-r from-green-400 to-blue-500 rounded-md shadow-lg mb-6">
             <h1 class="text-4xl font-extrabold text-center text-white">Your Da<span
@@ -7,29 +8,39 @@
         </div>
 
         <!-- Statistic Boxes -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 p-4">
             <div
-                class="stat-box bg-blue-100 text-blue-700 p-6 rounded-lg shadow-lg hover:shadow-xl hover:scale-105 transition-transform duration-300 ease-in-out">
-                <h3 class="text-lg font-semibold pb-6">Total Expense</h3>
-                <h1 class="text-3xl font-bold pb-6">{{ formatCurrency(totalExpense) }}</h1>
+                class="bg-blue-50 border border-blue-100 rounded-xl p-6 flex flex-col space-y-4 hover:bg-blue-100 transition-all duration-300 ease-in-out group">
+                <h3 class="text-blue-600 text-sm font-medium uppercase tracking-wider">Total Expense</h3>
+                <h1 class="text-blue-700 text-4xl font-bold group-hover:scale-105 transition-transform pb-5">
+                    {{ formatCurrency(totalExpense) }}
+                </h1>
             </div>
+
             <div
-                class="stat-box bg-green-100 text-green-700 p-6 rounded-lg shadow-lg hover:shadow-xl hover:scale-105 transition-transform duration-300 ease-in-out">
-                <h3 class="text-lg font-semibold pb-6">Total Income</h3>
-                <h1 class="text-3xl font-bold pb-6">{{ formatCurrency(totalIncome) }}</h1>
+                class="bg-emerald-50 border border-emerald-100 rounded-xl p-6 flex flex-col space-y-4 hover:bg-emerald-100 transition-all duration-300 ease-in-out group">
+                <h3 class="text-emerald-600 text-sm font-medium uppercase tracking-wider">Total Income</h3>
+                <h1 class="text-emerald-700 text-4xl font-bold group-hover:scale-105 transition-transform pb-5">
+                    {{ formatCurrency(totalIncome) }}
+                </h1>
             </div>
+
             <div
-                class="stat-box bg-yellow-100 text-yellow-700 p-6 rounded-lg shadow-lg hover:shadow-xl hover:scale-105 transition-transform duration-300 ease-in-out">
-                <h3 class="text-lg font-semibold pb-6">Net Income</h3>
-                <h1 class="text-3xl font-bold pb-6">{{ formatCurrency(netExpense) }}</h1>
+                class="bg-amber-50 border border-amber-100 rounded-xl p-6 flex flex-col space-y-4 hover:bg-amber-100 transition-all duration-300 ease-in-out group">
+                <h3 class="text-amber-600 text-sm font-medium uppercase tracking-wider">Net Income</h3>
+                <h1 class="text-amber-700 text-4xl font-bold group-hover:scale-105 transition-transform pb-5">
+                    {{ formatCurrency(netExpense) }}
+                </h1>
             </div>
+
             <div
-                class="stat-box bg-red-100 text-red-700 p-6 rounded-lg shadow-lg hover:shadow-xl hover:scale-105 transition-transform duration-300 ease-in-out">
-                <h3 class="text-lg font-semibold pb-6">Most Spent Category</h3>
-                <h1 class="text-3xl font-bold pb-6">{{ mostSpentCategory }}</h1>
+                class="bg-rose-50 border border-rose-100 rounded-xl p-6 flex flex-col space-y-4 hover:bg-rose-100 transition-all duration-300 ease-in-out group">
+                <h3 class="text-rose-600 text-sm font-medium uppercase tracking-wider">Most Spent Category</h3>
+                <h1 class="text-rose-700 text-4xl font-bold group-hover:scale-105 transition-transform pb-5">
+                    {{ mostSpentCategory }}
+                </h1>
             </div>
         </div>
-
 
         <!-- Chart and Graph -->
         <div class="charts-container mt-10">
