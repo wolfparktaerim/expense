@@ -162,7 +162,6 @@ export default {
         },
     },
     methods: {
-
         async fetchTransactions() {
             const store = userTransactions();
             await store.loadTransactions();
@@ -202,18 +201,25 @@ export default {
                 return matchesType && matchesDate && matchesCategory;
             });
 
-            this.totalAmount = this.generatedReport.reduce(
-                (sum, t) => sum + t.amount,
-                0
-            );
+            // Calculate totalAmount from the filtered generatedReport
+            this.totalAmount = Math.abs(
+                this.generatedReport.reduce(
+                    (sum, t) => sum + t.amount,
+                    0
+                )
+            )
 
-            const income = this.transactions
-                .filter((t) => t.amount > 0)
+            // Calculate income and expense considering category filter
+            const filteredIncome = this.transactions
+                .filter((t) => t.amount > 0 && (!category || t.category === category))
                 .reduce((sum, t) => sum + t.amount, 0);
-            const expense = this.transactions
-                .filter((t) => t.amount < 0)
+
+            const filteredExpense = this.transactions
+                .filter((t) => t.amount < 0 && (!category || t.category === category))
                 .reduce((sum, t) => sum + Math.abs(t.amount), 0);
-            this.netIncome = income - expense;
+
+            // Net income is calculated based on the filtered income and expense
+            this.netIncome = filteredIncome - filteredExpense;
         },
 
         exportToPDF() {
@@ -319,7 +325,7 @@ export default {
             return new Intl.NumberFormat("en-US", {
                 style: "currency",
                 currency: "USD",
-            }).format(Math.abs(value));
+            }).format(value);
         },
     },
 
