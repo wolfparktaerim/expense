@@ -1,6 +1,5 @@
 <template>
   <div class="min-h-screen flex items-center justify-center px-4 sm:px-8 track-container pb-12">
-
     <div class="text-center">
       <!-- Message to User -->
       <p class="text-4xl sm:text-5xl font-extrabold text-gray-800 mb-4">Manage Your Finances Today!</p>

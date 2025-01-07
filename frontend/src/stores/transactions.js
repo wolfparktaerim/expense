@@ -67,14 +67,16 @@ export const userTransactions = defineStore('transactions', {
       try {
         // Get current timestamp
         const now = Date.now();
-        console.log(`[autoAddPeriodicTransactions] Current time: ${new Date(now).toISOString()}`);
+        console.log(`[autoAddPeriodicTransactions] Current time: ${now}`);
 
         // Filter periodic transactions that are overdue
         const periodicTransactions = this.transactions.filter(
-          (transaction) => transaction.periodic && transaction.nextDueDate <= now
+          (transaction) => transaction.periodic
         );
 
         console.log(`[autoAddPeriodicTransactions] Found ${periodicTransactions.length} periodic transactions due.`);
+
+        console.log(`[autoAddPeriodicTransactions] Periodic Transaction List: .`, periodicTransactions);
 
         const db = getDatabase();
         const userId = getAuth().currentUser?.uid;
@@ -85,6 +87,7 @@ export const userTransactions = defineStore('transactions', {
 
         for (const transaction of periodicTransactions) {
           let oldDueDate = transaction.nextDueDate;
+          console.log('Due Date date: ',new Date(oldDueDate).toISOString() );
 
           // Generate missed dates sequentially
           while (oldDueDate <= now) {

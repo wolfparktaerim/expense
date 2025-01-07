@@ -1,25 +1,21 @@
-<!-- Home.vue -->
 <template>
   <div class="relative">
     <!-- Login Modal -->
-     <!-- <component :is="components.LoginModal-->
-      <!-- This syntax dynamically loads the component by referencing it from components in data(). -->
     <component :is="components.LoginModal" v-if="showLogin" @close="showLogin = false" />
     
-    
     <!-- Background container -->
-    <div class="fixed inset-0 ">
-      <div class="absolute -right-20 top-1/4 h-96 w-96 rounded-full "></div>
-      <div class="absolute -left-20 top-1/3 h-72 w-72 rounded-full "></div>
-      <div class="absolute right-1/4 bottom-1/4 h-80 w-80 rounded-full "></div>
+    <div class="fixed inset-0">
+      <div class="absolute -right-20 top-1/4 h-96 w-96 rounded-full"></div>
+      <div class="absolute -left-20 top-1/3 h-72 w-72 rounded-full"></div>
+      <div class="absolute right-1/4 bottom-1/4 h-80 w-80 rounded-full"></div>
     </div>
 
-    <!-- Content container -->
-    <div class="relative min-h-screen">
+    <!-- Content container - Changed from min-h-screen to h-screen and added flex column -->
+    <div class="relative h-screen flex flex-col">
       <Navigation />
       
-      <main class="relative">
-        <div class="animated-container">
+      <main class="relative flex-grow">
+        <div class="animated-container h-full flex flex-col justify-between">
           <TagLine 
             class="animate-up" 
             @show-login="showLogin = true"
@@ -35,8 +31,6 @@
 import RentFooter from "../components/RentFooter.vue";
 import Navigation from "../components/Navigation.vue";
 import TagLine from "../components/TagLine.vue";
-
-// Import LoginModal and VideoModal
 import LoginModal from "../components/LoginModal.vue";
 
 export default {
@@ -48,7 +42,7 @@ export default {
   data() {
     return {
       showLogin: false,
-      components: { // Register components here for use with <component :is="">
+      components: {
         LoginModal,
       }
     };

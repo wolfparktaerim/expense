@@ -1,8 +1,8 @@
 <template>
-    <div class="dashboard-container p-6">
+    <div class="dashboard-container pb-6">
 
         <!-- Header -->
-        <div class="p-6 bg-gradient-to-r from-green-400 to-blue-500 rounded-md shadow-lg mb-6">
+        <div class="p-6 bg-gradient-to-r from-green-400 to-blue-500 shadow-lg mb-6">
             <h1 class="text-4xl font-extrabold text-center text-white">Your Da<span
                     class="text-green-700">$</span>hboard</h1>
         </div>
