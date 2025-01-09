@@ -112,7 +112,7 @@ export const userTransactions = defineStore('transactions', {
 
             let transactionExists = false;
 
-            // Check for duplicate transactions by comparing the id, date, and description
+            // Check for duplicate transactions by comparing the date and description only
             for (const id in existingTransactions) {
               const existingTransaction = existingTransactions[id];
               if (
