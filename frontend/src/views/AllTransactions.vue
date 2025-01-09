@@ -48,7 +48,7 @@
       // Initialize the transaction store
       this.transactionsStore = userTransactions();
       this.transactionsStore.loadTransactions().then(() => {
-        console.log('Loaded Transactions:', this.transactionsStore.transactions);  // Debugging line
+        // console.log('Loaded Transactions:', this.transactionsStore.transactions);  // Debugging line
         this.transactions = this.transactionsStore.transactions;
         this.loading = this.transactionsStore.loading;
       }).catch((error) => {

@@ -87,7 +87,6 @@ export const userTransactions = defineStore('transactions', {
 
         for (const transaction of periodicTransactions) {
           let oldDueDate = transaction.nextDueDate;
-          console.log('Due Date date: ',new Date(oldDueDate).toISOString() );
 
           // Generate missed dates sequentially
           while (oldDueDate <= now) {
@@ -106,7 +105,32 @@ export const userTransactions = defineStore('transactions', {
               description: "(Auto-added by the system due to periodic nature) " + transaction.description,
             };
 
-            await this.addTransaction(newTransaction);
+            // Check if this new transaction already exists in the database
+            const existingTransactionRef = ref(db, `users/${userId}/transactions`);
+            const snapshot = await get(existingTransactionRef);
+            const existingTransactions = snapshot.val();
+
+            let transactionExists = false;
+
+            // Check for duplicate transactions by comparing the id, date, and description
+            for (const id in existingTransactions) {
+              const existingTransaction = existingTransactions[id];
+              if (
+                existingTransaction.date === newTransaction.date &&
+                existingTransaction.description === newTransaction.description
+              ) {
+                transactionExists = true;
+                break; // Exit the loop if a duplicate is found
+              }
+            }
+
+            // If the transaction doesn't exist, add it
+            if (!transactionExists) {
+              await this.addTransaction(newTransaction);
+              console.log(`[autoAddPeriodicTransactions] New transaction added: ${newTransaction.description}`);
+            } else {
+              console.log(`[autoAddPeriodicTransactions] Transaction already exists: ${newTransaction.description}`);
+            }
 
             // Update `oldDueDate` to prevent duplicate processing
             oldDueDate = nextDueDate;
@@ -226,7 +250,7 @@ export const userTransactions = defineStore('transactions', {
         const auth = getAuth();
         const userId = auth.currentUser?.uid;
 
-        console.log('user ID : ', userId)
+        // console.log('user ID : ', userId)
 
         if (!userId) {
           console.error('No authenticated user');
@@ -240,14 +264,14 @@ export const userTransactions = defineStore('transactions', {
         try {
           const snapshot = await get(transactionsRef);
 
-          console.log('Snapshot Details:', {
-            exists: snapshot.exists(),
-            value: snapshot.val()
-          });
+          // console.log('Snapshot Details:', {
+          //   exists: snapshot.exists(),
+          //   value: snapshot.val()
+          // });
 
           if (snapshot.exists()) {
             const transactionsData = snapshot.val();
-            console.log('Raw Transactions Data:', transactionsData);
+            // console.log('Raw Transactions Data:', transactionsData);
 
             // Check if transactionsData is an object before converting
             if (typeof transactionsData === 'object' && transactionsData !== null) {
@@ -256,7 +280,7 @@ export const userTransactions = defineStore('transactions', {
                 .filter(transaction => transaction !== null)
                 .sort((a, b) => (b.timestamp || 0) - (a.timestamp || 0));
 
-              console.log('Processed Transactions:', this.transactions);
+              // console.log('Processed Transactions:', this.transactions);
             } else {
               console.log('Transactions data is not in expected format');
               this.transactions = [];
@@ -354,14 +378,14 @@ export const userTransactions = defineStore('transactions', {
         const userRef = ref(db, `users/${userId}`);
         const userSnapshot = await get(userRef);
 
-        console.log('Full User Node Structure:', {
-          exists: userSnapshot.exists(),
-          value: userSnapshot.val()
-        });
+        // console.log('Full User Node Structure:', {
+        //   exists: userSnapshot.exists(),
+        //   value: userSnapshot.val()
+        // });
 
         // Log all child nodes under user
         const fullUserData = userSnapshot.val();
-        console.log('User Node Children:', Object.keys(fullUserData || {}));
+        // console.log('User Node Children:', Object.keys(fullUserData || {}));
       } catch (error) {
         console.error('Database Structure Inspection Error:', error);
       }
