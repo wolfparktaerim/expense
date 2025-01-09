@@ -7,7 +7,7 @@
         </div>
 
         <!-- Table -->
-        <div v-if="transactions.length > 0" class="overflow-x-auto">
+        <div v-if="transactions.length > 0" class="overflow-x-auto mx-6">
             <table class="w-full text-sm text-left text-gray-500 table-auto">
                 <thead class="text-xs text-gray-700 uppercase bg-gray-200">
                     <tr>

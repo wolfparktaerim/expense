@@ -9,7 +9,7 @@
 
         <!-- Filters Section -->
         <div
-            class="space-y-6 bg-gray-50/50 p-6 rounded-xl border border-gray-200 backdrop-blur-sm shadow-sm hover:shadow-md transition-all duration-300">
+            class="space-y-6 bg-gray-50/50 p-6 rounded-xl border border-gray-200 backdrop-blur-sm shadow-sm hover:shadow-md transition-all duration-300 mx-6">
             <div class="flex gap-6">
                 <div class="w-1/2">
                     <label for="type" class="block text-sm font-semibold text-gray-700 mb-2">Type</label>
@@ -47,7 +47,7 @@
         </div>
 
         <!-- Action Buttons -->
-        <div class="flex justify-end mt-6">
+        <div class="flex justify-end mt-6 mr-6">
             <button @click="generateReport"
                 class="inline-flex items-center px-6 py-3 bg-gradient-to-r from-emerald-500 to-green-600 text-white font-semibold rounded-lg shadow-md hover:shadow-lg hover:from-emerald-600 hover:to-green-700 active:shadow-inner transform hover:-translate-y-0.5 active:translate-y-0 transition-all duration-200">
                 <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -59,8 +59,8 @@
         </div>
 
         <!-- Report Preview -->
-        <div v-if="generatedReport.length > 0" class="report-preview mt-6">
-            <h2 class="text-lg font-medium mb-2 text-center">{{ reportTitle }}</h2>
+        <div v-if="generatedReport.length > 0" class="report-preview mt-6 mx-6">
+            <h2 class="text-lg font-bold mb-2 text-center">{{ reportTitle }}</h2>
             <p class="text-center text-sm mb-4 mt-4" v-if="filters.startDate && filters.endDate">
                 Start Date: {{ filters.startDate }} &nbsp; &nbsp; End Date: {{ filters.endDate }}
             </p>
@@ -99,7 +99,7 @@
         </div>
 
         <!-- Export Buttons -->
-        <div v-if="generatedReport.length > 0" class="flex gap-4 mt-6">
+        <div v-if="generatedReport.length > 0" class="flex gap-4 mt-6 mx-6">
             <button @click="exportToPDF"
                 class="flex-1 inline-flex items-center justify-center px-6 py-3 bg-gradient-to-r from-blue-500 to-blue-600 text-white font-semibold rounded-lg shadow-md hover:shadow-lg hover:from-blue-600 hover:to-blue-700 active:shadow-inner transform hover:-translate-y-0.5 active:translate-y-0 transition-all duration-200">
                 <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -116,7 +116,7 @@
                 </svg>
                 Export to Excel
             </button>
-            <button @click="exportToImage"
+            <button @click="exportToImg"
                 class="flex-1 inline-flex items-center justify-center px-6 py-3 bg-gradient-to-r from-purple-500 to-purple-600 text-white font-semibold rounded-lg shadow-md hover:shadow-lg hover:from-purple-600 hover:to-purple-700 active:shadow-inner transform hover:-translate-y-0.5 active:translate-y-0 transition-all duration-200">
                 <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -222,7 +222,7 @@ export default {
             this.netIncome = filteredIncome - filteredExpense;
         },
 
-        exportToPDF() {
+        async exportToPDF() {
             const pdf = new jsPDF("p", "mm", "a4");
 
             // Title
@@ -317,6 +317,42 @@ export default {
                 link.href = URL.createObjectURL(blob);
                 link.download = 'statement_report.xlsx';
                 link.click();
+            });
+        },
+
+        async exportToImg() {
+            // Capture the report preview section by its class
+            const reportElement = this.$el.querySelector('.report-preview');
+
+            // Ensure the element is fully visible, not clipped
+            reportElement.style.overflow = 'visible'; // Make sure content is not hidden
+
+            // Use html2canvas with custom options to ensure full capture
+            html2canvas(reportElement, {
+                scrollX: 0,
+                scrollY: 0,
+                width: reportElement.scrollWidth + 20,  // Add padding to ensure it fits
+                height: reportElement.scrollHeight + 20, // Add padding
+                x: 0,
+                y: 0,
+                scale: 3,  // Increase scale for higher resolution capture
+                useCORS: true, // Enable CORS to load external resources like images
+                logging: true, // Enable logging to help debug if needed
+                allowTaint: true, // Allow tainting of images
+                backgroundColor: '#ffffff', // Ensure the background is white for better contrast
+            }).then((canvas) => {
+                // Create an image from the canvas
+                const imgData = canvas.toDataURL('image/png');
+
+                // Create a link element to trigger the download
+                const link = document.createElement('a');
+                link.href = imgData;
+                link.download = 'report.png';  // Name of the file to be downloaded
+
+                // Simulate a click to trigger the download
+                link.click();
+            }).catch((error) => {
+                console.error("Error exporting to image:", error);
             });
         },
 
