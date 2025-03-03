@@ -1,16 +1,16 @@
-import { createApp } from 'vue'
-import { createPinia } from 'pinia'
-import './style.css'
-import App from './App.vue'
-import LoginModal from './components/LoginModal.vue'
-import router from './router'
+import { createApp } from "vue";
+import { createPinia } from "pinia";
+import "./style.css";
+import App from "./App.vue";
+import LoginModal from "./components/LoginModal.vue";
+import router from "./router";
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
-import { getDatabase } from 'firebase/database';
-import Toast from 'vue-toastification';
-import 'vue-toastification/dist/index.css';
+import { getDatabase } from "firebase/database";
+import Toast from "vue-toastification";
+import "vue-toastification/dist/index.css";
 
-// Your web app's Firebase configuration
+// Firebase configuration
 
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
@@ -18,7 +18,8 @@ const firebaseConfig = {
   projectId: "expense-38776",
   storageBucket: "expense-38776.firebasestorage.app",
   messagingSenderId: "976334222204",
-  databaseURL: "https://expense-38776-default-rtdb.asia-southeast1.firebasedatabase.app",
+  databaseURL:
+    "https://expense-38776-default-rtdb.asia-southeast1.firebasedatabase.app",
   appId: import.meta.env.VITE_FIREBASE_APP_ID,
   measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID,
 };
@@ -31,11 +32,11 @@ const analytics = getAnalytics(firebaseApp);
 const app = createApp(App);
 const pinia = createPinia();
 
-app.use(Toast,{
+app.use(Toast, {
   transition: "Vue-Toastification__fade",
   maxToasts: 2,
   newestOnTop: true,
-  filterToasts: toasts => {
+  filterToasts: (toasts) => {
     // Keep track of existing types
     const types = {};
     return toasts.reduce((aggToasts, toast) => {
@@ -46,9 +47,9 @@ app.use(Toast,{
       }
       return aggToasts;
     }, []);
-  }
+  },
 });
 app.use(pinia);
-app.component('LoginModal', LoginModal);
+app.component("LoginModal", LoginModal);
 app.use(router);
-app.mount('#app');
+app.mount("#app");

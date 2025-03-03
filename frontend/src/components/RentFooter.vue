@@ -4,7 +4,7 @@
       <div class="flex justify-center space-x-6 mb-4">
         <div class="group relative">
           <a 
-            href="https://www.linkedin.com/in/tailin-piao-9040bb287" 
+            href="https://www.linkedin.com/in/tailin-piao/" 
             target="_blank" 
             rel="noopener noreferrer"
             class="block"
