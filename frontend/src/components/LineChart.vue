@@ -1,4 +1,3 @@
-
 <template>
   <div class="line-chart-container">
     <div v-if="loading" class="absolute inset-0 flex items-center justify-center bg-white bg-opacity-80 z-10">
@@ -51,7 +50,7 @@
     </div>
 
     <div class="chart-container relative">
-      <canvas ref="chartCanvas"></canvas>
+      <canvas :id="chartId" ref="chartCanvas"></canvas>
     </div>
 
     <div class="chart-details mt-4 text-sm text-gray-500" v-if="showDetails">
@@ -104,8 +103,7 @@ export default {
     const isCumulative = ref(false);
     const selectedTimeRange = ref('all');
     const selectedCategory = ref('all');
-    let chartInstance = null;
-    let resizeTimeout = null;
+
 
     // Computed statistics for the current chart data
     const chartStats = computed(() => {
@@ -238,16 +236,10 @@ export default {
       updateChart();
     };
 
-    const cleanupChart = () => {
-      if (chartInstance) {
-        chartInstance.destroy();
-        chartInstance = null;
-      }
-    };
 
     const updateChart = () => {
       if (!chartCanvas.value) return;
-      
+
       if (!chartInstance) {
         initializeChart();
         return;
@@ -259,7 +251,7 @@ export default {
         setTimeout(() => {
           try {
             const filteredData = filterData(props.data);
-            
+
             // Check if chart still exists (could have been destroyed during timeout)
             if (!chartInstance) {
               initializeChart();
@@ -354,8 +346,9 @@ export default {
         },
         scales: {
           x: {
+            type: 'time',  // Make sure this is explicitly set
             grid: {
-              display: !isMobile, // Hide grid on mobile
+              display: !isMobile,
               color: 'rgba(0, 0, 0, 0.05)',
               tickColor: 'rgba(0, 0, 0, 0.15)'
             },
@@ -374,9 +367,17 @@ export default {
               minRotation: labelRotation,
               autoSkip: true,
               maxTicksLimit: maxTicksLimit,
-              padding: isMobile ? 12 : 8 // Add padding between labels and axis
+              padding: isMobile ? 12 : 8
             },
-            offset: true, // This helps with bar charts
+            // Add these time options to control date formatting
+            time: {
+              unit: 'day',
+              displayFormats: {
+                day: 'MMM d, yyyy'  // Format as "Jan 1, 2023"
+              },
+              tooltipFormat: 'MMM d, yyyy'
+            },
+            offset: true
           },
           y: {
             grid: {
@@ -421,59 +422,68 @@ export default {
         }
       };
     };
+    const chartId = ref(`chart-${Date.now()}-${Math.floor(Math.random() * 1000)}`);
+    let chartInstance = null;
+    let destroyInProgress = false;
+    const cleanupChart = () => {
+      if (destroyInProgress) return;
 
-    const initializeChart = () => {
-      // Clean up any existing chart
-      cleanupChart();
-      
-      if (!chartCanvas.value) return;
-      
-      const ctx = chartCanvas.value.getContext("2d");
-      if (!ctx) return;
-      
-      if (!props.data || !props.data.datasets || props.data.datasets.length === 0) return;
-      
-      try {
-        loading.value = true;
-
-        // Filter data based on current settings
-        const filteredData = filterData(props.data);
-        
-        // Get responsive chart options
-        const chartOptions = {
-          ...getResponsiveChartOptions(),
-          // Merge with provided options if any
-          ...(filteredData.options || {})
-        };
-
-        // Create the new chart instance with a small delay to ensure DOM is ready
-        setTimeout(() => {
-          try {
-            chartInstance = new Chart(ctx, {
-              type: chartType.value,
-              data: {
-                datasets: filteredData.datasets
-              },
-              options: chartOptions
-            });
-          } catch (error) {
-            console.error('Error creating chart:', error);
-          } finally {
-            loading.value = false;
-          }
-        }, 50);
-      } catch (error) {
-        console.error('Error in initializeChart:', error);
-        loading.value = false;
+      if (chartInstance) {
+        destroyInProgress = true;
+        try {
+          chartInstance.destroy();
+        } catch (error) {
+          console.error('Error destroying chart:', error);
+        } finally {
+          chartInstance = null;
+          destroyInProgress = false;
+        }
       }
+    };
+    const initializeChart = () => {
+      // Clean up first
+      cleanupChart();
+
+      // Wait for DOM to be ready and prevent race conditions
+      setTimeout(() => {
+        if (!chartCanvas.value) return;
+
+        try {
+          const ctx = chartCanvas.value.getContext("2d");
+          if (!ctx) return;
+
+          if (!props.data || !props.data.datasets || props.data.datasets.length === 0) return;
+
+          // Filter data based on current settings
+          const filteredData = filterData(props.data);
+
+          // Generate responsive options
+          const chartOptions = getResponsiveChartOptions();
+
+          // Create the new chart instance
+          chartInstance = new Chart(ctx, {
+            type: chartType.value,
+            data: {
+              datasets: filteredData.datasets
+            },
+            options: chartOptions
+          });
+
+          loading.value = false;
+        } catch (error) {
+          console.error('Error creating chart:', error);
+          loading.value = false;
+        }
+      }, 50);
     };
 
     // Debounced resize handler
+    let resizeTimeout = null;
     const handleResize = () => {
       if (resizeTimeout) {
         clearTimeout(resizeTimeout);
       }
-      
+
       resizeTimeout = setTimeout(() => {
         cleanupChart();
         initializeChart();
@@ -481,39 +491,37 @@ export default {
     };
 
     // Watch for data changes
-    watch(
-      () => props.data,
-      (newData) => {
-        if (newData && newData.datasets) {
-          if (chartInstance) {
-            updateChart();
-          } else {
-            initializeChart();
-          }
-        }
-      },
-      { deep: true }
-    );
+    watch(() => props.data, (newData) => {
+      if (newData && newData.datasets) {
+        // Cleanup first
+        cleanupChart();
+
+        // Then initialize 
+        setTimeout(() => {
+          initializeChart();
+        }, 50);
+      }
+    }, { deep: true });
 
     onMounted(() => {
-      // Delay initialization to ensure DOM is ready
+      // Wait for DOM to be ready
       setTimeout(() => {
         initializeChart();
-      }, 50);
-      
+      }, 100);
+
       window.addEventListener('resize', handleResize);
     });
 
     onBeforeUnmount(() => {
-      // Clean up
-      cleanupChart();
-      
       if (resizeTimeout) {
         clearTimeout(resizeTimeout);
       }
-      
+
+      cleanupChart();
       window.removeEventListener('resize', handleResize);
     });
+
+
 
     return {
       chartCanvas,
@@ -576,7 +584,7 @@ export default {
   .line-chart-container {
     min-height: 350px;
   }
-  
+
   .chart-container {
     height: 300px;
     margin-bottom: 60px;
@@ -594,11 +602,11 @@ export default {
     margin-bottom: 20px;
   }
 
-  .chart-controls > div {
+  .chart-controls>div {
     width: 100%;
     margin-left: 0 !important;
   }
-  
+
   .stat-item {
     min-width: 0;
     width: calc(50% - 0.5rem);
@@ -609,19 +617,19 @@ export default {
   .line-chart-container {
     min-height: 300px;
   }
-  
+
   .chart-container {
     height: 250px;
     margin-bottom: 80px;
   }
-  
+
   .chart-details {
     flex-direction: column;
     gap: 0.5rem;
     padding: 0.5rem;
     font-size: 0.75rem;
   }
-  
+
   .stat-item {
     width: 100%;
   }

@@ -573,8 +573,6 @@ export default {
           selectedYear.value = years[0]; // Set to most recent year
         }
       }
-
-      console.log('Loaded transactions from "YourDashboard.vue":', transactions.value);
     });
 
     // Expense by Category Data
@@ -1729,6 +1727,8 @@ export default {
 
       return categoryArray.slice(0, 6); // Show top 6 categories
     });
+
+    
     // Income vs Expense Comparison Data
     const incomeVsExpenseData = computed(() => {
       // Group transactions by month
@@ -1736,6 +1736,8 @@ export default {
 
       filteredTransactions.value.forEach(t => {
         const date = new Date(t.date);
+        // Create the middle of the month date for better positioning
+        const monthDate = new Date(date.getFullYear(), date.getMonth(), 15);
         const monthKey = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;
         const monthName = format(date, 'MMM yyyy');
 
@@ -1743,6 +1745,7 @@ export default {
           monthlyData.set(monthKey, {
             month: monthName,
             monthKey,
+            date: monthDate, // Store the actual date object
             income: 0,
             expense: 0
           });
@@ -1758,18 +1761,13 @@ export default {
 
       // Convert to array and sort by date
       const monthlyArray = Array.from(monthlyData.values())
-        .sort((a, b) => {
-          const [aYear, aMonth] = a.monthKey.split('-').map(Number);
-          const [bYear, bMonth] = b.monthKey.split('-').map(Number);
-          return (aYear - bYear) || (aMonth - bMonth);
-        });
+        .sort((a, b) => a.date - b.date);
 
       return {
         datasets: [
           {
-            type: 'bar',
             label: "Income",
-            data: monthlyArray.map(m => ({ x: m.month, y: m.income })),
+            data: monthlyArray.map(m => ({ x: m.date, y: m.income })),
             backgroundColor: 'rgba(34, 197, 94, 0.7)',
             borderColor: 'rgb(34, 197, 94)',
             borderWidth: 1,
@@ -1777,9 +1775,8 @@ export default {
             order: 2
           },
           {
-            type: 'bar',
             label: "Expense",
-            data: monthlyArray.map(m => ({ x: m.month, y: m.expense })),
+            data: monthlyArray.map(m => ({ x: m.date, y: m.expense })),
             backgroundColor: 'rgba(239, 68, 68, 0.7)',
             borderColor: 'rgb(239, 68, 68)',
             borderWidth: 1,
@@ -1789,7 +1786,7 @@ export default {
           {
             type: 'line',
             label: "Net",
-            data: monthlyArray.map(m => ({ x: m.month, y: m.income - m.expense })),
+            data: monthlyArray.map(m => ({ x: m.date, y: m.income - m.expense })),
             borderColor: 'rgb(234, 179, 8)',
             backgroundColor: 'rgba(234, 179, 8, 0.1)',
             borderWidth: 2,
@@ -1809,6 +1806,14 @@ export default {
           maintainAspectRatio: false,
           scales: {
             x: {
+              type: 'time', // Specify that this is a time axis
+              time: {
+                unit: 'month',
+                displayFormats: {
+                  month: 'MMM yyyy' // Format as "Jan 2023"
+                },
+                tooltipFormat: 'MMM yyyy'
+              },
               grid: {
                 display: false
               }
