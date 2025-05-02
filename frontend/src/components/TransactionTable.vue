@@ -1,9 +1,9 @@
 <template>
-    <div class="transactions-container rounded-lg shadow-lg overflow-hidden max-w-full pb-6 bg-white">
+    <div class="transactions-container shadow-lg overflow-hidden max-w-full pb-6 bg-white">
         <!-- Header -->
         <div class="p-6 bg-gradient-to-r from-blue-600 to-green-400 mb-6">
             <h1 class="text-3xl md:text-4xl font-extrabold text-center text-white drop-shadow-md">
-                All Tran<span class="text-green-200">$</span>actions
+                All Tran<span class="text-green-200 animate-pulse">$</span>actions
             </h1>
         </div>
 
@@ -38,7 +38,7 @@
 
                         <!-- Category -->
                         <td class="px-4 md:px-6 py-4">
-                            <span class="px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                            <span class="px-2.5 py-0.5 rounded-full text-gray-500 font-medium ">
                                 {{ transaction.category }}
                             </span>
                         </td>

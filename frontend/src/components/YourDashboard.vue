@@ -2,7 +2,7 @@
   <div class="dashboard-container max-w-full overflow-x-hidden pb-6">
     <!-- Header -->
     <div class="p-6 bg-gradient-to-r from-green-400 to-blue-500 shadow-lg mb-8">
-      <h1 class="text-4xl font-extrabold text-center text-white">Your Da<span class="text-green-700">$</span>hboard</h1>
+      <h1 class="text-4xl font-extrabold text-center text-white">Your Da<span class="text-green-200 animate-pulse">$</span>hboard</h1>
 
       <!-- Time period selector -->
       <div class="mt-4 flex flex-wrap items-center justify-center gap-2">

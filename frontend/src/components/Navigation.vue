@@ -3,17 +3,16 @@
   <LoginModal @close="showLogin = false" v-if="showLogin" />
   <header
     :class="[
-      'sticky top-0 w-full z-20 transition-all duration-300 border-b border-gray-200',
-      { 'bg-white/70 backdrop-blur-sm': isScrolled }
+      'sticky top-0 w-full z-20 transition-all duration-300 border-b',
+      isScrolled ? 'bg-white/90 backdrop-blur-md shadow-sm border-gray-200' : 'bg-white border-transparent'
     ]"
   >
-    <!-- Rest of the header content remains the same until the logout button -->
-    <nav class="container mx-auto px-4 py-4 flex items-center justify-between">
+    <nav class="container mx-auto px-4 py-3 flex items-center justify-between">
       <!-- Logo -->
       <div class="flex items-center">
         <RouterLink 
           to="/" 
-          class="text-2xl font-bold text-green-700 hover:text-green-800 transition-colors duration-300 font-sans"
+          class="text-2xl font-bold text-green-600 hover:text-green-700 transition-colors duration-300 font-sans flex items-center"
         >
           Muneh Thracker
         </RouterLink>
@@ -21,10 +20,11 @@
 
       <!-- Desktop Navigation -->
       <div class="hidden md:flex items-center space-x-6">
-        <!-- Search is available for both logged-in and logged-out users -->
+        <!-- Track button - available for all -->
         <RouterLink 
           to="/track"
-          class="flex items-center space-x-1 text-gray-600 hover:text-green-700 transition-all duration-300 ease-in-out hover:font-bold"
+          class="flex items-center space-x-1 text-gray-600 hover:text-green-600 transition-all duration-300 px-3 py-2 rounded-lg hover:bg-green-50"
+          :class="{ 'bg-green-50 text-green-600 font-medium': $route.path === '/track' }"
         >
           <ListPlus class="w-5 h-5" />
           <span>Track</span>
@@ -34,8 +34,9 @@
         <template v-if="!isAuthenticated">
           <button
             @click="login"
-            class="bg-green-700 text-white px-6 py-2 rounded-full hover:bg-green-800 transition-all duration-300 transform hover:scale-105 active:scale-95"
+            class="bg-green-600 text-white px-5 py-2 rounded-lg hover:bg-green-700 transition-all duration-300 transform active:scale-95 font-medium flex items-center"
           >
+            <User class="w-4 h-4 mr-2" />
             Log In
           </button>
         </template>
@@ -44,30 +45,41 @@
         <template v-else>
           <RouterLink 
             to="/dashboard"
-            class="flex items-center space-x-1 text-gray-600 hover:text-green-700 transition-all duration-300 ease-in-out hover:font-bold">
-          <Presentation class="w-5 h-5" />
+            class="flex items-center space-x-1 text-gray-600 hover:text-green-600 transition-all duration-300 px-3 py-2 rounded-lg hover:bg-green-50"
+            :class="{ 'bg-green-50 text-green-600 font-medium': $route.path === '/dashboard' }"
+          >
+            <Presentation class="w-5 h-5" />
             <span>Dashboard</span>
           </RouterLink>
+          
           <RouterLink 
             to="/table"
-            class="flex items-center space-x-1 text-gray-600 hover:text-green-700 transition-all duration-300 ease-in-out hover:font-bold">
-          <CircleDollarSign class="w-5 h-5" />
-            <span>All Transactions</span>
+            class="flex items-center space-x-1 text-gray-600 hover:text-green-600 transition-all duration-300 px-3 py-2 rounded-lg hover:bg-green-50"
+            :class="{ 'bg-green-50 text-green-600 font-medium': $route.path === '/table' }"
+          >
+            <CircleDollarSign class="w-5 h-5" />
+            <span>Transactions</span>
           </RouterLink>
+          
           <RouterLink 
             to="/report"
-            class="flex items-center space-x-1 text-gray-600 hover:text-green-700 transition-all duration-300 ease-in-out hover:font-bold">
+            class="flex items-center space-x-1 text-gray-600 hover:text-green-600 transition-all duration-300 px-3 py-2 rounded-lg hover:bg-green-50"
+            :class="{ 'bg-green-50 text-green-600 font-medium': $route.path === '/report' }"
+          >
             <ClipboardMinus class="w-5 h-5"/>
-            <span>Generate Report</span>
+            <span>Reports</span>
           </RouterLink>
           
           <!-- Profile Dropdown -->
           <div class="relative" v-click-outside="closeProfileMenu">
             <button
               @click="toggleProfileMenu"
-              class="flex items-center space-x-1 text-gray-600 hover:text-green-700 focus:outline-none"
+              class="flex items-center space-x-1 text-gray-600 hover:text-green-600 focus:outline-none py-1 px-2 rounded-lg"
+              :class="{ 'bg-green-50': profileMenuOpen }"
             >
-              <User class="w-6 h-6" />
+              <div class="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center text-green-600 font-semibold">
+                {{ userInitial }}
+              </div>
               <ChevronDown 
                 :class="['w-4 h-4 transition-transform duration-200', { 'rotate-180': profileMenuOpen }]"
               />
@@ -76,18 +88,26 @@
             <!-- Profile Dropdown Menu -->
             <div
               v-if="profileMenuOpen"
-              class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50"
+              class="absolute right-0 mt-2 w-56 bg-white rounded-lg shadow-lg py-2 z-50 border border-gray-100"
             >
+              <div class="px-4 py-2 border-b border-gray-100 mb-1">
+                <p class="text-sm font-medium text-gray-900">{{ userEmail }}</p>
+                <p class="text-xs text-gray-500">Logged in</p>
+              </div>
+              
               <RouterLink
                 to="/profile"
-                class="block px-4 py-2 text-sm text-gray-600 hover:bg-green-50 hover:text-green-600"
+                class="block px-4 py-2 text-sm text-gray-700 hover:bg-green-50 hover:text-green-600 flex items-center"
               >
+                <User class="w-4 h-4 mr-2 text-gray-400" />
                 Your Profile
               </RouterLink>
+              
               <button
                 @click="confirmLogout"
-                class="w-full text-left px-4 py-2 text-sm text-gray-600 hover:bg-green-50 hover:text-green-600"
+                class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-green-50 hover:text-green-600 flex items-center"
               >
+                <LogOut class="w-4 h-4 mr-2 text-gray-400" />
                 Log Out
               </button>
             </div>
@@ -99,7 +119,7 @@
       <div class="md:hidden">
         <button
           @click="toggleMobileMenu"
-          class="text-gray-600 hover:text-green-700 focus:outline-none"
+          class="p-2 rounded-md text-gray-600 hover:text-green-600 hover:bg-green-50 focus:outline-none transition-colors duration-200"
           aria-label="Toggle mobile menu"
         >
           <Menu v-if="!mobileMenuOpen" class="w-6 h-6" />
@@ -119,14 +139,15 @@
     >
       <div
         v-if="mobileMenuOpen"
-        class="md:hidden bg-white px-4 py-2 shadow-md"
+        class="md:hidden bg-white px-4 py-3 shadow-lg border-t border-gray-100"
       >
         <RouterLink
           to="/track"
-          class="flex items-center space-x-2 py-2 text-gray-600 hover:text-green-700"
+          class="flex items-center space-x-2 py-3 px-2 text-gray-700 hover:text-green-600 hover:bg-green-50 rounded-md transition-all duration-200"
+          :class="{ 'bg-green-50 text-green-600 font-medium': $route.path === '/track' }"
           @click="mobileMenuOpen = false"
         >
-          <ListPlus class="w-4 h-4" />
+          <ListPlus class="w-5 h-5" />
           <span>Track</span>
         </RouterLink>
 
@@ -134,8 +155,9 @@
         <template v-if="!isAuthenticated">
           <button
             @click="login"
-            class="w-full mt-2 bg-purple-600 text-white px-4 py-2 rounded-full hover:bg-purple-700 transition duration-300"
+            class="w-full mt-3 bg-green-600 text-white px-4 py-3 rounded-lg hover:bg-green-700 transition duration-300 flex items-center justify-center font-medium"
           >
+            <User class="w-5 h-5 mr-2" />
             Log In
           </button>
         </template>
@@ -143,45 +165,57 @@
         <!-- Logged in mobile navigation -->
         <template v-else>
           <RouterLink 
-          to="/dashboard"
-          class="flex items-center space-x-2 py-2 text-gray-600 hover:text-green-700"
-          @click="mobileMenuOpen = false"
+            to="/dashboard"
+            class="flex items-center space-x-2 py-3 px-2 text-gray-700 hover:text-green-600 hover:bg-green-50 rounded-md transition-all duration-200"
+            :class="{ 'bg-green-50 text-green-600 font-medium': $route.path === '/dashboard' }"
+            @click="mobileMenuOpen = false"
           >
-            <Presentation class="w-4 h-4" />
+            <Presentation class="w-5 h-5" />
             <span>Dashboard</span>
           </RouterLink>
 
           <RouterLink 
-          to="/table"
-          class="flex items-center space-x-2 py-2 text-gray-600 hover:text-green-700"
-          @click="mobileMenuOpen = false"
+            to="/table"
+            class="flex items-center space-x-2 py-3 px-2 text-gray-700 hover:text-green-600 hover:bg-green-50 rounded-md transition-all duration-200"
+            :class="{ 'bg-green-50 text-green-600 font-medium': $route.path === '/table' }"
+            @click="mobileMenuOpen = false"
           >
-            <CircleDollarSign class="w-4 h-4" />
-            <span>All Transactions</span>
+            <CircleDollarSign class="w-5 h-5" />
+            <span>Transactions</span>
           </RouterLink>
 
           <RouterLink 
-          to="/report"
-          class="flex items-center space-x-2 py-2 text-gray-600 hover:text-green-700"
-          @click="mobileMenuOpen = false"
+            to="/report"
+            class="flex items-center space-x-2 py-3 px-2 text-gray-700 hover:text-green-600 hover:bg-green-50 rounded-md transition-all duration-200"
+            :class="{ 'bg-green-50 text-green-600 font-medium': $route.path === '/report' }"
+            @click="mobileMenuOpen = false"
           >
-            <ClipboardMinus class="w-4 h-4" />
-            <span>Generate Report</span>
+            <ClipboardMinus class="w-5 h-5" />
+            <span>Reports</span>
           </RouterLink>
 
           <RouterLink
-            v-for="(item, index) in loggedInMenuItems"
-            :key="index"
-            :to="item.path"
-            class="block py-2 text-gray-600 hover:text-green-700"
+            to="/profile"
+            class="flex items-center space-x-2 py-3 px-2 text-gray-700 hover:text-green-600 hover:bg-green-50 rounded-md transition-all duration-200"
+            :class="{ 'bg-green-50 text-green-600 font-medium': $route.path === '/profile' }"
             @click="mobileMenuOpen = false"
           >
-            {{ item.name }}
+            <User class="w-5 h-5" />
+            <span>Profile</span>
           </RouterLink>
+          
+          <div class="border-t border-gray-100 my-2"></div>
+          
+          <div class="px-2 py-2">
+            <p class="text-sm text-gray-500">Signed in as</p>
+            <p class="text-sm font-medium text-gray-900">{{ userEmail }}</p>
+          </div>
+          
           <button
             @click="confirmLogout"
-            class="w-full mt-2 bg-green-700 text-white px-4 py-2 rounded-full hover:bg-green-800 transition duration-300"
+            class="w-full mt-3 flex items-center px-2 py-3 text-red-600 hover:bg-red-50 rounded-md transition-all duration-200 font-medium"
           >
+            <LogOut class="w-5 h-5 mr-2" />
             Log Out
           </button>
         </template>
@@ -215,9 +249,9 @@
             leave-from="opacity-100 scale-100"
             leave-to="opacity-0 scale-95"
           >
-            <DialogPanel class="bg-white p-6 rounded-xl shadow-xl max-w-md mx-4">
+            <DialogPanel class="bg-white p-6 rounded-xl shadow-xl max-w-md mx-4 w-full">
               <DialogTitle class="text-xl font-semibold mb-4 text-gray-800 flex items-center">
-                <LogOut class="w-5 h-5 text-green-700 mr-2" />
+                <LogOut class="w-5 h-5 text-green-600 mr-2" />
                 Confirm Log Out
               </DialogTitle>
               <p class="text-gray-600 mb-6">
@@ -233,7 +267,7 @@
                 </button>
                 <button
                   @click="handleLogout"
-                  class="px-4 py-2 bg-gradient-to-r from-green-600 to-green-700 text-white rounded-lg hover:from-green-700 hover:to-green-800 transform hover:-translate-y-0.5 transition-all duration-300 flex items-center justify-center"
+                  class="px-4 py-2 bg-gradient-to-r from-green-500 to-green-600 text-white rounded-lg hover:from-green-600 hover:to-green-700 transition-all duration-300 flex items-center justify-center"
                 >
                   <LogOut class="w-4 h-4 mr-2" />
                   Log Out
@@ -248,8 +282,8 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onBeforeUnmount } from 'vue'
-import { RouterLink, useRouter } from 'vue-router'
+import { ref, onMounted, onBeforeUnmount, computed } from 'vue'
+import { RouterLink, useRouter, useRoute } from 'vue-router'
 import { storeToRefs } from 'pinia'
 import { useAuthStore } from '../stores/auth'
 import { Search, Globe, Bookmark, User, ChevronDown, Menu, X, LogOut, Gamepad2, Info, ClipboardMinus, ListPlus, Presentation, CircleDollarSign } from 'lucide-vue-next'
@@ -260,8 +294,9 @@ import { useToast } from 'vue-toastification'
 
 // Auth store
 const authStore = useAuthStore()
-const { isAuthenticated } = storeToRefs(authStore)
+const { isAuthenticated, user } = storeToRefs(authStore)
 const router = useRouter()
+const route = useRoute()
 const toast = useToast()
 
 // State
@@ -271,10 +306,15 @@ const showLogin = ref(false)
 const profileMenuOpen = ref(false)
 const showLogoutConfirm = ref(false)
 
-// Menu items for logged-in users
-const loggedInMenuItems = [
-  { name: 'Profile', path: '/profile' }
-]
+// Computed properties for user information
+const userEmail = computed(() => {
+  return user.value?.email || 'User'
+})
+
+const userInitial = computed(() => {
+  if (!user.value?.email) return 'U'
+  return user.value.email.charAt(0).toUpperCase()
+})
 
 // Methods
 const toggleMobileMenu = () => {
@@ -297,6 +337,7 @@ const login = () => {
 const confirmLogout = () => {
   showLogoutConfirm.value = true
   profileMenuOpen.value = false
+  mobileMenuOpen.value = false
 }
 
 const handleLogout = async () => {
@@ -341,12 +382,24 @@ const vClickOutside = {
   }
 }
 
+// Close mobile menu when route changes
+router.afterEach(() => {
+  mobileMenuOpen.value = false
+})
+
 // Lifecycle hooks
 onMounted(() => {
   window.addEventListener('scroll', handleScroll)
+  handleScroll() // Check scroll position on mount
 })
 
 onBeforeUnmount(() => {
   window.removeEventListener('scroll', handleScroll)
 })
 </script>
+
+<style scoped>
+.router-link-active {
+  font-weight: 500;
+}
+</style>
