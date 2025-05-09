@@ -10,7 +10,11 @@ export default defineConfig({
   plugins: [vue(),
     VitePWA({
       registerType: 'autoUpdate',
+      devOptions: {
+        enabled: true
+      },
       workbox: {
+        globPatterns: ['**/*.{js,css,html,ico,png,svg,jpg, vue}'],
         maximumFileSizeToCacheInBytes: 5 * 1024 * 1024 // 5MB
       },
       includeAssets: [
@@ -29,17 +33,17 @@ export default defineConfig({
         start_url: '/',
         icons: [
           {
-            src: 'pwa-192x192.png',
+            src: 'icon/pwa-192x192.png',
             sizes: '192x192',
             type: 'image/png'
           },
           {
-            src: 'pwa-512x512.png',
+            src: 'icon/pwa-512x512.png',
             sizes: '512x512',
             type: 'image/png'
           },
           {
-            src: 'pwa-512x512.png',
+            src: 'icon/pwa-512x512.png',
             sizes: '512x512',
             type: 'image/png',
             purpose: 'any maskable'

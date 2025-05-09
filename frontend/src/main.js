@@ -10,8 +10,21 @@ import { getDatabase } from "firebase/database";
 import Toast from "vue-toastification";
 import "vue-toastification/dist/index.css";
 
-// Firebase configuration
+// PWA settings
+import { registerSW } from 'virtual:pwa-register'
+const updateSW = registerSW({
+  onNeedRefresh() {
+    // Show a prompt to the user
+    if (confirm('New content available. Reload?')) {
+      updateSW()
+    }
+  },
+  onOfflineReady() {
+    console.log('App ready to work offline')
+  }
+})
 
+// Firebase configuration
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
   authDomain: "expense-38776.firebaseapp.com",
