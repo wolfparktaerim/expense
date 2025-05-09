@@ -24,7 +24,7 @@ export default defineConfig({
       ],
       manifest: {
         name: 'Muneh Thracker',
-        short_name: 'ExpenseApp',
+        short_name: 'Muneh Tracker',
         description: 'Track your expenses easily!',
         theme_color: '#42b883',
         background_color: '#ffffff',
